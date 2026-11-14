@@ -84,10 +84,22 @@ jobs:
           cp "$signing_dir/homie.mobileprovision" "$xcode_profile_dir/$profile_uuid.mobileprovision"
 
           keychain_password="$(openssl rand -hex 24)"
+          umask 077
+          export KEYCHAIN_IMPORT_PASSWORD="$(openssl rand -hex 24)"
+          echo "::add-mask::$KEYCHAIN_IMPORT_PASSWORD"
+          if ! openssl pkcs12 -in "$signing_dir/identity.p12" -passin env:P12_PASSWORD \
+              -passout env:KEYCHAIN_IMPORT_PASSWORD -out "$signing_dir/identity.pem"; then
+            echo "::error::OpenSSL could not unlock the original P12 with the configured Secret."
+            exit 1
+          fi
+          openssl pkcs12 -export -legacy -macalg sha1 -in "$signing_dir/identity.pem" \
+            -passin env:KEYCHAIN_IMPORT_PASSWORD -passout env:KEYCHAIN_IMPORT_PASSWORD \
+            -out "$signing_dir/keychain.p12"
           security create-keychain -p "$keychain_password" "$keychain"
           security set-keychain-settings -lut 1800 "$keychain"
           security unlock-keychain -p "$keychain_password" "$keychain"
-          security import "$signing_dir/identity.p12" -P "$P12_PASSWORD" -k "$keychain" -T /usr/bin/codesign
+          security import "$signing_dir/keychain.p12" -P "$KEYCHAIN_IMPORT_PASSWORD" -k "$keychain" -T /usr/bin/codesign
+          unset KEYCHAIN_IMPORT_PASSWORD P12_PASSWORD P12 PROFILE
           security set-key-partition-list -S apple-tool:,apple: -s -k "$keychain_password" "$keychain" >/dev/null
           security list-keychains -d user -s "$keychain"
 
@@ -127,7 +139,9 @@ jobs:
           git rev-parse HEAD > artifacts/ios/source-commit.txt
           openssl enc -aes-256-cbc -pbkdf2 -iter 600000 -salt -md sha256 \
             -in "$signing_dir/Homie.ipa" -out artifacts/ios/Homie.ipa.enc -pass env:ARTIFACT_PASSWORD
-          (cd artifacts/ios && shasum -a 256 Homie.ipa.enc > SHA256SUMS.txt)
+          openssl enc -aes-256-cbc -pbkdf2 -iter 600000 -salt -md sha256 \
+            -in "$signing_dir/export/AppStoreInfo.plist" -out artifacts/ios/AppStoreInfo.plist.enc -pass env:ARTIFACT_PASSWORD
+          (cd artifacts/ios && shasum -a 256 Homie.ipa.enc AppStoreInfo.plist.enc > SHA256SUMS.txt)
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: homie-ios-signed
