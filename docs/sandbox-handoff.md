@@ -1,5 +1,7 @@
 # Homie 0.4：离线 3D 沙盒交接
 
+通用两房一厅、三房两厅的独立资产交付见 [模型目录](../models/README.md)，文件名与模板标识对照见 [catalog.json](../models/catalog.json)。这两套资产尚未接入下述 App 沙盒流程。
+
 本轮基于 0.3.0，合入 `integration/future-home-sandbox` 的 `929627ee328b20b7182e37f8bb880f2cf23053fd` 原型资产。保留新版家具数据层、15 类目录、8 个默认房间、登录和导航；没有用原型分支旧的 0.2 App 替换现有 App。
 
 ## 当前体验

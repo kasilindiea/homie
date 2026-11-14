@@ -1,0 +1,25 @@
+{
+  "status": "passed",
+  "nonoverlapping_rooms": true,
+  "all_rooms_connected": true,
+  "room_count": 10,
+  "bedrooms": 3,
+  "living_rooms": 1,
+  "dining_rooms": 1,
+  "halls": 2,
+  "doorways": 9,
+  "room_axis_areas_m2": {
+    "entryway": 4.4,
+    "living_room": 24.0,
+    "dining_room": 12.0,
+    "bedroom": 14.4,
+    "bedroom_guest": 14.26,
+    "bedroom_secondary": 14.26,
+    "kitchen": 6.6,
+    "bathroom_shared": 7.92,
+    "hallway": 7.44,
+    "balcony": 7.0
+  },
+  "total_axis_area_m2": 112.28,
+  "note": "Includes balcony at full area; not a measured or gross architectural area."
+}
