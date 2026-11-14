@@ -1,0 +1,397 @@
+{
+  "schema_version": "0.1",
+  "status": "extracted_from_glb",
+  "asset": "future-home-v0.1.glb",
+  "sha256": "d6c11ed48e328962c6a547397487e104a9fa40aa3363c0215792f72ad90b1c27",
+  "bytes": 3448216,
+  "unit": "meter",
+  "coordinate_system": "glTF +X east +Y up +Z south",
+  "home_camera": {
+    "target_node": "home__focus",
+    "target_world_blender_m": [
+      4.2,
+      -3.6,
+      0.65
+    ],
+    "target_world_gltf_m": [
+      4.2,
+      0.65,
+      3.6
+    ],
+    "camera_offset_gltf_m": [
+      8,
+      14.8,
+      10.8
+    ],
+    "vertical_fov_degrees": 34,
+    "polar_angle_limits_degrees": [
+      20,
+      55
+    ],
+    "adaptive_fit": true
+  },
+  "bounds_gltf_m": {
+    "min": [
+      -0.108,
+      -0.32,
+      -0.715362
+    ],
+    "max": [
+      8.508,
+      2.532,
+      7.32
+    ]
+  },
+  "objects": [
+    {
+      "shared_id": "entryway",
+      "display_name": "玄关",
+      "room_id": "entryway",
+      "object_type": "room",
+      "spatial": true,
+      "node_name": "entryway",
+      "anchor_name": "entryway__anchor",
+      "focus_name": "entryway__focus",
+      "node_index": 109,
+      "parent_node": "apartment_root",
+      "root_world_gltf_m": [
+        5.1,
+        0.0,
+        5.5
+      ],
+      "anchor_world_gltf_m": [
+        5.1,
+        0.05,
+        5.55
+      ],
+      "anchor_world_blender_m": [
+        5.1,
+        -5.55,
+        0.05
+      ],
+      "focus_world_gltf_m": [
+        5.1,
+        0.65,
+        5.75
+      ],
+      "focus_world_blender_m": [
+        5.1,
+        -5.75,
+        0.65
+      ],
+      "camera_offset_gltf_m": [
+        2.7,
+        5.8,
+        4.0
+      ]
+    },
+    {
+      "shared_id": "living_room",
+      "display_name": "客厅",
+      "room_id": "living_room",
+      "object_type": "room",
+      "spatial": true,
+      "node_name": "living_room",
+      "anchor_name": "living_room__anchor",
+      "focus_name": "living_room__focus",
+      "node_index": 137,
+      "parent_node": "apartment_root",
+      "root_world_gltf_m": [
+        3.3,
+        0.0,
+        1.9
+      ],
+      "anchor_world_gltf_m": [
+        4.15,
+        0.05,
+        1.7
+      ],
+      "anchor_world_blender_m": [
+        4.15,
+        -1.7,
+        0.05
+      ],
+      "focus_world_gltf_m": [
+        3.3,
+        0.65,
+        1.9
+      ],
+      "focus_world_blender_m": [
+        3.3,
+        -1.9,
+        0.65
+      ],
+      "camera_offset_gltf_m": [
+        5,
+        8,
+        7
+      ]
+    },
+    {
+      "shared_id": "bedroom",
+      "display_name": "卧室",
+      "room_id": "bedroom",
+      "object_type": "room",
+      "spatial": true,
+      "node_name": "bedroom",
+      "anchor_name": "bedroom__anchor",
+      "focus_name": "bedroom__focus",
+      "node_index": 83,
+      "parent_node": "apartment_root",
+      "root_world_gltf_m": [
+        1.8,
+        0.0,
+        5.5
+      ],
+      "anchor_world_gltf_m": [
+        2.4,
+        0.05,
+        5.5
+      ],
+      "anchor_world_blender_m": [
+        2.4,
+        -5.5,
+        0.05
+      ],
+      "focus_world_gltf_m": [
+        1.8,
+        0.65,
+        5.5
+      ],
+      "focus_world_blender_m": [
+        1.8,
+        -5.5,
+        0.65
+      ],
+      "camera_offset_gltf_m": [
+        3.2,
+        6.2,
+        4.5
+      ]
+    },
+    {
+      "shared_id": "balcony",
+      "display_name": "阳台",
+      "room_id": "balcony",
+      "object_type": "room",
+      "spatial": true,
+      "node_name": "balcony",
+      "anchor_name": "balcony__anchor",
+      "focus_name": "balcony__focus",
+      "node_index": 61,
+      "parent_node": "apartment_root",
+      "root_world_gltf_m": [
+        7.5,
+        0.0,
+        1.9
+      ],
+      "anchor_world_gltf_m": [
+        7.5,
+        0.05,
+        2.6
+      ],
+      "anchor_world_blender_m": [
+        7.5,
+        -2.6,
+        0.05
+      ],
+      "focus_world_gltf_m": [
+        7.5,
+        0.65,
+        1.9
+      ],
+      "focus_world_blender_m": [
+        7.5,
+        -1.9,
+        0.65
+      ],
+      "camera_offset_gltf_m": [
+        4.4,
+        5.6,
+        5.4
+      ]
+    },
+    {
+      "shared_id": "entry_door",
+      "display_name": "玄关普通门",
+      "room_id": "entryway",
+      "object_type": "manual_check",
+      "spatial": true,
+      "node_name": "entry_door",
+      "anchor_name": "entry_door__anchor",
+      "focus_name": "entry_door__focus",
+      "node_index": 101,
+      "parent_node": "entryway",
+      "root_world_gltf_m": [
+        5.25,
+        0.0,
+        7.2
+      ],
+      "anchor_world_gltf_m": [
+        5.25,
+        2.25,
+        6.85
+      ],
+      "anchor_world_blender_m": [
+        5.25,
+        -6.85,
+        2.25
+      ],
+      "focus_world_gltf_m": [
+        5.25,
+        1.05,
+        6.6
+      ],
+      "focus_world_blender_m": [
+        5.25,
+        -6.6,
+        1.05
+      ],
+      "camera_offset_gltf_m": [
+        3.4,
+        4.8,
+        -4.6
+      ]
+    },
+    {
+      "shared_id": "balcony_door",
+      "display_name": "阳台门",
+      "room_id": "balcony",
+      "object_type": "contact_sensor",
+      "spatial": true,
+      "node_name": "balcony_door",
+      "anchor_name": "balcony_door__anchor",
+      "focus_name": "balcony_door__focus",
+      "node_index": 55,
+      "parent_node": "balcony",
+      "root_world_gltf_m": [
+        6.6,
+        0.0,
+        2.2
+      ],
+      "anchor_world_gltf_m": [
+        6.9,
+        2.35,
+        2.2
+      ],
+      "anchor_world_blender_m": [
+        6.9,
+        -2.2,
+        2.35
+      ],
+      "focus_world_gltf_m": [
+        6.6,
+        1.1,
+        2.2
+      ],
+      "focus_world_blender_m": [
+        6.6,
+        -2.2,
+        1.1
+      ],
+      "camera_offset_gltf_m": [
+        4.5,
+        4.6,
+        3.8
+      ]
+    },
+    {
+      "shared_id": "living_room_light",
+      "display_name": "客厅灯",
+      "room_id": "living_room",
+      "object_type": "switch",
+      "spatial": true,
+      "node_name": "living_room_light",
+      "anchor_name": "living_room_light__anchor",
+      "focus_name": "living_room_light__focus",
+      "node_index": 134,
+      "parent_node": "living_room",
+      "root_world_gltf_m": [
+        0.65,
+        0.0,
+        2.25
+      ],
+      "anchor_world_gltf_m": [
+        0.65,
+        1.85,
+        2.25
+      ],
+      "anchor_world_blender_m": [
+        0.65,
+        -2.25,
+        1.85
+      ],
+      "focus_world_gltf_m": [
+        1.2,
+        1.05,
+        2.0
+      ],
+      "focus_world_blender_m": [
+        1.2,
+        -2.0,
+        1.05
+      ],
+      "camera_offset_gltf_m": [
+        3.2,
+        3.6,
+        -3.6
+      ]
+    },
+    {
+      "shared_id": "bedroom_ac",
+      "display_name": "卧室空调",
+      "room_id": "bedroom",
+      "object_type": "switch",
+      "spatial": true,
+      "node_name": "bedroom_ac",
+      "anchor_name": "bedroom_ac__anchor",
+      "focus_name": "bedroom_ac__focus",
+      "node_index": 79,
+      "parent_node": "bedroom",
+      "root_world_gltf_m": [
+        2.65,
+        2.2,
+        3.94
+      ],
+      "anchor_world_gltf_m": [
+        2.65,
+        2.5,
+        4.15
+      ],
+      "anchor_world_blender_m": [
+        2.65,
+        -4.15,
+        2.5
+      ],
+      "focus_world_gltf_m": [
+        2.65,
+        1.7,
+        4.3
+      ],
+      "focus_world_blender_m": [
+        2.65,
+        -4.3,
+        1.7
+      ],
+      "camera_offset_gltf_m": [
+        2.2,
+        3.8,
+        3.6
+      ]
+    },
+    {
+      "shared_id": "home_battery",
+      "room_id": null,
+      "spatial": false,
+      "node_name": null,
+      "anchor_name": null,
+      "focus_name": null,
+      "ui_target": "whole_home_energy_card"
+    }
+  ],
+  "runtime_light_origin": [
+    0.65,
+    1.55,
+    2.25
+  ]
+}

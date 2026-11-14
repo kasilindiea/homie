@@ -80,3 +80,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-android.ps1 -A
 GLB、对象映射、状态运行时接入位置及生命周期见 [沙盒交接说明](docs/sandbox-handoff.md)。15 类目录及参考来源见 [智能家具目录](docs/smart-furniture-catalog.md)。当前没有 Home Assistant 接入、插件系统、设备协议或云端同步。
 
 上传 GitHub、分支协作和源码包范围见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
+## 沙盒原型交接
+
+小公寓离家检查原型的运行、联调和 Android 接入说明见 [sandbox-prototype/README.md](sandbox-prototype/README.md)。

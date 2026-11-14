@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>未来家庭 · 离家检查</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%232d574c'/%3E%3Cpath d='M7 15 16 7l9 8v11H7Z' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="importmap">{"imports":{"three":"../house-modeling/viewer/vendor/three.module.js"}}</script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="未来家庭首页"><span class="brand-mark"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="m5 15 11-9 11 9v12H5Z" stroke="currentColor" stroke-width="1.7"/><path d="M13 27V17h6v10" stroke="currentColor" stroke-width="1.7"/></svg></span><span>未来家庭<small>FUTURE HOME</small></span></a>
+    <div class="header-divider"></div><span class="page-title">离家检查</span>
+    <div class="header-actions"><span class="demo-badge"><i></i>本地演示</span><span id="away-status">本人：未出门</span><button id="away" class="button small" disabled>我已出门</button><button id="demo-open" class="icon-button" aria-label="演示设置">⚙</button></div>
+  </header>
+  <main class="workspace">
+    <section class="home-panel" aria-label="家庭空间">
+      <div class="space-heading"><div><span class="eyebrow">MY SPACE</span><h1>我的小公寓 <span>4 个空间</span></h1></div><button id="home-reset" class="button small" disabled><span aria-hidden="true">⌂</span> 全屋复位</button></div>
+      <nav class="rooms" aria-label="房间导航"><button data-focus="home" class="active">全屋</button><button data-focus="entryway">玄关</button><button data-focus="living_room">客厅</button><button data-focus="bedroom">卧室</button><button data-focus="balcony">阳台</button><label class="label-control">标签 <select id="labels" aria-label="3D 标签模式"><option value="all">全部</option><option value="clean">选中</option><option value="hidden">隐藏</option></select></label></nav>
+      <div class="stage" id="stage"><div class="stage-note"><span id="breadcrumb">全屋概览</span><span id="scene-readiness">正在加载户型</span></div><div id="model-loading" class="model-loading"><span class="spinner"></span><h2>正在准备家的模样</h2><p>加载小公寓 3D 户型…</p></div><div id="model-error" class="model-loading" hidden><span class="error-symbol">⌂</span><h2>3D 户型暂时无法显示</h2><p id="model-error-text"></p><button id="retry-model" class="button">重新加载 3D</button></div><div class="space-hint">拖动旋转 · 滚轮缩放 · 点击设备查看</div></div>
+      <footer class="space-footer"><div class="legend"><span><i class="solid"></i>当前选中</span><span><i class="dashed"></i>计划拟关闭</span><span><i class="unknown-dot"></i>状态未知</span></div><label class="preview-switch"><input type="checkbox" id="preview" checked>显示计划</label></footer>
+    </section>
+    <aside class="task-panel" aria-label="离家任务">
+      <div class="task-header"><div class="eyebrow">LEAVING HOME</div><h2>出门前，心里有底。<span id="phase-badge">准备计划</span></h2><p>检查门窗，照顾好留在家的它。</p></div>
+      <div class="task-scroll">
+        <section class="intent-section"><label for="intent">这次离家安排</label><input id="intent" value="我出门两小时，猫留在卧室。" maxlength="160"><div class="occupancy-options"><button id="cat-home" class="choice selected" aria-pressed="true">猫留卧室</button><button id="everyone-away" class="choice" aria-pressed="false">全员离家</button><span id="constraint-note">卧室空调保留</span></div><p class="field-note">演示计划依据上方留家选择生成</p></section>
+        <section class="plan-section"><div class="section-heading"><h3 id="list-title">离家清单</h3><span id="list-count">4 个检查对象</span></div><div id="plan-list"></div><div id="energy-note" class="energy-note" hidden></div></section>
+        <section id="detail-panel" class="detail-panel" aria-label="对象详情"><div class="section-heading"><h3 id="detail-title">家的当前状态</h3><span id="detail-kind">全屋</span></div><div id="detail-content"></div></section>
+      </div>
+      <footer class="action-footer"><p id="action-note">先确认留家安排，再查看离家计划</p><button id="primary" class="primary" disabled>正在准备本地数据…</button><div id="request-error" hidden role="alert"><span id="request-error-text"></span><button id="retry-request" class="button">重试上次请求</button></div><div id="live-message" role="status" aria-live="polite"></div></footer>
+    </aside>
+  </main>
+  <dialog id="demo-dialog"><form method="dialog"><button class="dialog-close" aria-label="关闭演示设置">×</button></form><div class="eyebrow">LOCAL DEMO</div><h2>演示设置</h2><p>所有动作与回读均在本机模拟，不会控制真实设备。</p><label for="data-mode">数据模式</label><select id="data-mode"><option value="local">本地样例</option><option value="http">模拟服务 HTTP</option></select><label for="http-base">模拟服务地址</label><input id="http-base" value="http://127.0.0.1:8787"><label for="http-session-input">独立会话（留空自动生成）</label><input id="http-session-input" placeholder="frontend-独立会话"><button id="connect-mode" class="button">连接所选模式</button><p id="http-session"></p><section id="http-controls" hidden><label for="http-scenario">复位场景（手动时钟）</label><select id="http-scenario"><option>normal</option><option>preconfirm_changed</option><option>readback_timeout</option><option>readback_timeout_retry</option><option>partial_failure</option><option>object_readback_first</option><option>execution_confirmation_first</option><option>balcony_offline</option><option>balcony_offline_no_history</option><option>balcony_refresh_with_check</option><option>balcony_refresh_without_check</option></select><label for="advance-ms">推进毫秒数</label><input id="advance-ms" type="number" min="0" max="60000" value="700"><button id="advance-clock" class="button">推进模拟时钟</button><button id="query-execution" class="button">查询执行结果</button><button id="refresh-http" class="button">刷新对象与执行</button><button id="retry-failed" class="button">确认重试允许项</button><button id="insert-energy" class="button">插入能源超额采样</button></section><label for="readback-order">下一次执行的回读顺序</label><select id="readback-order"><option value="object-first">A · 对象读数先到</option><option value="execution-first">B · 执行确认先到</option></select><label class="check-row"><input type="checkbox" id="manual-steps">手动逐步接收回读</label><p id="queue-status">尚无待接收响应</p><button id="next-response" class="button" disabled>接收下一条模拟响应</button><hr><button id="demo-reset" class="button">重新开始本地演示</button><p class="field-note">演示复位会清空本地任务。全屋复位只改变镜头。</p></dialog>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

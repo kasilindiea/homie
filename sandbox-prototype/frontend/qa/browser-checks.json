@@ -1,0 +1,919 @@
+{
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "modelMeshPick": {
+    "lastPick": "mesh",
+    "object": "living_room_light",
+    "stateUnchanged": "on"
+  },
+  "checks": [
+    {
+      "label": "plan-preview",
+      "selected": null,
+      "sceneSelected": null,
+      "taskId": "task_local_leave",
+      "selectedItems": [
+        "item_living_room_light"
+      ],
+      "userAway": false,
+      "manual": [
+        {
+          "task_id": "task_local_leave",
+          "object_id": "entry_door",
+          "result": "pending",
+          "confirmed_at": null
+        }
+      ],
+      "light": "on",
+      "ac": "on",
+      "execution": [],
+      "preview": [
+        "living_room_light"
+      ],
+      "lightVisual": {
+        "current": 1,
+        "target": 1,
+        "visual": 1,
+        "known": true,
+        "state": "on",
+        "powerState": "powered"
+      },
+      "airflow": true,
+      "camera": [
+        13.807529072072356,
+        18.42392911235151,
+        16.57016440942231
+      ],
+      "queue": []
+    },
+    {
+      "label": "entry-focus-preserves-unchecked",
+      "selected": "entry_door",
+      "sceneSelected": "entry_door",
+      "taskId": "task_local_leave",
+      "selectedItems": [],
+      "userAway": false,
+      "manual": [
+        {
+          "task_id": "task_local_leave",
+          "object_id": "entry_door",
+          "result": "pending",
+          "confirmed_at": null
+        }
+      ],
+      "light": "on",
+      "ac": "on",
+      "execution": [],
+      "preview": [],
+      "lightVisual": {
+        "current": 1,
+        "target": 1,
+        "visual": 1,
+        "known": true,
+        "state": "on",
+        "powerState": "powered"
+      },
+      "airflow": true,
+      "camera": [
+        9.709881803946622,
+        8.43396574962011,
+        4.994195773106943
+      ],
+      "queue": []
+    },
+    {
+      "label": "home-reset-keeps-plan",
+      "selected": null,
+      "sceneSelected": null,
+      "taskId": "task_local_leave",
+      "selectedItems": [
+        "item_living_room_light"
+      ],
+      "userAway": false,
+      "manual": [
+        {
+          "task_id": "task_local_leave",
+          "object_id": "entry_door",
+          "result": "pending",
+          "confirmed_at": null
+        }
+      ],
+      "light": "on",
+      "ac": "on",
+      "execution": [],
+      "preview": [
+        "living_room_light"
+      ],
+      "lightVisual": {
+        "current": 1,
+        "target": 1,
+        "visual": 1,
+        "known": true,
+        "state": "on",
+        "powerState": "powered"
+      },
+      "airflow": true,
+      "camera": [
+        13.460308790875228,
+        17.577414597805898,
+        15.58925736154237
+      ],
+      "queue": []
+    },
+    {
+      "label": "lamp-hotspot-select",
+      "selected": "living_room_light",
+      "sceneSelected": "living_room_light",
+      "taskId": "task_local_leave",
+      "selectedItems": [
+        "item_living_room_light"
+      ],
+      "userAway": false,
+      "manual": [
+        {
+          "task_id": "task_local_leave",
+          "object_id": "entry_door",
+          "result": "pending",
+          "confirmed_at": null
+        }
+      ],
+      "light": "on",
+      "ac": "on",
+      "execution": [],
+      "preview": [
+        "living_room_light"
+      ],
+      "lightVisual": {
+        "current": 1,
+        "target": 1,
+        "visual": 1,
+        "known": true,
+        "state": "on",
+        "powerState": "powered"
+      },
+      "airflow": true,
+      "camera": [
+        5.376577391305682,
+        6.079844982504538,
+        0.2862097355559148
+      ],
+      "queue": []
+    },
+    {
+      "label": "manual-confirm-does-not-set-away",
+      "selected": "entry_door",
+      "sceneSelected": "entry_door",
+      "taskId": "task_local_leave",
+      "selectedItems": [
+        "item_living_room_light"
+      ],
+      "userAway": false,
+      "manual": [
+        {
+          "task_id": "task_local_leave",
+          "object_id": "entry_door",
+          "result": "confirmed_closed",
+          "confirmed_at": "2026-11-14T09:01:01.000Z"
+        }
+      ],
+      "light": "on",
+      "ac": "on",
+      "execution": [],
+      "preview": [
+        "living_room_light"
+      ],
+      "lightVisual": {
+        "current": 1,
+        "target": 1,
+        "visual": 1,
+        "known": true,
+        "state": "on",
+        "powerState": "powered"
+      },
+      "airflow": true,
+      "camera": [
+        8.65,
+        5.849999952316284,
+        1.9999999046325687
+      ],
+      "queue": []
+    },
+    {
+      "label": "A-awaiting-readback",
+      "selected": "living_room_light",
+      "sceneSelected": "living_room_light",
+      "taskId": "task_local_leave",
+      "selectedItems": [
+        "item_living_room_light"
+      ],
+      "userAway": false,
+      "manual": [
+        {
+          "task_id": "task_local_leave",
+          "object_id": "entry_door",
+          "result": "confirmed_closed",
+          "confirmed_at": "2026-11-14T09:01:01.000Z"
+        }
+      ],
+      "light": "on",
+      "ac": "on",
+      "execution": [
+        "awaiting_readback"
+      ],
+      "preview": [
+        "living_room_light"
+      ],
+      "lightVisual": {
+        "current": 1,
+        "target": 1,
+        "visual": 1,
+        "known": true,
+        "state": "on",
+        "powerState": "powered"
+      },
+      "airflow": true,
+      "camera": [
+        4.399999928474424,
+        4.649999952316284,
+        -1.5999999999999974
+      ],
+      "queue": [
+        "收到有效关闭读数，执行结果仍在等待",
+        "收到执行确认，逐项结果更新"
+      ]
+    },
+    {
+      "label": "A-object-first",
+      "selected": "living_room_light",
+      "sceneSelected": "living_room_light",
+      "taskId": "task_local_leave",
+      "selectedItems": [
+        "item_living_room_light"
+      ],
+      "userAway": false,
+      "manual": [
+        {
+          "task_id": "task_local_leave",
+          "object_id": "entry_door",
+          "result": "confirmed_closed",
+          "confirmed_at": "2026-11-14T09:01:01.000Z"
+        }
+      ],
+      "light": "off",
+      "ac": "on",
+      "execution": [
+        "awaiting_readback"
+      ],
+      "preview": [
+        "living_room_light"
+      ],
+      "lightVisual": {
+        "current": 0.04045358546396507,
+        "target": 0,
+        "visual": 0.04045358546396507,
+        "known": true,
+        "state": "off",
+        "powerState": "powered"
+      },
+      "airflow": true,
+      "camera": [
+        4.399999928474424,
+        4.649999952316284,
+        -1.5999999999999974
+      ],
+      "queue": [
+        "收到执行确认，逐项结果更新"
+      ]
+    },
+    {
+      "label": "A-confirmed-after-object",
+      "selected": "living_room_light",
+      "sceneSelected": "living_room_light",
+      "taskId": "task_local_leave",
+      "selectedItems": [
+        "item_living_room_light"
+      ],
+      "userAway": false,
+      "manual": [
+        {
+          "task_id": "task_local_leave",
+          "object_id": "entry_door",
+          "result": "confirmed_closed",
+          "confirmed_at": "2026-11-14T09:01:01.000Z"
+        }
+      ],
+      "light": "off",
+      "ac": "on",
+      "execution": [
+        "confirmed"
+      ],
+      "preview": [
+        "living_room_light"
+      ],
+      "lightVisual": {
+        "current": 0,
+        "target": 0,
+        "visual": 0,
+        "known": true,
+        "state": "off",
+        "powerState": "powered"
+      },
+      "airflow": true,
+      "camera": [
+        4.399999928474424,
+        4.649999952316284,
+        -1.5999999999999974
+      ],
+      "queue": []
+    },
+    {
+      "label": "away-separate-after-manual",
+      "selected": "living_room_light",
+      "sceneSelected": "living_room_light",
+      "taskId": "task_local_leave",
+      "selectedItems": [
+        "item_living_room_light"
+      ],
+      "userAway": true,
+      "manual": [
+        {
+          "task_id": "task_local_leave",
+          "object_id": "entry_door",
+          "result": "confirmed_closed",
+          "confirmed_at": "2026-11-14T09:01:01.000Z"
+        }
+      ],
+      "light": "off",
+      "ac": "on",
+      "execution": [
+        "confirmed"
+      ],
+      "preview": [
+        "living_room_light"
+      ],
+      "lightVisual": {
+        "current": 0,
+        "target": 0,
+        "visual": 0,
+        "known": true,
+        "state": "off",
+        "powerState": "powered"
+      },
+      "airflow": true,
+      "camera": [
+        4.399999928474424,
+        4.649999952316284,
+        -1.5999999999999974
+      ],
+      "queue": []
+    },
+    {
+      "label": "away-does-not-confirm-door",
+      "selected": null,
+      "sceneSelected": null,
+      "taskId": "task_local_leave",
+      "selectedItems": [
+        "item_living_room_light"
+      ],
+      "userAway": true,
+      "manual": [
+        {
+          "task_id": "task_local_leave",
+          "object_id": "entry_door",
+          "result": "pending",
+          "confirmed_at": null
+        }
+      ],
+      "light": "on",
+      "ac": "on",
+      "execution": [],
+      "preview": [
+        "living_room_light"
+      ],
+      "lightVisual": {
+        "current": 1,
+        "target": 1,
+        "visual": 1,
+        "known": true,
+        "state": "on",
+        "powerState": "powered"
+      },
+      "airflow": true,
+      "camera": [
+        13.807529072072356,
+        18.42392911235151,
+        16.57016440942231
+      ],
+      "queue": []
+    },
+    {
+      "label": "deferred-independent",
+      "selected": "entry_door",
+      "sceneSelected": "entry_door",
+      "taskId": "task_local_leave",
+      "selectedItems": [
+        "item_living_room_light"
+      ],
+      "userAway": true,
+      "manual": [
+        {
+          "task_id": "task_local_leave",
+          "object_id": "entry_door",
+          "result": "deferred",
+          "confirmed_at": null
+        }
+      ],
+      "light": "on",
+      "ac": "on",
+      "execution": [],
+      "preview": [
+        "living_room_light"
+      ],
+      "lightVisual": {
+        "current": 1,
+        "target": 1,
+        "visual": 1,
+        "known": true,
+        "state": "on",
+        "powerState": "powered"
+      },
+      "airflow": true,
+      "camera": [
+        8.65,
+        5.849999952316285,
+        1.9999999046325687
+      ],
+      "queue": []
+    },
+    {
+      "label": "B-awaiting-deferred-door",
+      "selected": "living_room_light",
+      "sceneSelected": "living_room_light",
+      "taskId": "task_local_leave",
+      "selectedItems": [
+        "item_living_room_light"
+      ],
+      "userAway": true,
+      "manual": [
+        {
+          "task_id": "task_local_leave",
+          "object_id": "entry_door",
+          "result": "deferred",
+          "confirmed_at": null
+        }
+      ],
+      "light": "on",
+      "ac": "on",
+      "execution": [
+        "awaiting_readback"
+      ],
+      "preview": [
+        "living_room_light"
+      ],
+      "lightVisual": {
+        "current": 1,
+        "target": 1,
+        "visual": 1,
+        "known": true,
+        "state": "on",
+        "powerState": "powered"
+      },
+      "airflow": true,
+      "camera": [
+        4.399999928474424,
+        4.649999952316284,
+        -1.5999999999999974
+      ],
+      "queue": [
+        "收到执行确认，设备读数待同步",
+        "旧设备读数过期，当前状态未知",
+        "收到有效关闭读数，更新设备实况"
+      ]
+    },
+    {
+      "label": "B-confirmation-first-still-on",
+      "selected": "living_room_light",
+      "sceneSelected": "living_room_light",
+      "taskId": "task_local_leave",
+      "selectedItems": [
+        "item_living_room_light"
+      ],
+      "userAway": true,
+      "manual": [
+        {
+          "task_id": "task_local_leave",
+          "object_id": "entry_door",
+          "result": "deferred",
+          "confirmed_at": null
+        }
+      ],
+      "light": "on",
+      "ac": "on",
+      "execution": [
+        "confirmed"
+      ],
+      "preview": [
+        "living_room_light"
+      ],
+      "lightVisual": {
+        "current": 1,
+        "target": 1,
+        "visual": 1,
+        "known": true,
+        "state": "on",
+        "powerState": "powered"
+      },
+      "airflow": true,
+      "camera": [
+        4.399999928474424,
+        4.649999952316284,
+        -1.5999999999999974
+      ],
+      "queue": [
+        "旧设备读数过期，当前状态未知",
+        "收到有效关闭读数，更新设备实况"
+      ]
+    },
+    {
+      "label": "B-stale-is-unknown",
+      "selected": "living_room_light",
+      "sceneSelected": "living_room_light",
+      "taskId": "task_local_leave",
+      "selectedItems": [
+        "item_living_room_light"
+      ],
+      "userAway": true,
+      "manual": [
+        {
+          "task_id": "task_local_leave",
+          "object_id": "entry_door",
+          "result": "deferred",
+          "confirmed_at": null
+        }
+      ],
+      "light": "unknown",
+      "ac": "on",
+      "execution": [
+        "confirmed"
+      ],
+      "preview": [
+        "living_room_light"
+      ],
+      "lightVisual": {
+        "current": 0.022335007240520177,
+        "target": 0,
+        "visual": 0,
+        "known": false,
+        "state": "unknown",
+        "powerState": "unknown"
+      },
+      "airflow": true,
+      "camera": [
+        4.399999928474424,
+        4.649999952316284,
+        -1.5999999999999974
+      ],
+      "queue": [
+        "收到有效关闭读数，更新设备实况"
+      ]
+    },
+    {
+      "label": "B-valid-off",
+      "selected": "living_room_light",
+      "sceneSelected": "living_room_light",
+      "taskId": "task_local_leave",
+      "selectedItems": [
+        "item_living_room_light"
+      ],
+      "userAway": true,
+      "manual": [
+        {
+          "task_id": "task_local_leave",
+          "object_id": "entry_door",
+          "result": "deferred",
+          "confirmed_at": null
+        }
+      ],
+      "light": "off",
+      "ac": "on",
+      "execution": [
+        "confirmed"
+      ],
+      "preview": [
+        "living_room_light"
+      ],
+      "lightVisual": {
+        "current": 0,
+        "target": 0,
+        "visual": 0,
+        "known": true,
+        "state": "off",
+        "powerState": "powered"
+      },
+      "airflow": true,
+      "camera": [
+        4.399999928474424,
+        4.649999952316284,
+        -1.5999999999999974
+      ],
+      "queue": []
+    },
+    {
+      "label": "results-and-home-retained",
+      "selected": null,
+      "sceneSelected": null,
+      "taskId": "task_local_leave",
+      "selectedItems": [
+        "item_living_room_light"
+      ],
+      "userAway": true,
+      "manual": [
+        {
+          "task_id": "task_local_leave",
+          "object_id": "entry_door",
+          "result": "deferred",
+          "confirmed_at": null
+        }
+      ],
+      "light": "off",
+      "ac": "on",
+      "execution": [
+        "confirmed"
+      ],
+      "preview": [
+        "living_room_light"
+      ],
+      "lightVisual": {
+        "current": 0,
+        "target": 0,
+        "visual": 0,
+        "known": true,
+        "state": "off",
+        "powerState": "powered"
+      },
+      "airflow": true,
+      "camera": [
+        13.807529072072356,
+        18.42392911235151,
+        16.57016440942231
+      ],
+      "queue": []
+    },
+    {
+      "label": "model-load-failure",
+      "result": "error fallback shown; local plan still usable"
+    },
+    {
+      "label": "model-retry-keeps-existing-plan",
+      "selected": null,
+      "sceneSelected": null,
+      "taskId": "task_local_leave",
+      "selectedItems": [
+        "item_living_room_light"
+      ],
+      "userAway": false,
+      "manual": [
+        {
+          "task_id": "task_local_leave",
+          "object_id": "entry_door",
+          "result": "pending",
+          "confirmed_at": null
+        }
+      ],
+      "light": "on",
+      "ac": "on",
+      "execution": [],
+      "preview": [
+        "living_room_light"
+      ],
+      "lightVisual": {
+        "current": 1,
+        "target": 1,
+        "visual": 1,
+        "known": true,
+        "state": "on",
+        "powerState": "powered"
+      },
+      "airflow": true,
+      "camera": [
+        13.807529072072356,
+        18.42392911235151,
+        16.57016440942231
+      ],
+      "queue": []
+    },
+    {
+      "label": "automatic-mainline-after-scheduled-events",
+      "selected": "entry_door",
+      "sceneSelected": "entry_door",
+      "taskId": "task_local_leave",
+      "selectedItems": [
+        "item_living_room_light"
+      ],
+      "userAway": false,
+      "manual": [
+        {
+          "task_id": "task_local_leave",
+          "object_id": "entry_door",
+          "result": "confirmed_closed",
+          "confirmed_at": "2026-11-14T09:01:01.000Z"
+        }
+      ],
+      "light": "off",
+      "ac": "on",
+      "execution": [
+        "confirmed"
+      ],
+      "preview": [
+        "living_room_light"
+      ],
+      "lightVisual": {
+        "current": 0,
+        "target": 0,
+        "visual": 0,
+        "known": true,
+        "state": "off",
+        "powerState": "powered"
+      },
+      "airflow": true,
+      "camera": [
+        8.65,
+        5.849999952316285,
+        1.9999999046325687
+      ],
+      "queue": []
+    },
+    {
+      "label": "final-mainline-result",
+      "selected": null,
+      "sceneSelected": null,
+      "taskId": "task_local_leave",
+      "selectedItems": [
+        "item_living_room_light"
+      ],
+      "userAway": false,
+      "manual": [
+        {
+          "task_id": "task_local_leave",
+          "object_id": "entry_door",
+          "result": "confirmed_closed",
+          "confirmed_at": "2026-11-14T09:01:01.000Z"
+        }
+      ],
+      "light": "off",
+      "ac": "on",
+      "execution": [
+        "confirmed"
+      ],
+      "preview": [
+        "living_room_light"
+      ],
+      "lightVisual": {
+        "current": 0,
+        "target": 0,
+        "visual": 0,
+        "known": true,
+        "state": "off",
+        "powerState": "powered"
+      },
+      "airflow": true,
+      "camera": [
+        13.807529072072356,
+        18.42392911235151,
+        16.57016440942231
+      ],
+      "queue": []
+    },
+    {
+      "label": "unknown-banner-after-final-ui-fix",
+      "selected": null,
+      "sceneSelected": null,
+      "taskId": "task_local_leave",
+      "selectedItems": [
+        "item_living_room_light"
+      ],
+      "userAway": false,
+      "manual": [
+        {
+          "task_id": "task_local_leave",
+          "object_id": "entry_door",
+          "result": "pending",
+          "confirmed_at": null
+        }
+      ],
+      "light": "unknown",
+      "ac": "on",
+      "execution": [
+        "confirmed"
+      ],
+      "preview": [
+        "living_room_light"
+      ],
+      "lightVisual": {
+        "current": 0,
+        "target": 0,
+        "visual": 0,
+        "known": false,
+        "state": "unknown",
+        "powerState": "unknown"
+      },
+      "airflow": true,
+      "camera": [
+        13.807529072072356,
+        18.42392911235151,
+        16.57016440942231
+      ],
+      "queue": [
+        "收到有效关闭读数，更新设备实况"
+      ]
+    },
+    {
+      "label": "final-completed-current-build",
+      "selected": null,
+      "sceneSelected": null,
+      "taskId": "task_local_leave",
+      "selectedItems": [
+        "item_living_room_light"
+      ],
+      "userAway": false,
+      "manual": [
+        {
+          "task_id": "task_local_leave",
+          "object_id": "entry_door",
+          "result": "confirmed_closed",
+          "confirmed_at": "2026-11-14T09:02:05.000Z"
+        }
+      ],
+      "light": "off",
+      "ac": "on",
+      "execution": [
+        "confirmed"
+      ],
+      "preview": [
+        "living_room_light"
+      ],
+      "lightVisual": {
+        "current": 0,
+        "target": 0,
+        "visual": 0,
+        "known": true,
+        "state": "off",
+        "powerState": "powered"
+      },
+      "airflow": true,
+      "camera": [
+        13.807529072072356,
+        18.42392911235151,
+        16.57016440942231
+      ],
+      "queue": []
+    },
+    {
+      "label": "responsive-390",
+      "documentWidth": 375,
+      "width": 390,
+      "result": "no horizontal overflow"
+    },
+    {
+      "label": "final-desktop-preview",
+      "selected": null,
+      "sceneSelected": null,
+      "taskId": "task_local_leave",
+      "selectedItems": [
+        "item_living_room_light"
+      ],
+      "userAway": false,
+      "manual": [
+        {
+          "task_id": "task_local_leave",
+          "object_id": "entry_door",
+          "result": "pending",
+          "confirmed_at": null
+        }
+      ],
+      "light": "on",
+      "ac": "on",
+      "execution": [],
+      "preview": [
+        "living_room_light"
+      ],
+      "lightVisual": {
+        "current": 1,
+        "target": 1,
+        "visual": 1,
+        "known": true,
+        "state": "on",
+        "powerState": "powered"
+      },
+      "airflow": true,
+      "camera": [
+        13.807529072072356,
+        18.42392911235151,
+        16.57016440942231
+      ],
+      "queue": []
+    }
+  ]
+}
