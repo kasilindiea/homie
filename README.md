@@ -10,8 +10,9 @@ Android 优先的家具管理原型，使用 TypeScript、Vite 和 Capacitor。�
 - 默认房间：客厅、厨房、玄关、浴室、阳台、房间1、房间2、房间3。已有家具分类和自定义房间继续保留。
 - 账号：个人资料、版本信息；页面最下方的设置提供中英文切换、显示名称、默认添加房间和退出登录。
 - 语言切换立即生效并保存在本机，覆盖登录、导航、表单和提示；保留家具名称、备注等用户填写的原文。
-- 沙盒：可切换离线 3D 小公寓和大户型。两个户型都支持触摸定位与全屋复位。小公寓提供家具关联与模拟离家任务。大户型提供只读设备读数，包含洗衣机状态、冰箱分区温度和离线样例。
-- 导入：保留占位页面。沙盒和导入页右上角装饰房子图标已移除。
+- 沙盒：默认进入“全屋检查”，底部只显示本机已添加设备；点击旁边的“沙盒演示”才打开场景演示设备及本地模拟离家任务。演示中的指令和读数不会控制真实设备。
+- 户型：使用与页面风格一致的下拉菜单，本轮仅加入“一房一厅”小公寓，支持模拟离家流程。两房一厅、三房两厅等最终模型提供后再接入；本轮不加入大户型或四房选项。
+- 导入：API 地址及可选密钥填写页，校验 HTTP/HTTPS 地址后展示路演反馈；不发送请求，不导入或修改家具，不保存输入，离开页面清空。
 - 家具、设置和登录状态保存在当前设备；退出登录保留数据，卸载或清除应用数据会删除记录。
 
 本版本的登录是本地演示校验，并非服务端账户鉴权。构建变量和客户端代码不能保密，请勿填入真实账户密码。家具添加是手动登记。沙盒使用第三分支交付的 GLB、对象映射和本地模拟运行时，不会扫描或控制真实设备，不需要启动服务器。离开沙盒会重置本轮模拟任务；家具与手动关联保留。
@@ -60,7 +61,7 @@ npm run android:build
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-android.ps1 -AcceptSdkLicenses
 ```
 
-工具下载、缓存及调试签名保存在 `.tools/`，不会修改系统环境变量。构建脚本按 `package.json` 中的版本号命名安装包，当前为 `artifacts/homie-0.4.0.apk`，并验证 APK 签名。
+工具下载、缓存及调试签名保存在 `.tools/`，不会修改系统环境变量。构建脚本按 `package.json` 中的版本号命名安装包，当前为 `artifacts/homie-0.0.5.apk`，并验证 APK 签名。
 
 已有 JDK 21、Android SDK 与 Android Studio 的同伴，也可以在 `npm ci` 后先运行 `npm run android:sync`，再用 Android Studio 打开 `android/` 完成构建。同步步骤会生成源码包中未包含的网页资源和 Capacitor/Cordova 工程文件；请勿跳过后直接运行 Gradle。`npm run android:build` 是使用项目内 `.tools/` 的 Windows 便捷脚本。
 
@@ -77,10 +78,11 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-android.ps1 -A
 - `src/features/sandbox-runtime/session.js`：复用原型状态库和 LocalGateway 的每轮模拟会话。
 - `src/features/sandbox-runtime/bindings.ts`：独立保存家具与模型对象的显式关联。
 - `src/features/sandbox-demo.ts`：独立演示读数，不写入家具存储。
+- `src/features/import.ts`、`import.css`：仅作路演的 API 表单及独立挂载/卸载。
 - `src/styles.css`：移动端布局及视觉样式。
 - `tests/`：数据层测试及手机尺寸的浏览器流程测试。
 
-GLB、对象映射、状态运行时接入位置及生命周期见 [沙盒交接说明](docs/sandbox-handoff.md)。15 类目录及参考来源见 [智能家具目录](docs/smart-furniture-catalog.md)。模型只有固定四个空间，不会随新增家具自动生成模型；储能仅有信息卡片，光伏暂没有空间对象。当前没有 Home Assistant 接入、插件系统、设备协议或云端同步。
+GLB、对象映射、状态运行时接入位置及生命周期见 [沙盒交接说明](docs/sandbox-handoff.md)。15 类目录及参考来源见 [智能家具目录](docs/smart-furniture-catalog.md)。当前一房一厅是固定模型，不会随新增家具自动生成模型；储能仅有信息卡片，光伏暂没有空间对象。仓库保留上一版大户型原始资源备用，但本轮不打包或展示。当前没有 Home Assistant 接入、插件系统、设备协议或云端同步，导入表单也不代表已实现 API 连接。
 
 上传 GitHub、分支协作和源码包范围见 [CONTRIBUTING.md](CONTRIBUTING.md)。
 

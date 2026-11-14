@@ -1,6 +1,16 @@
-# Homie 0.4：离线 3D 沙盒交接
+# Homie 0.0.5：全屋检查与沙盒演示交接
 
-本轮基于 0.3.0，合入 `integration/future-home-sandbox` 的 `929627ee328b20b7182e37f8bb880f2cf23053fd` 原型资产。保留新版家具数据层、15 类目录、8 个默认房间、登录和导航；没有用原型分支旧的 0.2 App 替换现有 App。
+0.4 阶段基于 0.3.0，合入 `integration/future-home-sandbox` 的 `929627ee328b20b7182e37f8bb880f2cf23053fd` 原型资产。保留新版家具数据层、15 类目录、8 个默认房间、登录和导航；没有用原型分支旧的 0.2 App 替换现有 App。
+
+0.0.5 更新以 `main` 的 `3f21629483013814a22a1c868336b2b01ca63f58` 为基础。独立分支为 `codex/whole-home-roadshow`。按本轮要求只接入一房一厅小公寓；仓库中的上一版大户型文件保留备用，但不导入本轮页面或打包进 APK，不加入后端连接。
+
+## 0.0.5 页面分区
+
+- 默认“全屋检查”底部只列出本机已添加设备和只读详情。点击 3D 对象不会绕过入口直接打开场景演示设备。
+- 相邻“沙盒演示”入口承接原离家任务模拟；可切换离家任务和场景演示设备。
+- 在同一沙盒页切换全屋检查/沙盒演示保留当前模拟会话；退出沙盒再进入仍按原规则重开。全屋复位只复位视角。
+- 户型菜单本轮仅提供“一房一厅”，对应 `baseline_apartment`。两房一厅、三房两厅等待最终资产；四房两厅取消；不把现有大户型改名复用。
+- 选择户型和模式不改家具、房间或绑定存储。未来新增户型时提供对应 GLB、实际对象映射和状态样例，再扩展菜单；不能仅改标签就声称模型准确。
 
 ## 当前体验
 
@@ -24,6 +34,8 @@
 | 每轮模拟会话 | `src/features/sandbox-runtime/session.js`、`session.d.ts` |
 | 本机家具与对象关联 | `src/features/sandbox-runtime/bindings.ts` |
 | 原始 GLB 与实际映射 | `sandbox-prototype/house-modeling/releases/v0.1/` |
+| 上版大户型 GLB、映射与状态样例（本轮不启用） | `sandbox-prototype/house-modeling/releases/large-flat-128/` |
+| 上版大户型运行时与设备展示（本轮不导入） | `src/features/sandbox-runtime/large-flat.js`、`src/features/sandbox-large-flat.ts` |
 | 原始状态库、动画、Three.js 与许可证 | `sandbox-prototype/house-modeling/viewer/` |
 | 原始本地流程、样例 | `sandbox-prototype/frontend/data-model.js`、`local-gateway.js`、`backend/离家检查联调样例.json` |
 
@@ -57,11 +69,13 @@ Android 构建必须运行 `npm run android:sync`，把最新 `dist/` 复制入 
 - 加载失败或 WebGL 上下文丢失时保留目录/任务，显示重试入口。
 - 渲染上限 30fps、像素比上限 1.25、阴影 1024。`visibilitychange`、`pagehide` 和 Android `homie:app-state` 通知暂停，恢复时不重复启动循环。
 - 卸载清理事件、订阅、观察器、动画帧、渲染器、几何体、材质、纹理、阴影与模型引用；清空模拟回读队列。
-- Android `homing:back` 优先通过 `homie:sandbox-back` 关闭设备或对象详情，再由主 App 返回添加页。
+- Android `homing:back` 优先通过 `homie:sandbox-back` 关闭户型菜单或详情，然后退出沙盒演示回到全屋检查，最后由主 App 返回添加页。
 - `inspectSandboxScene(container)` 是无控制能力的只读诊断入口，供浏览器检查实际灯材质和帧数；没有全局控制钩子。
 
 ## 下一轮接线
 
 真实设备状态、HTTP 服务、Home Assistant 和真实控制尚未接入。后续必须保留任务、受理反馈和有效对象读数的分离；明确有效性、过期和错误规则后再加入真实传输。原型 HTTP 默认地址 `127.0.0.1:8787` 在手机表示手机自身，不能直接访问开发电脑。当前 APK 无需运行此服务。
+
+0.0.5 的“导入”页位于 `src/features/import.ts` / `import.css`，复用主 App 的挂载/卸载机制。API 地址和可选密钥仅用于表单路演，不调用网络、不写家具 store、不持久化输入；离开页面或切换语言后清空。后续真实导入需另行设计接口契约、鉴权、错误处理与导入确认，不能把当前演示反馈视为真实连接结果。
 
 浏览器测试覆盖模型加载、绑定、失败重试、退出竞态、后台暂停、双语和任务边界；APK 构建及资源核对不能代替 Android 真机性能、触摸和系统生命周期验收。最终验证记录见 `docs/validation.md`。

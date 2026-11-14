@@ -165,7 +165,8 @@ for (const width of [390, 360]) {
       await expect(page.locator('.page-header .header-logo')).toHaveCount(0);
       await assertNoOverflow(page);
       await navigation.getByRole('button', { name: '导入', exact: true }).click();
-      await expect(page.getByRole('heading', { name: '让熟悉的家具，来到这里', exact: true })).toBeVisible();
+      await expect(page.getByRole('heading', { name: 'API 接入', exact: true })).toBeVisible();
+      await expect(page.getByLabel('API 接口地址', { exact: true })).toBeVisible();
       await expect(page.locator('.page-header .header-logo')).toHaveCount(0);
       await assertNoOverflow(page);
       await navigation.getByRole('button', { name: '账号', exact: true }).click();

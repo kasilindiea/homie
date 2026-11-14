@@ -84,7 +84,8 @@ for (const width of [390, 360]) {
       await expect(page.locator('#main-content')).not.toContainText('为想象，留一点空间');
       await tab(page, 'Import');
       await noOverflow(page);
-      await expect(page.locator('#main-content')).not.toContainText('让熟悉的家具，来到这里');
+      await expect(page.getByRole('heading', { name: 'API setup', exact: true })).toBeVisible();
+      await expect(page.getByLabel('API endpoint URL', { exact: true })).toBeVisible();
       await page.reload();
       await expect(page.locator('html')).toHaveAttribute('lang', 'en');
       await expect(page.getByRole('navigation').getByRole('button')).toHaveText(['Add', 'Sandbox', 'Import', 'Account']);
