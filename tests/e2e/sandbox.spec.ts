@@ -201,7 +201,7 @@ for (const width of [390, 360]) {
       expect(await back(page)).toBe(true);
     });
 
-    test('separates registered furniture from scene demos and offers only the small apartment', async ({ page }) => {
+    test('separates registered furniture from scene demos and starts with the small apartment', async ({ page }) => {
       const original = await page.evaluate(() => localStorage.getItem('homing.app.v1'));
       const models: string[] = [];
       page.on('request', (request) => {
@@ -225,9 +225,11 @@ for (const width of [390, 360]) {
 
       await page.locator('#sandbox-layout-trigger').click();
       const choices = page.locator('#sandbox-layout-options [role="option"]');
-      await expect(choices).toHaveCount(1);
+      await expect(choices).toHaveCount(3);
       await expect(page.locator('#sandbox-layout-options [role="option"][data-layout-id="one_bedroom"]')).toContainText('一房一厅');
-      await expect(root).not.toContainText(/两房一厅|三房两厅|四房两厅|大户型/);
+      await expect(page.locator('#sandbox-layout-options [role="option"][data-layout-id="two_bedroom"]')).toContainText('两房一厅');
+      await expect(page.locator('#sandbox-layout-options [role="option"][data-layout-id="three_bedroom"]')).toContainText('三房两厅');
+      await expect(root).not.toContainText(/四房两厅|大户型/);
       await noOverflow(page);
       await screenshot(page, 'sandbox-layout-menu-zh', width);
       expect(await back(page)).toBe(false);
@@ -277,7 +279,7 @@ for (const width of [390, 360]) {
       await expect(root).toContainText(/demo/i);
       await expect(root).toContainText(furniture[0].name);
       await page.locator('#sandbox-layout-trigger').click();
-      await expect(page.locator('#sandbox-layout-options [role="option"]')).toHaveCount(1);
+      await expect(page.locator('#sandbox-layout-options [role="option"]')).toHaveCount(3);
       await expect(page.locator('#sandbox-layout-options')).not.toContainText('一房一厅');
       expect(await back(page)).toBe(false);
       await noOverflow(page);

@@ -1,0 +1,37 @@
+{
+  "status": "passed",
+  "template_id": "generic_three_bedroom",
+  "asset_filename": "三房两厅.glb",
+  "glb_sha256": "4039b5914b0bc4added8c39370e8a2985d166587b9858abd77628173bfab54f9",
+  "glb_bytes": 3624004,
+  "nodes": 324,
+  "rooms": 10,
+  "devices": 9,
+  "shared_roots": 19,
+  "embedded_textures": {
+    "oak_grain": [
+      512,
+      512
+    ],
+    "woven_linen": [
+      512,
+      512
+    ]
+  },
+  "blender_reimport_positions_match": true,
+  "no_external_resources": true,
+  "no_baked_device_states": true,
+  "previous_assets_preserved": true,
+  "bounds_blender_m": {
+    "min": [
+      -0.17337891459465027,
+      -1.4950000047683716,
+      -0.30000001192092896
+    ],
+    "max": [
+      11.295000076293945,
+      9.519999504089355,
+      2.700000047683716
+    ]
+  }
+}

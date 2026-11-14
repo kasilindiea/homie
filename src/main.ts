@@ -43,7 +43,7 @@ function loginPage() {
         <p id="login-error" class="form-error" role="alert"></p>
         <button class="button button-primary login-submit" type="submit">${t('进入我的家')}${icon('arrow')}</button>
       </form>
-    </section><footer class="login-footer"><span class="tiny-dot"></span>${t('开发者专属访问')}<span class="footer-divider">/</span>V0.0.5</footer>
+    </section><footer class="login-footer"><span class="tiny-dot"></span>${t('开发者专属访问')}<span class="footer-divider">/</span>V0.0.6</footer>
   </main>`;
   document.querySelector<HTMLFormElement>('#login-form')!.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -102,7 +102,7 @@ function accountPage() {
   const { settings, session, furniture } = store.getState();
   return `${topHeader('账号', '属于你的家', '')}
     <section class="profile-card"><div class="profile-avatar">${icon('user')}<span>${icon('check')}</span></div><div><span class="developer-badge">${t('开发者')}</span><h2>${escapeHtml(settings.nickname)}</h2><p>${escapeHtml(session?.username ?? '')}</p></div><span class="profile-leaf">${icon('leaf')}</span></section>
-    <section class="settings-section" id="about-section"><div class="section-heading"><h2>${t('关于 Homie')}</h2></div><div class="about-card"><div class="about-row"><span>${icon('home')}${t('当前版本')}</span><span>0.0.5</span></div><div class="about-row"><span>${icon('sofa')}${t('已添加家具')}</span><span>${t('{count} 件', { count: furniture.length })}</span></div><div class="about-row"><span>${icon('shield')}${t('数据存储')}</span><span>${t('当前设备')}</span></div></div><p class="settings-note">${t('家具和设置保存在当前设备，退出登录不会删除。卸载应用或清除数据会移除这些记录。')}</p><p class="account-signature">Homie · ${t('让生活，安然有序。')}</p></section>
+    <section class="settings-section" id="about-section"><div class="section-heading"><h2>${t('关于 Homie')}</h2></div><div class="about-card"><div class="about-row"><span>${icon('home')}${t('当前版本')}</span><span>0.0.6</span></div><div class="about-row"><span>${icon('sofa')}${t('已添加家具')}</span><span>${t('{count} 件', { count: furniture.length })}</span></div><div class="about-row"><span>${icon('shield')}${t('数据存储')}</span><span>${t('当前设备')}</span></div></div><p class="settings-note">${t('家具和设置保存在当前设备，退出登录不会删除。卸载应用或清除数据会移除这些记录。')}</p><p class="account-signature">Homie · ${t('让生活，安然有序。')}</p></section>
     <section class="settings-section" id="settings-section"><div class="section-heading"><h2>${t('我的设置')}</h2>${icon('settings')}</div><form id="settings-form" class="settings-card" novalidate>
       <label class="field-label" for="nickname">${t('显示名称')}</label><input class="plain-input" id="nickname" name="nickname" value="${escapeHtml(settings.nickname)}" placeholder="${t('你希望我们如何称呼你')}" maxlength="24" required />
       <label class="field-label" for="default-room">${t('默认添加房间')}</label><input class="plain-input" id="default-room" name="defaultRoom" value="${escapeHtml(roomLabel(settings.defaultRoom))}" list="settings-rooms" maxlength="20" required /><datalist id="settings-rooms">${DEFAULT_ROOMS.map((room) => `<option value="${escapeHtml(roomLabel(room))}"></option>`).join('')}</datalist><p class="field-hint">${t('添加家具时自动选择，也可以随时更改。')}</p>

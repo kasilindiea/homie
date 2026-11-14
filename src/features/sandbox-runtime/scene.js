@@ -304,7 +304,7 @@ export async function createHomeScene(host, { map, modelUrl, templateId }, onSel
       focus, reset: (immediate = false) => fit(immediate, true), preview, apply,
       setLabels: value => { if (!destroyed && ['all', 'clean', 'hidden'].includes(value)) labelMode = value; },
       setActive: value => { requestedActive = Boolean(value); updateActivity(); },
-      inspect: () => ({ selected, planIds: [...planIds], lastPick, animation: motion.snapshot(), camera: camera.position.toArray(), target: controls.target.toArray(), emissive: names.living_room_light__emitter.material.emissiveIntensity, active: active(), destroyed, renderedFrames }),
+      inspect: () => ({ selected, planIds: [...planIds], lastPick, animation: motion.snapshot(), camera: camera.position.toArray(), target: controls.target.toArray(), emissive: names.living_room_light__emitter?.material?.emissiveIntensity ?? 0, active: active(), destroyed, renderedFrames }),
       destroy,
     };
   } catch (error) { destroy(); throw error; }

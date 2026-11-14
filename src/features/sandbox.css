@@ -7,6 +7,12 @@
 .sb-scene-overlay[hidden] { display: none; }
 .sb-room-nav { display: flex; gap: 6px; overflow-x: auto; padding: 12px 14px 5px; }
 .sb-room-nav .sb-small-button { flex: 0 0 auto; min-height: 38px; padding: 5px 10px; font-size: 10px; }
+.sb-room-picker { display: flex; align-items: center; gap: 7px; padding: 5px 14px; min-height: 48px; }
+.sb-room-picker > label { font-size: 9px; color: #7c8d6e; flex-shrink: 0; }
+.sb-room-picker select { flex: 1; min-width: 0; width: 0; min-height: 38px; border: 1px solid #d5dfcb; border-radius: 10px; background: #f8faf3; padding: 6px 7px; color: #365d43; font-size: 11px; }
+.sb-room-picker .sb-small-button { flex-shrink: 0; min-height: 38px; padding: 6px 8px; font-size: 9px; }
+.sb-room-picker .sb-small-button[aria-pressed="true"] { background: #dce9d2; border-color: #97b084; }
+.sb-telemetry dd { overflow-wrap: anywhere; font-size: 16px; }
 .sb-scene-controls { display: flex; gap: 5px; flex-shrink: 0; }
 .sandbox-shell [hidden] { display: none !important; }
 html { scroll-padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)); }
@@ -45,7 +51,7 @@ html { scroll-padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)); }
 .sb-layout-trigger > .icon { flex: 0 0 auto; height: 14px; width: 14px; transform: rotate(90deg); transition: transform .15s ease; }
 .sb-layout-trigger[aria-expanded="true"] { border-color: #91ab7c; background: #fffef9; }
 .sb-layout-trigger[aria-expanded="true"] > .icon { transform: rotate(-90deg); }
-.sb-layout-options { position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 12; border-radius: 15px; border: 1px solid #d3dfc9; padding: 6px; background: #fffef9; box-shadow: 0 14px 35px #2e492329, 0 2px 7px #2e492316; }
+.sb-layout-options { position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 12; max-height: min(310px, 45dvh); overflow-y: auto; overscroll-behavior-y: contain; border-radius: 15px; border: 1px solid #d3dfc9; padding: 6px; background: #fffef9; box-shadow: 0 14px 35px #2e492329, 0 2px 7px #2e492316; }
 .sb-layout-options [role="option"] { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 60px; text-align: left; border: 1px solid transparent; border-radius: 10px; padding: 9px; color: #476044; background: transparent; font-size: 12px; line-height: 1.6; }
 .sb-layout-options [role="option"][aria-selected="true"] { background: #edf3e6; border-color: #dbe6cf; }
 .sb-layout-options [role="option"] > span:nth-child(2) { flex: 1; min-width: 0; overflow-wrap: anywhere; }
@@ -176,7 +182,7 @@ html { scroll-padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)); }
 /* Keep the apartment visible while the lower sheet scrolls on phone screens. */
 @media (min-height: 740px) {
   .main-content.sandbox-apartment { height: 100dvh; padding-top: calc(14px + env(safe-area-inset-top, 0px)); padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)); }
-  .sandbox-active [data-template="baseline_apartment"] { height: 100%; display: flex; flex-direction: column; }
+  .sandbox-active #sandbox-root { height: 100%; display: flex; flex-direction: column; }
   .sandbox-active .sb-header { flex: 0 0 auto; margin-bottom: 12px; }
   .sandbox-active .sb-header h1 { font-size: 28px; }
   .sandbox-active .sb-header .eyebrow { margin-bottom: 4px; }
@@ -190,7 +196,7 @@ html { scroll-padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)); }
   .sandbox-active .sb-scene-hint { padding: 7px 12px; }
   .sandbox-active .sb-demo-notice { flex: 0 0 auto; padding: 8px 3px 3px; }
   .sandbox-active .sb-demo-notice p { font-size: 9px; line-height: 1.5; margin: 0; }
-  [data-template="baseline_apartment"] .sb-dock { flex: 1; min-height: 140px; display: flex; flex-direction: column; overflow: hidden; padding-bottom: 0; border-radius: 18px; }
-  [data-template="baseline_apartment"] :is(.sb-dock-handle, .sb-tabs, .sb-dock-heading, #sandbox-feedback) { flex: 0 0 auto; }
-  [data-template="baseline_apartment"] #sandbox-panel { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior-y: contain; padding-bottom: 16px; scrollbar-width: thin; scrollbar-color: #cbd7bd transparent; }
+  #sandbox-root .sb-dock { flex: 1; min-height: 140px; display: flex; flex-direction: column; overflow: hidden; padding-bottom: 0; border-radius: 18px; }
+  #sandbox-root :is(.sb-dock-handle, .sb-tabs, .sb-dock-heading, #sandbox-feedback) { flex: 0 0 auto; }
+  #sandbox-root #sandbox-panel { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior-y: contain; padding-bottom: 16px; scrollbar-width: thin; scrollbar-color: #cbd7bd transparent; }
 }

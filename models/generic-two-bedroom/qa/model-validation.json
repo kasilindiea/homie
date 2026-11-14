@@ -1,0 +1,37 @@
+{
+  "status": "passed",
+  "template_id": "generic_two_bedroom",
+  "asset_filename": "两房一厅.glb",
+  "glb_sha256": "5c83946a0d904a6bafaa52c0e75f87ba5d0038b6dab8f908074e73f00d6c3d07",
+  "glb_bytes": 3149264,
+  "nodes": 293,
+  "rooms": 8,
+  "devices": 9,
+  "shared_roots": 17,
+  "embedded_textures": {
+    "oak_grain": [
+      512,
+      512
+    ],
+    "woven_linen": [
+      512,
+      512
+    ]
+  },
+  "blender_reimport_positions_match": true,
+  "no_external_resources": true,
+  "no_baked_device_states": true,
+  "previous_assets_preserved": true,
+  "bounds_blender_m": {
+    "min": [
+      -0.17337870597839355,
+      -1.4950000047683716,
+      -0.30000001192092896
+    ],
+    "max": [
+      9.295000076293945,
+      8.119999885559082,
+      2.700000047683716
+    ]
+  }
+}

@@ -1,0 +1,389 @@
+{
+  "schema_version": "0.1",
+  "status": "extracted_from_glb_with_mobile_camera_parameters",
+  "template_id": "generic_three_bedroom",
+  "asset": "generic-three-bedroom/三房两厅.glb",
+  "sha256": "4039b5914b0bc4added8c39370e8a2985d166587b9858abd77628173bfab54f9",
+  "bytes": 3624004,
+  "source_commit": "4bf23c8e8e92aeb1f588b59892c133fae6d82c31",
+  "unit": "meter",
+  "coordinate_system": "glTF +X east +Y up +Z south",
+  "mapping_provenance": "Object IDs, room IDs, types and node indexes extracted from the delivered GLB. Display labels and mobile camera offsets added by the Homie adapter.",
+  "home_camera": {
+    "target_node": "home__focus",
+    "camera_offset_gltf_m": [
+      8,
+      14.8,
+      10.8
+    ],
+    "vertical_fov_degrees": 34,
+    "polar_angle_limits_degrees": [
+      20,
+      55
+    ],
+    "adaptive_fit": true
+  },
+  "objects": [
+    {
+      "shared_id": "balcony_door",
+      "room_id": "balcony",
+      "object_type": "contact_sensor",
+      "display_name": "阳台门磁",
+      "display_name_en": "Balcony door sensor",
+      "spatial": true,
+      "node_name": "balcony_door",
+      "node_index": 69,
+      "anchor_name": "balcony_door__anchor",
+      "anchor_node_index": 52,
+      "focus_name": "balcony_door__focus",
+      "focus_node_index": 59,
+      "camera_offset_gltf_m": [
+        3,
+        4,
+        3.4
+      ]
+    },
+    {
+      "shared_id": "washing_machine",
+      "room_id": "balcony",
+      "object_type": "washing_machine",
+      "display_name": "洗衣机",
+      "display_name_en": "Washing machine",
+      "spatial": true,
+      "node_name": "washing_machine",
+      "node_index": 95,
+      "anchor_name": "washing_machine__anchor",
+      "anchor_node_index": 89,
+      "focus_name": "washing_machine__focus",
+      "focus_node_index": 94,
+      "camera_offset_gltf_m": [
+        -3.7,
+        3.2,
+        0.4
+      ]
+    },
+    {
+      "shared_id": "balcony",
+      "room_id": "balcony",
+      "object_type": "room",
+      "display_name": "生活阳台",
+      "display_name_en": "Balcony",
+      "spatial": true,
+      "node_name": "balcony",
+      "node_index": 96,
+      "anchor_name": "balcony__anchor",
+      "anchor_node_index": 49,
+      "focus_name": "balcony__focus",
+      "focus_node_index": 51,
+      "camera_offset_gltf_m": [
+        3.4,
+        6.2,
+        4.4
+      ]
+    },
+    {
+      "shared_id": "bathroom_shared",
+      "room_id": "bathroom_shared",
+      "object_type": "room",
+      "display_name": "浴室",
+      "display_name_en": "Bathroom",
+      "spatial": true,
+      "node_name": "bathroom_shared",
+      "node_index": 135,
+      "anchor_name": "bathroom_shared__anchor",
+      "anchor_node_index": 97,
+      "focus_name": "bathroom_shared__focus",
+      "focus_node_index": 99,
+      "camera_offset_gltf_m": [
+        3.4,
+        6.2,
+        4.4
+      ]
+    },
+    {
+      "shared_id": "bedroom_ac",
+      "room_id": "bedroom",
+      "object_type": "switch",
+      "display_name": "主卧空调",
+      "display_name_en": "Main bedroom AC",
+      "spatial": true,
+      "node_name": "bedroom_ac",
+      "node_index": 147,
+      "anchor_name": "bedroom_ac__anchor",
+      "anchor_node_index": 142,
+      "focus_name": "bedroom_ac__focus",
+      "focus_node_index": 144,
+      "camera_offset_gltf_m": [
+        2.8,
+        3.5,
+        3.5
+      ]
+    },
+    {
+      "shared_id": "bedroom",
+      "room_id": "bedroom",
+      "object_type": "room",
+      "display_name": "主卧",
+      "display_name_en": "Main bedroom",
+      "spatial": true,
+      "node_name": "bedroom",
+      "node_index": 164,
+      "anchor_name": "bedroom__anchor",
+      "anchor_node_index": 136,
+      "focus_name": "bedroom__focus",
+      "focus_node_index": 138,
+      "camera_offset_gltf_m": [
+        3.4,
+        6.2,
+        4.4
+      ]
+    },
+    {
+      "shared_id": "bedroom_guest",
+      "room_id": "bedroom_guest",
+      "object_type": "room",
+      "display_name": "客卧",
+      "display_name_en": "Guest bedroom",
+      "spatial": true,
+      "node_name": "bedroom_guest",
+      "node_index": 181,
+      "anchor_name": "bedroom_guest__anchor",
+      "anchor_node_index": 165,
+      "focus_name": "bedroom_guest__focus",
+      "focus_node_index": 167,
+      "camera_offset_gltf_m": [
+        3.4,
+        6.2,
+        4.4
+      ]
+    },
+    {
+      "shared_id": "bedroom_secondary",
+      "room_id": "bedroom_secondary",
+      "object_type": "room",
+      "display_name": "次卧",
+      "display_name_en": "Second bedroom",
+      "spatial": true,
+      "node_name": "bedroom_secondary",
+      "node_index": 199,
+      "anchor_name": "bedroom_secondary__anchor",
+      "anchor_node_index": 182,
+      "focus_name": "bedroom_secondary__focus",
+      "focus_node_index": 184,
+      "camera_offset_gltf_m": [
+        3.4,
+        6.2,
+        4.4
+      ]
+    },
+    {
+      "shared_id": "dining_room_light",
+      "room_id": "dining_room",
+      "object_type": "switch",
+      "display_name": "餐厅灯",
+      "display_name_en": "Dining room light",
+      "spatial": true,
+      "node_name": "dining_room_light",
+      "node_index": 216,
+      "anchor_name": "dining_room_light__anchor",
+      "anchor_node_index": 210,
+      "focus_name": "dining_room_light__focus",
+      "focus_node_index": 213,
+      "camera_offset_gltf_m": [
+        3.2,
+        4.4,
+        3.6
+      ]
+    },
+    {
+      "shared_id": "dining_room",
+      "room_id": "dining_room",
+      "object_type": "room",
+      "display_name": "餐厅",
+      "display_name_en": "Dining room",
+      "spatial": true,
+      "node_name": "dining_room",
+      "node_index": 224,
+      "anchor_name": "dining_room__anchor",
+      "anchor_node_index": 207,
+      "focus_name": "dining_room__focus",
+      "focus_node_index": 209,
+      "camera_offset_gltf_m": [
+        3.4,
+        6.2,
+        4.4
+      ]
+    },
+    {
+      "shared_id": "entry_door",
+      "room_id": "entryway",
+      "object_type": "manual_check",
+      "display_name": "玄关普通门",
+      "display_name_en": "Entry door",
+      "spatial": true,
+      "node_name": "entry_door",
+      "node_index": 238,
+      "anchor_name": "entry_door__anchor",
+      "anchor_node_index": 233,
+      "focus_name": "entry_door__focus",
+      "focus_node_index": 234,
+      "camera_offset_gltf_m": [
+        2.8,
+        3.8,
+        3.5
+      ]
+    },
+    {
+      "shared_id": "entryway",
+      "room_id": "entryway",
+      "object_type": "room",
+      "display_name": "玄关",
+      "display_name_en": "Entryway",
+      "spatial": true,
+      "node_name": "entryway",
+      "node_index": 248,
+      "anchor_name": "entryway__anchor",
+      "anchor_node_index": 245,
+      "focus_name": "entryway__focus",
+      "focus_node_index": 247,
+      "camera_offset_gltf_m": [
+        3.4,
+        6.2,
+        4.4
+      ]
+    },
+    {
+      "shared_id": "hallway",
+      "room_id": "hallway",
+      "object_type": "room",
+      "display_name": "走廊",
+      "display_name_en": "Hallway",
+      "spatial": true,
+      "node_name": "hallway",
+      "node_index": 252,
+      "anchor_name": "hallway__anchor",
+      "anchor_node_index": 249,
+      "focus_name": "hallway__focus",
+      "focus_node_index": 251,
+      "camera_offset_gltf_m": [
+        3.4,
+        6.2,
+        4.4
+      ]
+    },
+    {
+      "shared_id": "kitchen_fridge",
+      "room_id": "kitchen",
+      "object_type": "refrigerator",
+      "display_name": "冰箱",
+      "display_name_en": "Refrigerator",
+      "spatial": true,
+      "node_name": "kitchen_fridge",
+      "node_index": 265,
+      "anchor_name": "kitchen_fridge__anchor",
+      "anchor_node_index": 259,
+      "focus_name": "kitchen_fridge__focus",
+      "focus_node_index": 262,
+      "camera_offset_gltf_m": [
+        2.8,
+        3.6,
+        3.5
+      ]
+    },
+    {
+      "shared_id": "kitchen",
+      "room_id": "kitchen",
+      "object_type": "room",
+      "display_name": "厨房",
+      "display_name_en": "Kitchen",
+      "spatial": true,
+      "node_name": "kitchen",
+      "node_index": 279,
+      "anchor_name": "kitchen__anchor",
+      "anchor_node_index": 254,
+      "focus_name": "kitchen__focus",
+      "focus_node_index": 256,
+      "camera_offset_gltf_m": [
+        3.4,
+        6.2,
+        4.4
+      ]
+    },
+    {
+      "shared_id": "living_room_curtain",
+      "room_id": "living_room",
+      "object_type": "cover",
+      "display_name": "客厅窗帘",
+      "display_name_en": "Living room curtains",
+      "spatial": true,
+      "node_name": "living_room_curtain",
+      "node_index": 298,
+      "anchor_name": "living_room_curtain__anchor",
+      "anchor_node_index": 293,
+      "focus_name": "living_room_curtain__focus",
+      "focus_node_index": 294,
+      "camera_offset_gltf_m": [
+        3.2,
+        3.8,
+        3.5
+      ]
+    },
+    {
+      "shared_id": "living_room_light",
+      "room_id": "living_room",
+      "object_type": "switch",
+      "display_name": "客厅灯",
+      "display_name_en": "Living room light",
+      "spatial": true,
+      "node_name": "living_room_light",
+      "node_index": 306,
+      "anchor_name": "living_room_light__anchor",
+      "anchor_node_index": 300,
+      "focus_name": "living_room_light__focus",
+      "focus_node_index": 303,
+      "camera_offset_gltf_m": [
+        3,
+        4,
+        3.2
+      ]
+    },
+    {
+      "shared_id": "living_room_tv",
+      "room_id": "living_room",
+      "object_type": "switch",
+      "display_name": "客厅电视",
+      "display_name_en": "Living room TV",
+      "spatial": true,
+      "node_name": "living_room_tv",
+      "node_index": 313,
+      "anchor_name": "living_room_tv__anchor",
+      "anchor_node_index": 307,
+      "focus_name": "living_room_tv__focus",
+      "focus_node_index": 309,
+      "camera_offset_gltf_m": [
+        -4,
+        3.3,
+        0.4
+      ]
+    },
+    {
+      "shared_id": "living_room",
+      "room_id": "living_room",
+      "object_type": "room",
+      "display_name": "客厅",
+      "display_name_en": "Living room",
+      "spatial": true,
+      "node_name": "living_room",
+      "node_index": 322,
+      "anchor_name": "living_room__anchor",
+      "anchor_node_index": 290,
+      "focus_name": "living_room__focus",
+      "focus_node_index": 292,
+      "camera_offset_gltf_m": [
+        3.4,
+        6.2,
+        4.4
+      ]
+    }
+  ]
+}
