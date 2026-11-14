@@ -94,6 +94,9 @@ for (const width of [390, 360]) {
       await expect(page.getByRole('dialog')).toContainText(legacyFurniture.model);
       await expect(page.getByRole('dialog')).toContainText(legacyFurniture.notes);
       await noOverflow(page);
+      await page.getByRole('button', { name: 'Edit furniture', exact: true }).click();
+      await expect(page.locator('input[name="type"][value="table"]')).toBeChecked();
+      await expect(page.getByLabel(/^Furniture name/)).toHaveValue(legacyFurniture.name);
       await page.getByRole('button', { name: 'Close', exact: true }).click();
 
       await tab(page, 'Account');
@@ -140,16 +143,16 @@ for (const width of [390, 360]) {
       await page.getByRole('button', { name: 'Add to my home', exact: true }).click();
       await expect(page.locator('#furniture-error')).toContainText(/furniture name/i);
       await expect(page.locator('#furniture-error')).not.toContainText(/[\u3400-\u9fff]/);
-      await page.getByLabel(/^Furniture name/).fill('Oak desk 书桌');
-      await page.locator('.type-option').filter({ has: page.getByRole('radio', { name: 'Table', exact: true }) }).click();
-      await expect(page.getByRole('radio', { name: 'Table', exact: true })).toBeChecked();
+      await page.getByLabel(/^Furniture name/).fill('Window light 窗边灯');
+      await page.locator('.type-option').filter({ has: page.locator('input[value="light"]') }).click();
+      await expect(page.locator('input[name="type"][value="light"]')).toBeChecked();
       await page.getByLabel(/^Room/).fill('Living room');
       await page.getByLabel(/^Brand \/ model/).fill('NORD / 001');
       await page.getByLabel(/^Notes/).fill('自己写的 notes');
       await page.getByRole('button', { name: 'Add to my home', exact: true }).click();
       const furniture = await storedFurniture(page);
-      const added = furniture.find((entry: { name: string }) => entry.name === 'Oak desk 书桌');
-      expect(added).toMatchObject({ type: 'table', room: '客厅', model: 'NORD / 001', notes: '自己写的 notes' });
+      const added = furniture.find((entry: { name: string }) => entry.name === 'Window light 窗边灯');
+      expect(added).toMatchObject({ type: 'light', room: '客厅', model: 'NORD / 001', notes: '自己写的 notes' });
       await page.locator('#furniture-search').fill('Living room');
       await expect(page.locator(`[data-action="detail"][data-id="${added.id}"]`)).toBeVisible();
       await expect(page.locator('[data-action="detail"][data-id="legacy-table"]')).toHaveCount(0);
@@ -157,13 +160,13 @@ for (const width of [390, 360]) {
       await page.locator('[data-action="edit"]').click();
       await expect(page.getByLabel(/^Room/)).toHaveValue('Living room');
       await expect(page.getByLabel(/^Notes/)).toHaveValue('自己写的 notes');
-      await page.getByLabel(/^Furniture name/).fill('Oak desk v2 书桌');
+      await page.getByLabel(/^Furniture name/).fill('Window light v2 窗边灯');
       await page.getByRole('button', { name: 'Save changes', exact: true }).click();
       await page.locator(`[data-action="detail"][data-id="${added.id}"]`).click();
       await page.locator('[data-action="confirm-delete"]').click();
       await expect(page.getByRole('dialog')).not.toContainText('删除这件家具');
       await page.getByRole('dialog').locator('[data-action="detail"]').click();
-      await expect(page.getByRole('dialog')).toContainText('Oak desk v2 书桌');
+      await expect(page.getByRole('dialog')).toContainText('Window light v2 窗边灯');
       await page.locator('[data-action="confirm-delete"]').click();
       await page.locator('[data-action="delete"]').click();
       expect(await storedFurniture(page)).toEqual([legacyFurniture]);

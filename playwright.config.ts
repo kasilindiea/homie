@@ -17,7 +17,7 @@ export default defineConfig({
     browserName: 'chromium',
     channel: 'msedge',
     headless: true,
-    baseURL: 'http://127.0.0.1:5173',
+    baseURL: 'http://127.0.0.1:5174',
     viewport: { width: 390, height: 844 },
     isMobile: true,
     hasTouch: true,
@@ -27,9 +27,9 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
   webServer: {
-    command: `${process.platform === 'win32' ? 'npm.cmd' : 'npm'} run dev -- --port 5173 --strictPort`,
-    url: 'http://127.0.0.1:5173',
-    reuseExistingServer: true,
+    command: `${process.platform === 'win32' ? 'npm.cmd' : 'npm'} run dev -- --port 5174 --strictPort`,
+    url: 'http://127.0.0.1:5174',
+    reuseExistingServer: false,
     timeout: 30_000,
   },
 });

@@ -19,7 +19,11 @@ const english: Record<string, string> = {
   '家的故事，从第一件家具开始': 'Your home starts with one piece', '记录它的名字，给它安排一个位置。': 'Give it a name and a place to belong.', '添加第一件家具': 'Add your first piece',
   '添加{type}': 'Add {type}', '查看{name}': 'View {name}', '暂时没有找到家具': 'No furniture found', '换个关键词，或查看全部房间。': 'Try another search or view all rooms.', '查看全部家具': 'View all furniture',
   '沙发': 'Sofa', '椅子': 'Chair', '桌子': 'Table', '床': 'Bed', '柜子': 'Cabinet', '灯具': 'Light', '其他': 'Other',
+  '智能插座': 'Smart plug', '智能开关': 'Smart switch', '空调': 'Air conditioner', '窗帘': 'Curtain', '风扇': 'Fan',
+  '空气净化器': 'Air purifier', '加湿器': 'Humidifier', '扫地机器人': 'Robot vacuum', '门锁': 'Door lock',
+  '摄像头': 'Camera', '传感器': 'Sensor', '热水器': 'Water heater', '家庭储能': 'Home battery', '太阳能发电板': 'Solar panel',
   '客厅': 'Living room', '卧室': 'Bedroom', '餐厅': 'Dining room', '书房': 'Study', '阳台': 'Balcony',
+  '厨房': 'Kitchen', '玄关': 'Entryway', '浴室': 'Bathroom', '房间1': 'Room 1', '房间2': 'Room 2', '房间3': 'Room 3',
   '把熟悉的生活带回家': 'BRING IT HOME', '正在留白，等待更多可能': 'More possibilities, coming soon', '让熟悉的家具，来到这里': 'Bring your furniture home',
   '导入功能将在后续版本开放。': 'Import will be available in a future update.', '现在可以先手动添加你的家具。': 'For now, add your furniture manually.', '去添加家具': 'Go to furniture',
   '属于你的家': 'A HOME THAT IS YOURS', '开发者': 'Developer', '我的设置': 'Settings', '显示名称': 'Display name', '你希望我们如何称呼你': 'What should we call you?',
@@ -29,7 +33,7 @@ const english: Record<string, string> = {
   '家具和设置保存在当前设备，退出登录不会删除。卸载应用或清除数据会移除这些记录。': 'Furniture and settings stay on this device after sign-out. Uninstalling the app or clearing its data removes these records.',
   '退出登录': 'Sign out', '让生活，安然有序。': 'A little order. A lot of home.',
   '这件家具已不存在': 'This piece no longer exists.', '让家具更懂你': 'MAKE IT YOURS', '为家添一件新家具': 'A NEW PIECE OF HOME', '编辑家具': 'Edit furniture', '关闭': 'Close',
-  '家具名称': 'Furniture name', '例如：客厅的云朵沙发': 'e.g. Cloud sofa in the living room', '家具类型': 'Furniture type', '所在房间': 'Room', '选择或输入房间': 'Choose or enter a room',
+  '家具名称': 'Furniture name', '例如：客厅的阅读灯': 'e.g. Reading light in the living room', '家具类型': 'Furniture type', '所在房间': 'Room', '选择或输入房间': 'Choose or enter a room',
   '品牌 / 型号': 'Brand / model', '选填': 'Optional', '记录品牌或型号，方便查找': 'Brand or model for easy reference', '备注': 'Notes', '尺寸、颜色，或关于它的小故事': 'Size, color, or a little story about it',
   '保存修改': 'Save changes', '添加到我的家': 'Add to my home', '手动记录家具信息，暂不连接真实设备。': 'A manual furniture record. Devices are not connected yet.',
   '家具信息已更新': 'Furniture updated', '家具已添加，家的样子更完整了': 'Furniture added. One step closer to home.',
@@ -57,7 +61,8 @@ export function t(text: string, values: Record<string, string | number> = {}): s
   return translated.replace(/\{(\w+)\}/g, (match, key: string) => String(values[key] ?? match));
 }
 
-const rooms = ['客厅', '卧室', '餐厅', '书房', '阳台', '其他'];
+// Keep labels for saved legacy rooms without changing the user's stored values.
+const rooms = ['客厅', '厨房', '玄关', '浴室', '阳台', '房间1', '房间2', '房间3', '卧室', '餐厅', '书房', '其他'];
 export function roomLabel(value: string): string { return rooms.includes(value) ? t(value) : value; }
 export function roomValue(value: string, original?: string): string {
   const trimmed = value.trim();

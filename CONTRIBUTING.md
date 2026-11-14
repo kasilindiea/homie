@@ -33,7 +33,7 @@ npm run dev
 - `src/features/sandbox.ts`：留给沙盒开发者，详见 [沙盒模块交接](docs/sandbox-handoff.md)。
 - `android/`：Android 壳、应用名、版本及系统返回键处理。
 
-沙盒与导入当前为占位页面；没有接入 Home Assistant、其他 API、真实设备或服务端账号系统。浏览器网页和 Android App 使用各自的本地存储，不会自动同步数据。
+沙盒已有手机布局、家具目录、只读详情与独立演示数据；真实 3D 和状态模块尚未接入。导入当前为占位页面；没有接入 Home Assistant、其他 API、真实设备或服务端账号系统。浏览器网页和 Android App 使用各自的本地存储，不会自动同步数据。
 
 ## Android 签名和版本
 

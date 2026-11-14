@@ -1,5 +1,5 @@
 import './styles.css';
-import { createAppStore, FURNITURE_TYPES, DEFAULT_ROOMS } from './domain';
+import { createAppStore, FURNITURE_TYPES, ALL_FURNITURE_TYPES, DEFAULT_ROOMS } from './domain';
 import { icon, roomIllustration } from './icons';
 import { renderSandbox, mountSandbox } from './features/sandbox';
 import { getLocale, setLocale, t, roomLabel, roomValue, translateError, type Locale } from './i18n';
@@ -16,7 +16,7 @@ let lastFocus: HTMLElement | null = null;
 let unmountFeature: (() => void) | undefined;
 
 const escapeHtml = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]!);
-const typeLabel = (type: string) => t(FURNITURE_TYPES.find((item) => item.value === type)?.label ?? '其他');
+const typeLabel = (type: string) => t(ALL_FURNITURE_TYPES.find((item) => item.value === type)?.label ?? '其他');
 const message = translateError;
 
 function toast(text: string) {
@@ -42,7 +42,7 @@ function loginPage() {
         <p id="login-error" class="form-error" role="alert"></p>
         <button class="button button-primary login-submit" type="submit">${t('进入我的家')}${icon('arrow')}</button>
       </form>
-    </section><footer class="login-footer"><span class="tiny-dot"></span>${t('开发者专属访问')}<span class="footer-divider">/</span>V0.2.0</footer>
+    </section><footer class="login-footer"><span class="tiny-dot"></span>${t('开发者专属访问')}<span class="footer-divider">/</span>V0.3.0</footer>
   </main>`;
   document.querySelector<HTMLFormElement>('#login-form')!.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -70,8 +70,8 @@ function navigation() {
   return `<nav class="bottom-nav" aria-label="${t('主导航')}">${tabs.map((tab) => `<button type="button" class="nav-item${activeTab === tab.id ? ' active' : ''}" data-action="tab" data-tab="${tab.id}"${activeTab === tab.id ? ' aria-current="page"' : ''}><span class="nav-icon">${icon(tab.symbol)}</span><span>${t(tab.label)}</span></button>`).join('')}</nav>`;
 }
 
-function topHeader(title: string, eyebrow: string, action?: string) {
-  return `<header class="page-header"><div><p class="eyebrow">${t(eyebrow)}</p><h1>${t(title)}</h1></div>${action ?? `<span class="header-logo">${icon('home')}</span>`}</header>`;
+function topHeader(title: string, eyebrow: string, action = '') {
+  return `<header class="page-header"><div><p class="eyebrow">${t(eyebrow)}</p><h1>${t(title)}</h1></div>${action}</header>`;
 }
 
 function furniturePage() {
@@ -90,7 +90,7 @@ function furniturePage() {
 
 function furnitureList() {
   const { furniture } = store.getState();
-  if (!furniture.length) return `<div class="empty-collection"><div class="empty-furniture-art">${icon('sofa')}<span>${icon('plus')}</span></div><h3>${t('家的故事，从第一件家具开始')}</h3><p>${t('记录它的名字，给它安排一个位置。')}</p><button class="button button-primary" data-action="add">${icon('plus')}${t('添加第一件家具')}</button><div class="quick-types">${['sofa', 'table', 'light', 'other'].map((type) => `<button data-action="add" data-type="${type}" aria-label="${escapeHtml(t('添加{type}', { type: typeLabel(type) }))}">${icon(type)}<span>${escapeHtml(typeLabel(type))}</span></button>`).join('')}</div></div>`;
+  if (!furniture.length) return `<div class="empty-collection"><div class="empty-furniture-art">${icon('sofa')}<span>${icon('plus')}</span></div><h3>${t('家的故事，从第一件家具开始')}</h3><p>${t('记录它的名字，给它安排一个位置。')}</p><button class="button button-primary" data-action="add">${icon('plus')}${t('添加第一件家具')}</button><div class="quick-types">${['light', 'outlet', 'home_battery', 'solar_panel'].map((type) => `<button data-action="add" data-type="${type}" aria-label="${escapeHtml(t('添加{type}', { type: typeLabel(type) }))}">${icon(type)}<span>${escapeHtml(typeLabel(type))}</span></button>`).join('')}</div></div>`;
   const query = search.trim().toLocaleLowerCase();
   const filtered = furniture.filter((item) => (activeRoom === '全部' || item.room === activeRoom) && (!query || [item.name, typeLabel(item.type), item.room, roomLabel(item.room), item.model].some((value) => value.toLocaleLowerCase().includes(query))));
   if (!filtered.length) return `<div class="no-results">${icon('search')}<h3>${t('暂时没有找到家具')}</h3><p>${t('换个关键词，或查看全部房间。')}</p><button class="text-button" data-action="reset-filters">${t('查看全部家具')}</button></div>`;
@@ -106,7 +106,7 @@ function accountPage() {
   const { settings, session, furniture } = store.getState();
   return `${topHeader('账号', '属于你的家', '')}
     <section class="profile-card"><div class="profile-avatar">${icon('user')}<span>${icon('check')}</span></div><div><span class="developer-badge">${t('开发者')}</span><h2>${escapeHtml(settings.nickname)}</h2><p>${escapeHtml(session?.username ?? '')}</p></div><span class="profile-leaf">${icon('leaf')}</span></section>
-    <section class="settings-section" id="about-section"><div class="section-heading"><h2>${t('关于 homie')}</h2></div><div class="about-card"><div class="about-row"><span>${icon('home')}${t('当前版本')}</span><span>0.2.0</span></div><div class="about-row"><span>${icon('sofa')}${t('已添加家具')}</span><span>${t('{count} 件', { count: furniture.length })}</span></div><div class="about-row"><span>${icon('shield')}${t('数据存储')}</span><span>${t('当前设备')}</span></div></div><p class="settings-note">${t('家具和设置保存在当前设备，退出登录不会删除。卸载应用或清除数据会移除这些记录。')}</p><p class="account-signature">homie · ${t('让生活，安然有序。')}</p></section>
+    <section class="settings-section" id="about-section"><div class="section-heading"><h2>${t('关于 homie')}</h2></div><div class="about-card"><div class="about-row"><span>${icon('home')}${t('当前版本')}</span><span>0.3.0</span></div><div class="about-row"><span>${icon('sofa')}${t('已添加家具')}</span><span>${t('{count} 件', { count: furniture.length })}</span></div><div class="about-row"><span>${icon('shield')}${t('数据存储')}</span><span>${t('当前设备')}</span></div></div><p class="settings-note">${t('家具和设置保存在当前设备，退出登录不会删除。卸载应用或清除数据会移除这些记录。')}</p><p class="account-signature">homie · ${t('让生活，安然有序。')}</p></section>
     <section class="settings-section" id="settings-section"><div class="section-heading"><h2>${t('我的设置')}</h2>${icon('settings')}</div><form id="settings-form" class="settings-card" novalidate>
       <label class="field-label" for="nickname">${t('显示名称')}</label><input class="plain-input" id="nickname" name="nickname" value="${escapeHtml(settings.nickname)}" placeholder="${t('你希望我们如何称呼你')}" maxlength="24" required />
       <label class="field-label" for="default-room">${t('默认添加房间')}</label><input class="plain-input" id="default-room" name="defaultRoom" value="${escapeHtml(roomLabel(settings.defaultRoom))}" list="settings-rooms" maxlength="20" required /><datalist id="settings-rooms">${DEFAULT_ROOMS.map((room) => `<option value="${escapeHtml(roomLabel(room))}"></option>`).join('')}</datalist><p class="field-hint">${t('添加家具时自动选择，也可以随时更改。')}</p>
@@ -200,16 +200,20 @@ function furnitureForm(id?: string, initialType?: string) {
   const state = store.getState();
   const item = id ? state.furniture.find((entry) => entry.id === id) : undefined;
   if (id && !item) { toast(t('这件家具已不存在')); return; }
-  const selectedType = item?.type ?? initialType ?? 'sofa';
+  const selectedType = item?.type ?? initialType ?? 'light';
+  // Existing records keep their legacy type; only new entries use the current catalog.
+  const availableTypes = FURNITURE_TYPES.some((type) => type.value === selectedType)
+    ? FURNITURE_TYPES
+    : [...FURNITURE_TYPES, ...ALL_FURNITURE_TYPES.filter((type) => type.value === selectedType)];
   openModal(`<div class="sheet-heading"><div><span class="eyebrow">${t(item ? '让家具更懂你' : '为家添一件新家具')}</span><h2 id="furniture-form-title">${t(item ? '编辑家具' : '添加家具')}</h2></div><button class="icon-button" data-action="close-modal" aria-label="${t('关闭')}">${icon('close')}</button></div>
-    <form id="furniture-form" novalidate><label class="field-label" for="furniture-name">${t('家具名称')}<span class="required-mark">*</span></label><input class="plain-input" id="furniture-name" name="name" value="${escapeHtml(item?.name ?? '')}" maxlength="40" placeholder="${t('例如：客厅的云朵沙发')}" required autofocus /><fieldset class="type-fieldset"><legend class="field-label">${t('家具类型')}<span class="required-mark">*</span></legend><div class="type-options">${FURNITURE_TYPES.map((type) => `<label class="type-option"><input type="radio" name="type" value="${escapeHtml(type.value)}"${selectedType === type.value ? ' checked' : ''} /><span>${icon(type.value)}<span>${escapeHtml(t(type.label))}</span></span></label>`).join('')}</div></fieldset>
+    <form id="furniture-form" novalidate><label class="field-label" for="furniture-name">${t('家具名称')}<span class="required-mark">*</span></label><input class="plain-input" id="furniture-name" name="name" value="${escapeHtml(item?.name ?? '')}" maxlength="40" placeholder="${t('例如：客厅的阅读灯')}" required autofocus /><fieldset class="type-fieldset"><legend class="field-label">${t('家具类型')}<span class="required-mark">*</span></legend><div class="type-options">${availableTypes.map((type) => `<label class="type-option"><input type="radio" name="type" value="${escapeHtml(type.value)}"${selectedType === type.value ? ' checked' : ''} /><span>${icon(type.value)}<span>${escapeHtml(t(type.label))}</span></span></label>`).join('')}</div></fieldset>
     <label class="field-label" for="furniture-room">${t('所在房间')}<span class="required-mark">*</span></label><input class="plain-input" id="furniture-room" name="room" value="${escapeHtml(roomLabel(item?.room ?? state.settings.defaultRoom))}" list="furniture-rooms" maxlength="20" placeholder="${t('选择或输入房间')}" required /><datalist id="furniture-rooms">${[...new Set([...DEFAULT_ROOMS, ...state.furniture.map((entry) => entry.room)])].map((room) => `<option value="${escapeHtml(roomLabel(room))}"></option>`).join('')}</datalist>
     <label class="field-label" for="furniture-model">${t('品牌 / 型号')}<span class="optional">${t('选填')}</span></label><input class="plain-input" id="furniture-model" name="model" value="${escapeHtml(item?.model ?? '')}" maxlength="60" placeholder="${t('记录品牌或型号，方便查找')}" />
     <label class="field-label" for="furniture-notes">${t('备注')}<span class="optional">${t('选填')}</span></label><textarea class="plain-input" id="furniture-notes" name="notes" rows="2" maxlength="240" placeholder="${t('尺寸、颜色，或关于它的小故事')}">${escapeHtml(item?.notes ?? '')}</textarea><p id="furniture-error" class="form-error" role="alert"></p><div class="sheet-actions"><button class="button button-primary" type="submit">${icon(item ? 'check' : 'plus')}${t(item ? '保存修改' : '添加到我的家')}</button><p class="field-hint">${t('手动记录家具信息，暂不连接真实设备。')}</p></div></form>`, 'furniture-form-title');
   document.querySelector<HTMLFormElement>('#furniture-form')!.addEventListener('submit', (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget as HTMLFormElement);
-    const input = { name: String(data.get('name') ?? ''), type: String(data.get('type') ?? 'sofa') as typeof FURNITURE_TYPES[number]['value'], room: roomValue(String(data.get('room') ?? ''), item?.room ?? state.settings.defaultRoom), model: String(data.get('model') ?? ''), notes: String(data.get('notes') ?? '') };
+    const input = { name: String(data.get('name') ?? ''), type: String(data.get('type') ?? 'light'), room: roomValue(String(data.get('room') ?? ''), item?.room ?? state.settings.defaultRoom), model: String(data.get('model') ?? ''), notes: String(data.get('notes') ?? '') };
     try {
       if (item) store.updateFurniture(item.id, input); else store.addFurniture(input);
       closeModal(false); activeTab = 'add'; activeRoom = '全部'; search = ''; render();
@@ -263,6 +267,9 @@ document.addEventListener('click', (event) => {
 // Native hosts can delegate Back to the screen without knowing its implementation.
 window.addEventListener('homing:back', (event) => {
   if (modal) { event.preventDefault(); closeModal(); }
+  else if (activeTab === 'sandbox' && document.querySelector('#main-content')?.dispatchEvent(new Event('homie:sandbox-back', { cancelable: true })) === false) {
+    event.preventDefault();
+  }
   else if (store.getState().session && activeTab !== 'add') { event.preventDefault(); activeTab = 'add'; render(); }
 });
 

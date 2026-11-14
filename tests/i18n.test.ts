@@ -46,6 +46,16 @@ describe('language preference and data boundaries', () => {
     expect(i18n.roomLabel('客厅')).toBe('Living room');
     expect(i18n.roomValue('Living room')).toBe('客厅');
     expect(i18n.roomValue('Living room', 'Living room')).toBe('Living room');
+    for (const [chinese, english] of [
+      ['厨房', 'Kitchen'], ['玄关', 'Entryway'], ['浴室', 'Bathroom'],
+      ['房间1', 'Room 1'], ['房间2', 'Room 2'], ['房间3', 'Room 3'],
+    ]) {
+      expect(i18n.roomLabel(chinese)).toBe(english);
+      expect(i18n.roomValue(english)).toBe(chinese);
+    }
+    expect(i18n.roomLabel('卧室')).toBe('Bedroom');
+    expect(i18n.roomValue('Bedroom', '卧室')).toBe('卧室');
+    expect(i18n.roomValue('Room 10')).toBe('Room 10');
     expect(i18n.roomLabel('阅读室 / Studio')).toBe('阅读室 / Studio');
     expect(i18n.roomValue('阅读室 / Studio', '阅读室 / Studio')).toBe('阅读室 / Studio');
     expect(i18n.t('查看{name}', { name: '客厅书桌' })).toBe('View 客厅书桌');

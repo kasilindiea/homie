@@ -5,19 +5,39 @@
  */
 
 export const FURNITURE_TYPES = [
+  { value: 'light', label: '灯具' },
+  { value: 'outlet', label: '智能插座' },
+  { value: 'switch', label: '智能开关' },
+  { value: 'air_conditioner', label: '空调' },
+  { value: 'cover', label: '窗帘' },
+  { value: 'fan', label: '风扇' },
+  { value: 'air_purifier', label: '空气净化器' },
+  { value: 'humidifier', label: '加湿器' },
+  { value: 'vacuum', label: '扫地机器人' },
+  { value: 'lock', label: '门锁' },
+  { value: 'camera', label: '摄像头' },
+  { value: 'sensor', label: '传感器' },
+  { value: 'water_heater', label: '热水器' },
+  { value: 'home_battery', label: '家庭储能' },
+  { value: 'solar_panel', label: '太阳能发电板' },
+] as const;
+
+// The add form uses FURNITURE_TYPES, while saved records retain the full catalog.
+// Removing an add option must never invalidate an entire version-1 household.
+export const ALL_FURNITURE_TYPES = [
+  ...FURNITURE_TYPES,
   { value: 'sofa', label: '沙发' },
   { value: 'chair', label: '椅子' },
   { value: 'table', label: '桌子' },
   { value: 'bed', label: '床' },
   { value: 'cabinet', label: '柜子' },
-  { value: 'light', label: '灯具' },
   { value: 'other', label: '其他' },
 ] as const;
 
-export const DEFAULT_ROOMS = ['客厅', '卧室', '餐厅', '书房', '阳台', '其他'] as const;
+export const DEFAULT_ROOMS = ['客厅', '厨房', '玄关', '浴室', '阳台', '房间1', '房间2', '房间3'] as const;
 export const STORAGE_KEY = 'homing.app.v1';
 
-export type FurnitureType = (typeof FURNITURE_TYPES)[number]['value'];
+export type FurnitureType = (typeof ALL_FURNITURE_TYPES)[number]['value'];
 
 export interface Furniture {
   id: string;
@@ -105,7 +125,7 @@ function textField(value: unknown, label: string, limit: number, required = true
 
 function validateInput(input: FurnitureInput): Omit<Furniture, 'id' | 'createdAt' | 'updatedAt'> {
   if (!isRecord(input)) throw new Error('家具信息不完整');
-  if (!FURNITURE_TYPES.some((item) => item.value === input.type)) {
+  if (!ALL_FURNITURE_TYPES.some((item) => item.value === input.type)) {
     throw new Error('请选择有效的家具类型');
   }
   return {

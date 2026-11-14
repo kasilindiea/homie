@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createAppStore, STORAGE_KEY, type FurnitureInput, type StorageAdapter } from '../src/domain';
+import { createAppStore, DEFAULT_ROOMS, FURNITURE_TYPES, STORAGE_KEY, type FurnitureInput, type StorageAdapter } from '../src/domain';
 
 class MemoryStorage implements StorageAdapter {
   readonly data = new Map<string, string>();
@@ -64,6 +64,60 @@ describe('developer demo account', () => {
 });
 
 describe('furniture and settings', () => {
+  it('persists all 15 smart categories including storage and solar, using the existing record shape', () => {
+    const { storage, store } = setup();
+    store.login('tester', 'demo-pass');
+    expect(FURNITURE_TYPES).toHaveLength(15);
+    expect(new Set(FURNITURE_TYPES.map((item) => item.value)).size).toBe(15);
+    expect(FURNITURE_TYPES.map((item) => item.value)).toEqual(expect.arrayContaining(['home_battery', 'solar_panel']));
+    expect(FURNITURE_TYPES.filter((item) => ['sofa', 'chair', 'table', 'bed', 'cabinet', 'other'].includes(item.value))).toEqual([]);
+    for (const type of FURNITURE_TYPES) {
+      store.addFurniture({ name: type.label, type: type.value, room: '客厅' });
+    }
+    const restored = createAppStore({ storage, credentials }).getState();
+    expect(restored.warning).toBeNull();
+    expect(restored.furniture).toHaveLength(15);
+    expect(restored.furniture.map((item) => item.type).sort()).toEqual(FURNITURE_TYPES.map((item) => item.value).sort());
+    const saved = JSON.parse(storage.getItem(STORAGE_KEY)!);
+    expect(saved.version).toBe(1);
+    expect(Object.keys(saved.furniture[0]).sort()).toEqual(['createdAt', 'id', 'model', 'name', 'notes', 'room', 'type', 'updatedAt']);
+  });
+
+  it('keeps every legacy category and room when reopening and editing a version-1 household', () => {
+    const storage = new MemoryStorage();
+    const legacyTypes = ['sofa', 'chair', 'table', 'bed', 'cabinet', 'light', 'other'];
+    const timestamp = '2026-10-01T08:00:00.000Z';
+    const furniture = legacyTypes.map((type, index) => ({
+      id: `old-${type}`, name: `原家具 ${index}`, type, room: index % 2 ? '书房' : '我的工作室',
+      model: `原型号-${index}`, notes: '原来的记录', createdAt: timestamp, updatedAt: timestamp,
+    }));
+    storage.setItem(STORAGE_KEY, JSON.stringify({
+      version: 1, session: { username: 'tester' }, furniture, settings: { nickname: '原账号', defaultRoom: '卧室' },
+    }));
+    const store = createAppStore({ storage, credentials, now: () => new Date('2026-11-14T00:00:00.000Z') });
+    expect(store.getState().warning).toBeNull();
+    expect(store.getState().furniture).toEqual(furniture);
+    expect(store.getState().settings.defaultRoom).toBe('卧室');
+    for (const item of furniture) store.updateFurniture(item.id, { ...item, notes: '已编辑，保留类型' });
+    const reopened = createAppStore({ storage, credentials });
+    expect(reopened.getState().warning).toBeNull();
+    expect(reopened.getState().furniture).toEqual(furniture.map((item) => ({
+      ...item, notes: '已编辑，保留类型', updatedAt: '2026-11-14T00:00:00.000Z',
+    })));
+  });
+
+  it('offers the eight requested rooms without restricting existing or custom room names', () => {
+    expect(DEFAULT_ROOMS).toEqual(['客厅', '厨房', '玄关', '浴室', '阳台', '房间1', '房间2', '房间3']);
+    const { store, storage } = setup();
+    store.login('tester', 'demo-pass');
+    const added = store.addFurniture({ name: '工作室灯', type: 'light', room: '阁楼 / Studio' });
+    store.updateSettings({ defaultRoom: '书房' });
+    const reopened = createAppStore({ storage, credentials }).getState();
+    expect(reopened.warning).toBeNull();
+    expect(reopened.furniture[0]).toEqual(added);
+    expect(reopened.settings.defaultRoom).toBe('书房');
+  });
+
   it('adds, edits and deletes furniture durably while preserving identity and creation date', () => {
     const { storage, store } = setup();
     store.login('tester', 'demo-pass');

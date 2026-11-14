@@ -7,7 +7,7 @@ async function login(page: Page) {
   await expect(page.getByRole('heading', { name: '我的家具', exact: true })).toBeVisible();
 }
 
-async function addFurniture(page: Page, name = '云朵沙发') {
+async function addFurniture(page: Page, name = '云朵台灯') {
   await page.getByRole('button', { name: '添加家具', exact: true }).click();
   await page.getByLabel(/^家具名称/).fill(name);
   await page.getByLabel(/^所在房间/).fill('客厅');
@@ -80,7 +80,7 @@ for (const width of [390, 360]) {
       await screenshot(page, 'add-form', width);
       await page.getByRole('button', { name: '添加到我的家', exact: true }).click();
       await expect(page.locator('#furniture-error')).toHaveText('请填写家具名称');
-      await page.getByLabel(/^家具名称/).fill('云朵沙发');
+      await page.getByLabel(/^家具名称/).fill('云朵台灯');
       await page.getByLabel(/^所在房间/).fill('');
       await page.getByRole('button', { name: '添加到我的家', exact: true }).click();
       await expect(page.locator('#furniture-error')).toHaveText('请填写所在房间');
@@ -88,36 +88,36 @@ for (const width of [390, 360]) {
       await page.getByLabel(/^品牌 \/ 型号/).fill('Cloud S01');
       await page.getByLabel(/^备注/).fill('米白色，靠窗摆放');
       await page.getByRole('button', { name: '添加到我的家', exact: true }).click();
-      await expect(page.getByRole('button', { name: '查看云朵沙发', exact: true })).toBeVisible();
+      await expect(page.getByRole('button', { name: '查看云朵台灯', exact: true })).toBeVisible();
       await page.reload();
-      await expect(page.getByRole('button', { name: '查看云朵沙发', exact: true })).toBeVisible();
+      await expect(page.getByRole('button', { name: '查看云朵台灯', exact: true })).toBeVisible();
       await assertNoOverflow(page);
       await screenshot(page, 'furniture-list', width);
 
       await page.getByLabel('搜索家具名称、类型或房间', { exact: true }).fill('完全不存在的家具');
       await expect(page.getByRole('heading', { name: '暂时没有找到家具', exact: true })).toBeVisible();
       await page.getByRole('button', { name: '查看全部家具', exact: true }).click();
-      await page.getByRole('button', { name: '查看云朵沙发', exact: true }).click();
+      await page.getByRole('button', { name: '查看云朵台灯', exact: true }).click();
       await expect(page.getByText('Cloud S01', { exact: true })).toBeVisible();
       await page.getByRole('button', { name: '编辑家具', exact: true }).click();
       await expect(page.getByLabel(/^备注/)).toHaveValue('米白色，靠窗摆放');
-      await page.getByLabel(/^家具名称/).fill('阅读角沙发');
+      await page.getByLabel(/^家具名称/).fill('阅读角台灯');
       await page.getByLabel(/^所在房间/).fill('书房');
       await page.getByRole('button', { name: '保存修改', exact: true }).click();
       await page.reload();
-      await page.getByRole('button', { name: '查看阅读角沙发', exact: true }).click();
+      await page.getByRole('button', { name: '查看阅读角台灯', exact: true }).click();
       await page.getByRole('button', { name: '删除', exact: true }).click();
       await expect(page.getByRole('dialog', { name: '删除这件家具？', exact: true })).toBeVisible();
       await page.getByRole('button', { name: '保留家具', exact: true }).click();
-      await expect(page.getByRole('dialog', { name: '阅读角沙发', exact: true })).toBeVisible();
+      await expect(page.getByRole('dialog', { name: '阅读角台灯', exact: true })).toBeVisible();
       await page.getByRole('button', { name: '关闭', exact: true }).click();
-      await expect(page.getByRole('button', { name: '查看阅读角沙发', exact: true })).toBeVisible();
-      await page.getByRole('button', { name: '查看阅读角沙发', exact: true }).click();
+      await expect(page.getByRole('button', { name: '查看阅读角台灯', exact: true })).toBeVisible();
+      await page.getByRole('button', { name: '查看阅读角台灯', exact: true }).click();
       await page.getByRole('button', { name: '删除', exact: true }).click();
       await page.getByRole('button', { name: '确认删除', exact: true }).click();
       await page.reload();
       await expect(page.getByText('家的故事，从第一件家具开始', { exact: true })).toBeVisible();
-      await expect(page.getByRole('button', { name: '查看阅读角沙发', exact: true })).toHaveCount(0);
+      await expect(page.getByRole('button', { name: '查看阅读角台灯', exact: true })).toHaveCount(0);
     });
 
     test('native Back closes the sheet and returns secondary tabs to furniture', async ({ page }) => {
@@ -132,15 +132,17 @@ for (const width of [390, 360]) {
       expect(await back()).toBe(true);
     });
 
-    test('keeps sandbox and import as placeholders while settings and logout work', async ({ page }) => {
+    test('opens the sandbox and import while settings and logout work', async ({ page }) => {
       await login(page);
       await addFurniture(page);
       const navigation = page.getByRole('navigation', { name: '主导航' });
       await navigation.getByRole('button', { name: '沙盒', exact: true }).click();
-      await expect(page.getByRole('heading', { name: '为想象，留一点空间', exact: true })).toBeVisible();
+      await expect(page.locator('#sandbox-root')).toBeVisible();
+      await expect(page.locator('.page-header .header-logo')).toHaveCount(0);
       await assertNoOverflow(page);
       await navigation.getByRole('button', { name: '导入', exact: true }).click();
       await expect(page.getByRole('heading', { name: '让熟悉的家具，来到这里', exact: true })).toBeVisible();
+      await expect(page.locator('.page-header .header-logo')).toHaveCount(0);
       await assertNoOverflow(page);
       await navigation.getByRole('button', { name: '账号', exact: true }).click();
       await page.getByLabel('显示名称', { exact: true }).fill('小栖');
@@ -163,7 +165,7 @@ for (const width of [390, 360]) {
       await page.reload();
       await expect(page.getByRole('heading', { name: '欢迎回家', exact: true })).toBeVisible();
       await login(page);
-      await expect(page.getByRole('button', { name: '查看云朵沙发', exact: true })).toBeVisible();
+      await expect(page.getByRole('button', { name: '查看云朵台灯', exact: true })).toBeVisible();
     });
   });
 }
