@@ -17,4 +17,18 @@ export interface HomeSceneOptions {
   onContextLost?: () => void;
 }
 
-export function createHomeScene(host: HTMLElement, map: any, onSelect: (id: string | null) => void, options?: HomeSceneOptions): Promise<HomeScene>;
+export interface SceneTemplate {
+  templateId: string;
+  modelUrl: string;
+  map: { objects: readonly SceneObjectDefinition[] };
+}
+
+export interface SceneObjectDefinition {
+  shared_id: string;
+  room_id: string | null;
+  object_type?: string;
+  display_name?: string;
+  spatial: boolean;
+}
+
+export function createHomeScene(host: HTMLElement, template: SceneTemplate, onSelect: (id: string | null) => void, options?: HomeSceneOptions): Promise<HomeScene>;

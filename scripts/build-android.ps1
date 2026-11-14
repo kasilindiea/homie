@@ -32,6 +32,14 @@ try {
     Copy-Item -LiteralPath (Join-Path $projectRoot 'android\app\build\outputs\apk\debug\app-debug.apk') -Destination $apk -Force
     & (Join-Path $env:ANDROID_HOME 'build-tools\36.0.0\apksigner.bat') verify --verbose $apk
     if ($LASTEXITCODE -ne 0) { throw 'APK signature validation failed.' }
-    Get-FileHash -LiteralPath $apk -Algorithm SHA256 | Format-List
+    $hasher = [Security.Cryptography.SHA256]::Create()
+    $apkStream = [IO.File]::OpenRead($apk)
+    try {
+        $sha256 = [BitConverter]::ToString($hasher.ComputeHash($apkStream)).Replace('-', '').ToLowerInvariant()
+    } finally {
+        $apkStream.Dispose()
+        $hasher.Dispose()
+    }
+    Write-Host "SHA-256: $sha256"
     Write-Host "APK: $apk"
 } finally { Pop-Location }

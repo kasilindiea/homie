@@ -7,6 +7,17 @@
 .sb-scene-overlay[hidden] { display: none; }
 .sb-room-nav { display: flex; gap: 6px; overflow-x: auto; padding: 12px 14px 5px; }
 .sb-room-nav .sb-small-button { flex: 0 0 auto; min-height: 38px; padding: 5px 10px; font-size: 10px; }
+.sb-template-nav { display: flex; gap: 8px; margin: 8px 14px 0; }
+.sb-template-nav .sb-small-button { flex: 1; min-height: 44px; }
+.sandbox-shell :is(.sb-template-nav, .sb-scene-controls) .sb-small-button[aria-pressed="true"] { color: white; background: #436a4e; border-color: #436a4e; }
+.sb-scene-controls { display: flex; gap: 5px; flex-shrink: 0; }
+.sb-scene-room-field { margin: 8px 14px; }
+.sb-sample-field { margin: 10px 0 16px; }
+.sandbox-shell [hidden] { display: none !important; }
+.sb-detail-readings.sb-telemetry { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.sb-telemetry small { display: block; overflow-wrap: anywhere; }
+.sandbox-shell[data-template="large_flat_128"] .sb-scene-objects { margin-top: 0; border-top: 0; }
+html { scroll-padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)); }
 .sb-scene-objects { margin-top: 22px; border-top: 1px solid #e2e7d9; padding-top: 18px; }
 .sb-scene-objects h3 { font-size: 13px; }
 .sb-object-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; margin-top: 12px; }
@@ -135,8 +146,8 @@
 
 /* Keep the apartment visible while the lower sheet scrolls on phone screens. */
 @media (min-height: 740px) {
-  .main-content.sandbox-active { height: 100dvh; padding-top: calc(14px + env(safe-area-inset-top, 0px)); padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)); }
-  .sandbox-active .sandbox-shell { height: 100%; display: flex; flex-direction: column; }
+  .main-content.sandbox-apartment { height: 100dvh; padding-top: calc(14px + env(safe-area-inset-top, 0px)); padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)); }
+  .sandbox-active [data-template="baseline_apartment"] { height: 100%; display: flex; flex-direction: column; }
   .sandbox-active .sb-header { flex: 0 0 auto; margin-bottom: 12px; }
   .sandbox-active .sb-header h1 { font-size: 28px; }
   .sandbox-active .sb-header .eyebrow { margin-bottom: 4px; }
@@ -149,7 +160,7 @@
   .sandbox-active .sb-scene-hint { padding: 7px 12px; }
   .sandbox-active .sb-demo-notice { flex: 0 0 auto; padding: 9px 3px; }
   .sandbox-active .sb-demo-notice p { font-size: 9px; line-height: 1.5; margin-top: 3px; }
-  .sandbox-active .sb-dock { flex: 1; min-height: 140px; display: flex; flex-direction: column; overflow: hidden; padding-bottom: 0; border-radius: 18px; }
-  .sandbox-active .sb-dock-handle, .sandbox-active .sb-tabs, .sandbox-active #sandbox-feedback { flex: 0 0 auto; }
-  .sandbox-active #sandbox-panel { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior-y: contain; padding-bottom: 16px; scrollbar-width: thin; scrollbar-color: #cbd7bd transparent; }
+  [data-template="baseline_apartment"] .sb-dock { flex: 1; min-height: 140px; display: flex; flex-direction: column; overflow: hidden; padding-bottom: 0; border-radius: 18px; }
+  [data-template="baseline_apartment"] :is(.sb-dock-handle, .sb-tabs, #sandbox-feedback) { flex: 0 0 auto; }
+  [data-template="baseline_apartment"] #sandbox-panel { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior-y: contain; padding-bottom: 16px; scrollbar-width: thin; scrollbar-color: #cbd7bd transparent; }
 }
