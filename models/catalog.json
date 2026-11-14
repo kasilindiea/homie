@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "delivery_date": "2026-11-14",
+  "models": [
+    {
+      "display_name": "两房一厅",
+      "template_id": "generic_two_bedroom",
+      "asset_version": "0.1",
+      "directory": "generic-two-bedroom",
+      "glb": "generic-two-bedroom/两房一厅.glb",
+      "blend": "generic-two-bedroom/future-home-generic-two-bedroom-v0.1.blend",
+      "overview": "generic-two-bedroom/screenshots/default-blender.png",
+      "plan": "generic-two-bedroom/screenshots/plan-blender.png",
+      "checksums": "generic-two-bedroom/SHA256SUMS.txt",
+      "bedrooms": 2,
+      "halls": 1,
+      "room_regions": 8,
+      "device_roots": 9,
+      "axis_area_m2": 80.04,
+      "unit": "meter",
+      "app_integrated": false,
+      "glb_sha256": "5c83946a0d904a6bafaa52c0e75f87ba5d0038b6dab8f908074e73f00d6c3d07"
+    },
+    {
+      "display_name": "三房两厅",
+      "template_id": "generic_three_bedroom",
+      "asset_version": "0.1",
+      "directory": "generic-three-bedroom",
+      "glb": "generic-three-bedroom/三房两厅.glb",
+      "blend": "generic-three-bedroom/future-home-generic-three-bedroom-v0.1.blend",
+      "overview": "generic-three-bedroom/screenshots/default-blender.png",
+      "plan": "generic-three-bedroom/screenshots/plan-blender.png",
+      "checksums": "generic-three-bedroom/SHA256SUMS.txt",
+      "bedrooms": 3,
+      "halls": 2,
+      "room_regions": 10,
+      "device_roots": 9,
+      "axis_area_m2": 112.28,
+      "unit": "meter",
+      "app_integrated": false,
+      "glb_sha256": "4039b5914b0bc4added8c39370e8a2985d166587b9858abd77628173bfab54f9"
+    }
+  ]
+}
