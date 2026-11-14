@@ -1,0 +1,2790 @@
+{
+  "schema_version": "0.5",
+  "template_id": "baseline_apartment",
+  "demo_mode": true,
+  "description": "静态模拟交互。各场景独立启动；starting_from 指向前置场景的主线末尾。当前场景的 steps 按顺序应用。alternative_from 是独立替代分支，不应用在前一步之后；after_step 为从 1 开始的步骤序号。expected_ui 是静态验收预期，不属于接口响应。",
+  "baseline_snapshot": {
+    "schema_version": "0.5",
+    "template_id": "baseline_apartment",
+    "demo_mode": true,
+    "intent_text": "我出门两小时，猫留在卧室。",
+    "user_away": false,
+    "occupancy": "occupied",
+    "retain_room_ids": [
+      "bedroom"
+    ],
+    "objects": {
+      "entry_door": {
+        "object_id": "entry_door",
+        "room_id": "entryway",
+        "source": null,
+        "updated_at": null,
+        "availability": "not_applicable",
+        "state": "unknown"
+      },
+      "balcony_door": {
+        "object_id": "balcony_door",
+        "room_id": "balcony",
+        "source": "sensor",
+        "updated_at": "2026-11-14T17:00:00+08:00",
+        "availability": "online",
+        "state": "closed"
+      },
+      "living_room_light": {
+        "object_id": "living_room_light",
+        "room_id": "living_room",
+        "source": "device",
+        "updated_at": "2026-11-14T17:00:00+08:00",
+        "availability": "online",
+        "state": "on",
+        "power_state": "powered"
+      },
+      "bedroom_ac": {
+        "object_id": "bedroom_ac",
+        "room_id": "bedroom",
+        "source": "device",
+        "updated_at": "2026-11-14T17:00:00+08:00",
+        "availability": "online",
+        "state": "on",
+        "power_state": "powered",
+        "current_temperature_c": 27.3,
+        "target_temperature_c": 26,
+        "hvac_mode": "cool",
+        "timer_state": "disabled",
+        "timer_remaining_minutes": null
+      },
+      "home_battery": {
+        "object_id": "home_battery",
+        "room_id": null,
+        "source": "device",
+        "updated_at": "2026-11-14T17:00:00+08:00",
+        "availability": "online",
+        "soc_pct": 25,
+        "reserve_pct": 30
+      }
+    },
+    "energy": {
+      "timezone": "Asia/Shanghai",
+      "meter_scope": "household_consumption",
+      "month_days": 30,
+      "monthly_limit_kwh": 300,
+      "daily_reference_kwh": 10,
+      "reserve_pct": 30,
+      "objective": "reduce_consumption",
+      "alerts": [],
+      "measurements": {
+        "instant_power_w": {
+          "value": 1180,
+          "unit": "W",
+          "source": "meter",
+          "updated_at": "2026-11-14T17:00:00+08:00",
+          "availability": "online",
+          "data_kind": "simulated"
+        },
+        "today_used_kwh": {
+          "value": 9,
+          "unit": "kWh",
+          "source": "meter",
+          "updated_at": "2026-11-14T17:00:00+08:00",
+          "availability": "online",
+          "data_kind": "simulated"
+        },
+        "month_used_kwh": {
+          "value": 125,
+          "unit": "kWh",
+          "source": "meter",
+          "updated_at": "2026-11-14T17:00:00+08:00",
+          "availability": "online",
+          "data_kind": "simulated"
+        },
+        "estimated_cost": {
+          "value": 6.3,
+          "unit": "CNY",
+          "source": "calculation",
+          "updated_at": "2026-11-14T17:00:00+08:00",
+          "availability": "online",
+          "data_kind": "estimated",
+          "basis_kind": "simulated",
+          "assumptions": "演示假设今日 9 kWh 全部为电网购电，单一示例电价 0.70 元/kWh；非实际账单。"
+        },
+        "soc_pct": {
+          "value": 25,
+          "unit": "%",
+          "source": "storage",
+          "updated_at": "2026-11-14T17:00:00+08:00",
+          "availability": "online",
+          "data_kind": "simulated"
+        },
+        "estimated_runtime_minutes": {
+          "value": 90,
+          "unit": "min",
+          "source": "calculation",
+          "updated_at": "2026-11-14T17:00:00+08:00",
+          "availability": "online",
+          "data_kind": "estimated",
+          "basis_kind": "simulated",
+          "assumptions": "演示容量 2 kWh × 当前电量 25% × 效率 90% ÷ 假设负载 300 W = 90 分钟。应急允许动用剩余电量，未扣日常保留线；实际容量与负载未验证。"
+        }
+      }
+    },
+    "capabilities": {
+      "entry_door": {
+        "verification_scope": "simulation",
+        "allowed_actions": [],
+        "supports_delayed_start": null,
+        "backup_circuit": "unknown",
+        "source": "simulator",
+        "updated_at": "2026-11-14T17:00:00+08:00"
+      },
+      "balcony_door": {
+        "verification_scope": "simulation",
+        "allowed_actions": [],
+        "supports_delayed_start": null,
+        "backup_circuit": "unknown",
+        "source": "simulator",
+        "updated_at": "2026-11-14T17:00:00+08:00"
+      },
+      "living_room_light": {
+        "verification_scope": "simulation",
+        "allowed_actions": [
+          "turn_on",
+          "turn_off"
+        ],
+        "supports_delayed_start": null,
+        "backup_circuit": "connected",
+        "source": "simulator",
+        "updated_at": "2026-11-14T17:00:00+08:00"
+      },
+      "bedroom_ac": {
+        "verification_scope": "simulation",
+        "allowed_actions": [
+          "turn_on",
+          "turn_off"
+        ],
+        "supports_delayed_start": null,
+        "backup_circuit": "connected",
+        "source": "simulator",
+        "updated_at": "2026-11-14T17:00:00+08:00"
+      },
+      "home_battery": {
+        "verification_scope": "simulation",
+        "allowed_actions": [],
+        "supports_delayed_start": null,
+        "backup_circuit": "unknown",
+        "source": "simulator",
+        "updated_at": "2026-11-14T17:00:00+08:00"
+      }
+    },
+    "execution": [],
+    "manual_records": [],
+    "context": {
+      "simulation_now": "2026-11-14T17:00:00+08:00",
+      "laundry_finish_by": null,
+      "room_occupancy": {
+        "entryway": "empty",
+        "living_room": "empty",
+        "bedroom": "occupied",
+        "balcony": "empty"
+      }
+    },
+    "plan": null
+  },
+  "scenarios": [
+    {
+      "id": "cat_home_baseline",
+      "name": "猫留卧室的基线",
+      "fixture_id": "baseline",
+      "fixture_usage": "复用对象读数、留家与能源基线，另展示生成任务和四个分组条目。",
+      "starting_from": null,
+      "steps": [
+        {
+          "name": "读取未生成计划的基线",
+          "request": {
+            "method": "GET",
+            "path": "/demo/leave-check/state?template_id=baseline_apartment"
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "schema_version": "0.5",
+              "intent_text": "我出门两小时，猫留在卧室。",
+              "user_away": false,
+              "occupancy": "occupied",
+              "retain_room_ids": [
+                "bedroom"
+              ],
+              "objects": {
+                "entry_door": {
+                  "object_id": "entry_door",
+                  "room_id": "entryway",
+                  "source": null,
+                  "updated_at": null,
+                  "availability": "not_applicable",
+                  "state": "unknown"
+                },
+                "balcony_door": {
+                  "object_id": "balcony_door",
+                  "room_id": "balcony",
+                  "source": "sensor",
+                  "updated_at": "2026-11-14T17:00:00+08:00",
+                  "availability": "online",
+                  "state": "closed"
+                },
+                "living_room_light": {
+                  "object_id": "living_room_light",
+                  "room_id": "living_room",
+                  "source": "device",
+                  "updated_at": "2026-11-14T17:00:00+08:00",
+                  "availability": "online",
+                  "state": "on",
+                  "power_state": "powered"
+                },
+                "bedroom_ac": {
+                  "object_id": "bedroom_ac",
+                  "room_id": "bedroom",
+                  "source": "device",
+                  "updated_at": "2026-11-14T17:00:00+08:00",
+                  "availability": "online",
+                  "state": "on",
+                  "power_state": "powered",
+                  "current_temperature_c": 27.3,
+                  "target_temperature_c": 26,
+                  "hvac_mode": "cool",
+                  "timer_state": "disabled",
+                  "timer_remaining_minutes": null
+                },
+                "home_battery": {
+                  "object_id": "home_battery",
+                  "room_id": null,
+                  "source": "device",
+                  "updated_at": "2026-11-14T17:00:00+08:00",
+                  "availability": "online",
+                  "soc_pct": 25,
+                  "reserve_pct": 30
+                }
+              },
+              "energy": {
+                "timezone": "Asia/Shanghai",
+                "meter_scope": "household_consumption",
+                "month_days": 30,
+                "monthly_limit_kwh": 300,
+                "daily_reference_kwh": 10,
+                "reserve_pct": 30,
+                "objective": "reduce_consumption",
+                "alerts": [],
+                "measurements": {
+                  "instant_power_w": {
+                    "value": 1180,
+                    "unit": "W",
+                    "source": "meter",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "today_used_kwh": {
+                    "value": 9,
+                    "unit": "kWh",
+                    "source": "meter",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "month_used_kwh": {
+                    "value": 125,
+                    "unit": "kWh",
+                    "source": "meter",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "estimated_cost": {
+                    "value": 6.3,
+                    "unit": "CNY",
+                    "source": "calculation",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "estimated",
+                    "basis_kind": "simulated",
+                    "assumptions": "演示假设今日 9 kWh 全部为电网购电，单一示例电价 0.70 元/kWh；非实际账单。"
+                  },
+                  "soc_pct": {
+                    "value": 25,
+                    "unit": "%",
+                    "source": "storage",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "estimated_runtime_minutes": {
+                    "value": 90,
+                    "unit": "min",
+                    "source": "calculation",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "estimated",
+                    "basis_kind": "simulated",
+                    "assumptions": "演示容量 2 kWh × 当前电量 25% × 效率 90% ÷ 假设负载 300 W = 90 分钟。应急允许动用剩余电量，未扣日常保留线；实际容量与负载未验证。"
+                  }
+                }
+              },
+              "capabilities": {
+                "entry_door": {
+                  "verification_scope": "simulation",
+                  "allowed_actions": [],
+                  "supports_delayed_start": null,
+                  "backup_circuit": "unknown",
+                  "source": "simulator",
+                  "updated_at": "2026-11-14T17:00:00+08:00"
+                },
+                "balcony_door": {
+                  "verification_scope": "simulation",
+                  "allowed_actions": [],
+                  "supports_delayed_start": null,
+                  "backup_circuit": "unknown",
+                  "source": "simulator",
+                  "updated_at": "2026-11-14T17:00:00+08:00"
+                },
+                "living_room_light": {
+                  "verification_scope": "simulation",
+                  "allowed_actions": [
+                    "turn_on",
+                    "turn_off"
+                  ],
+                  "supports_delayed_start": null,
+                  "backup_circuit": "connected",
+                  "source": "simulator",
+                  "updated_at": "2026-11-14T17:00:00+08:00"
+                },
+                "bedroom_ac": {
+                  "verification_scope": "simulation",
+                  "allowed_actions": [
+                    "turn_on",
+                    "turn_off"
+                  ],
+                  "supports_delayed_start": null,
+                  "backup_circuit": "connected",
+                  "source": "simulator",
+                  "updated_at": "2026-11-14T17:00:00+08:00"
+                },
+                "home_battery": {
+                  "verification_scope": "simulation",
+                  "allowed_actions": [],
+                  "supports_delayed_start": null,
+                  "backup_circuit": "unknown",
+                  "source": "simulator",
+                  "updated_at": "2026-11-14T17:00:00+08:00"
+                }
+              },
+              "execution": [],
+              "manual_records": [],
+              "context": {
+                "simulation_now": "2026-11-14T17:00:00+08:00",
+                "laundry_finish_by": null,
+                "room_occupancy": {
+                  "entryway": "empty",
+                  "living_room": "empty",
+                  "bedroom": "occupied",
+                  "balcony": "empty"
+                }
+              },
+              "plan": null
+            }
+          }
+        },
+        {
+          "name": "确认留家约束并生成计划",
+          "request": {
+            "method": "POST",
+            "path": "/demo/leave-check/plans",
+            "body": {
+              "template_id": "baseline_apartment",
+              "intent_text": "我出门两小时，猫留在卧室。",
+              "occupancy": "occupied",
+              "retain_room_ids": [
+                "bedroom"
+              ],
+              "room_occupancy": {
+                "entryway": "empty",
+                "living_room": "empty",
+                "bedroom": "occupied",
+                "balcony": "empty"
+              }
+            }
+          },
+          "response": {
+            "http_status": 201,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "task_id": "task_demo_leave",
+              "user_away": false,
+              "occupancy": "occupied",
+              "retain_room_ids": [
+                "bedroom"
+              ],
+              "context": {
+                "simulation_now": "2026-11-14T17:00:00+08:00",
+                "laundry_finish_by": null,
+                "room_occupancy": {
+                  "entryway": "empty",
+                  "living_room": "empty",
+                  "bedroom": "occupied",
+                  "balcony": "empty"
+                }
+              },
+              "manual_records": [
+                {
+                  "task_id": "task_demo_leave",
+                  "object_id": "entry_door",
+                  "result": "pending",
+                  "confirmed_at": null
+                }
+              ],
+              "plan": {
+                "task_id": "task_demo_leave",
+                "plan_version": 1,
+                "items": [
+                  {
+                    "item_id": "item_living_room_light",
+                    "object_id": "living_room_light",
+                    "group": "action",
+                    "current_state": "on",
+                    "target_state": "off",
+                    "action": "turn_off",
+                    "reason": "示例声明客厅无人使用，可关闭客厅灯。",
+                    "selected": true,
+                    "evidence": {
+                      "source": "device",
+                      "updated_at": "2026-11-14T17:00:00+08:00"
+                    }
+                  },
+                  {
+                    "item_id": "item_bedroom_ac",
+                    "object_id": "bedroom_ac",
+                    "group": "keep",
+                    "current_state": "on",
+                    "target_state": "on",
+                    "action": "none",
+                    "reason": "猫留在卧室，保留卧室空调。",
+                    "selected": false,
+                    "evidence": {
+                      "source": "device",
+                      "updated_at": "2026-11-14T17:00:00+08:00"
+                    }
+                  },
+                  {
+                    "item_id": "item_entry_door",
+                    "object_id": "entry_door",
+                    "group": "manual",
+                    "current_state": "unknown",
+                    "target_state": null,
+                    "action": "check_manually",
+                    "reason": "普通玄关门需要现场核实，模型姿态不能代替证据。",
+                    "selected": false,
+                    "evidence": {
+                      "source": null,
+                      "updated_at": null
+                    }
+                  },
+                  {
+                    "item_id": "item_balcony_door",
+                    "object_id": "balcony_door",
+                    "group": "check",
+                    "current_state": "closed",
+                    "target_state": null,
+                    "action": "none",
+                    "reason": "阳台门已合上，证据来自门磁。",
+                    "selected": false,
+                    "evidence": {
+                      "source": "sensor",
+                      "updated_at": "2026-11-14T17:00:00+08:00"
+                    }
+                  }
+                ]
+              },
+              "execution": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "everyone_away",
+      "name": "全员离家",
+      "fixture_id": null,
+      "fixture_usage": "本轮新增联调样例。",
+      "starting_from": "cat_home_baseline",
+      "steps": [
+        {
+          "name": "确认家中无人或宠物并更新计划",
+          "request": {
+            "method": "POST",
+            "path": "/demo/leave-check/plans",
+            "body": {
+              "template_id": "baseline_apartment",
+              "intent_text": "全家和宠物都出门了。",
+              "occupancy": "empty",
+              "retain_room_ids": [],
+              "room_occupancy": {
+                "entryway": "empty",
+                "living_room": "empty",
+                "bedroom": "empty",
+                "balcony": "empty"
+              },
+              "task_id": "task_demo_leave"
+            }
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "task_id": "task_demo_leave",
+              "user_away": false,
+              "occupancy": "empty",
+              "retain_room_ids": [],
+              "context": {
+                "simulation_now": "2026-11-14T17:00:00+08:00",
+                "laundry_finish_by": null,
+                "room_occupancy": {
+                  "entryway": "empty",
+                  "living_room": "empty",
+                  "bedroom": "empty",
+                  "balcony": "empty"
+                }
+              },
+              "manual_records": [
+                {
+                  "task_id": "task_demo_leave",
+                  "object_id": "entry_door",
+                  "result": "pending",
+                  "confirmed_at": null
+                }
+              ],
+              "plan": {
+                "task_id": "task_demo_leave",
+                "plan_version": 2,
+                "items": [
+                  {
+                    "item_id": "item_living_room_light",
+                    "object_id": "living_room_light",
+                    "group": "action",
+                    "current_state": "on",
+                    "target_state": "off",
+                    "action": "turn_off",
+                    "reason": "示例声明客厅无人使用，可关闭客厅灯。",
+                    "selected": true,
+                    "evidence": {
+                      "source": "device",
+                      "updated_at": "2026-11-14T17:00:00+08:00"
+                    }
+                  },
+                  {
+                    "item_id": "item_bedroom_ac",
+                    "object_id": "bedroom_ac",
+                    "group": "action",
+                    "current_state": "on",
+                    "target_state": "off",
+                    "action": "turn_off",
+                    "reason": "全员离家且无其他保留条件，空调可关闭，默认不勾选。",
+                    "selected": false,
+                    "evidence": {
+                      "source": "device",
+                      "updated_at": "2026-11-14T17:00:00+08:00"
+                    }
+                  },
+                  {
+                    "item_id": "item_entry_door",
+                    "object_id": "entry_door",
+                    "group": "manual",
+                    "current_state": "unknown",
+                    "target_state": null,
+                    "action": "check_manually",
+                    "reason": "普通玄关门需要现场核实，模型姿态不能代替证据。",
+                    "selected": false,
+                    "evidence": {
+                      "source": null,
+                      "updated_at": null
+                    }
+                  },
+                  {
+                    "item_id": "item_balcony_door",
+                    "object_id": "balcony_door",
+                    "group": "check",
+                    "current_state": "closed",
+                    "target_state": null,
+                    "action": "none",
+                    "reason": "阳台门已合上，证据来自门磁。",
+                    "selected": false,
+                    "evidence": {
+                      "source": "sensor",
+                      "updated_at": "2026-11-14T17:00:00+08:00"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "name": "单独确认本人已出门",
+          "request": {
+            "method": "PUT",
+            "path": "/demo/leave-check/tasks/task_demo_leave/user-away",
+            "body": {
+              "user_away": true
+            }
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "task_id": "task_demo_leave",
+              "user_away": true,
+              "occupancy": "empty",
+              "retain_room_ids": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "entry_confirmed",
+      "name": "玄关现场确认",
+      "fixture_id": null,
+      "fixture_usage": "本轮新增联调样例。",
+      "starting_from": "cat_home_baseline",
+      "steps": [
+        {
+          "name": "记录现场确认关闭",
+          "request": {
+            "method": "PUT",
+            "path": "/demo/leave-check/tasks/task_demo_leave/manual-records/entry_door",
+            "body": {
+              "result": "confirmed_closed"
+            }
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "task_id": "task_demo_leave",
+              "manual_records": [
+                {
+                  "task_id": "task_demo_leave",
+                  "object_id": "entry_door",
+                  "result": "confirmed_closed",
+                  "confirmed_at": "2026-11-14T17:01:00+08:00"
+                }
+              ],
+              "objects": {
+                "entry_door": {
+                  "object_id": "entry_door",
+                  "room_id": "entryway",
+                  "source": "manual",
+                  "updated_at": "2026-11-14T17:01:00+08:00",
+                  "availability": "not_applicable",
+                  "state": "closed"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "单独确认本人已出门",
+          "request": {
+            "method": "PUT",
+            "path": "/demo/leave-check/tasks/task_demo_leave/user-away",
+            "body": {
+              "user_away": true
+            }
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "task_id": "task_demo_leave",
+              "user_away": true,
+              "occupancy": "occupied",
+              "retain_room_ids": [
+                "bedroom"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "entry_deferred",
+      "name": "玄关稍后核实仍可关灯",
+      "fixture_id": null,
+      "fixture_usage": "本轮新增联调样例。",
+      "starting_from": "cat_home_baseline",
+      "steps": [
+        {
+          "name": "记录稍后核实",
+          "request": {
+            "method": "PUT",
+            "path": "/demo/leave-check/tasks/task_demo_leave/manual-records/entry_door",
+            "body": {
+              "result": "deferred"
+            }
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "task_id": "task_demo_leave",
+              "manual_records": [
+                {
+                  "task_id": "task_demo_leave",
+                  "object_id": "entry_door",
+                  "result": "deferred",
+                  "confirmed_at": null
+                }
+              ],
+              "objects": {
+                "entry_door": {
+                  "object_id": "entry_door",
+                  "room_id": "entryway",
+                  "source": null,
+                  "updated_at": null,
+                  "availability": "not_applicable",
+                  "state": "unknown"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "只确认客厅灯",
+          "request": {
+            "method": "POST",
+            "path": "/demo/leave-check/tasks/task_demo_leave/executions",
+            "body": {
+              "plan_version": 1,
+              "confirmation_id": "confirm_demo_deferred",
+              "selected_item_ids": [
+                "item_living_room_light"
+              ]
+            }
+          },
+          "response": {
+            "http_status": 202,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "execution_id": "exec_demo_deferred",
+              "plan_version": 1,
+              "execution": [
+                {
+                  "item_id": "item_living_room_light",
+                  "object_id": "living_room_light",
+                  "status": "awaiting_readback",
+                  "command_accepted": true,
+                  "command_sent_at": "2026-11-14T17:02:00+08:00",
+                  "readback_state": null,
+                  "readback_at": null,
+                  "error": null
+                }
+              ],
+              "objects": {
+                "living_room_light": {
+                  "object_id": "living_room_light",
+                  "room_id": "living_room",
+                  "source": "device",
+                  "updated_at": "2026-11-14T17:00:00+08:00",
+                  "availability": "online",
+                  "state": "on",
+                  "power_state": "powered"
+                }
+              },
+              "manual_records": [
+                {
+                  "task_id": "task_demo_leave",
+                  "object_id": "entry_door",
+                  "result": "deferred",
+                  "confirmed_at": null
+                }
+              ],
+              "task_id": "task_demo_leave",
+              "selected_item_ids": [
+                "item_living_room_light"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "balcony_offline",
+      "name": "阳台门磁离线",
+      "fixture_id": "offline",
+      "fixture_usage": "参考离线画面。本轮仅模拟阳台离线，历史证据来自本样例已读取的基线门磁。",
+      "starting_from": "cat_home_baseline",
+      "steps": [
+        {
+          "name": "重新读取门磁，当前未知且有历史证据",
+          "request": {
+            "method": "POST",
+            "path": "/demo/leave-check/state/refresh",
+            "body": {
+              "template_id": "baseline_apartment",
+              "task_id": "task_demo_leave",
+              "object_ids": [
+                "balcony_door"
+              ]
+            }
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "objects": {
+                "balcony_door": {
+                  "object_id": "balcony_door",
+                  "room_id": "balcony",
+                  "source": null,
+                  "updated_at": null,
+                  "availability": "offline",
+                  "state": "unknown",
+                  "last_known_state": "closed",
+                  "last_known_at": "2026-11-14T17:00:00+08:00",
+                  "last_known_source": "sensor"
+                }
+              },
+              "checks": [
+                {
+                  "item_id": "item_balcony_door",
+                  "object_id": "balcony_door",
+                  "group": "check",
+                  "current_state": "unknown",
+                  "target_state": null,
+                  "action": "refresh",
+                  "reason": "阳台门磁离线，当前未知，可重新读取。",
+                  "selected": false,
+                  "evidence": {
+                    "source": null,
+                    "updated_at": null
+                  }
+                }
+              ],
+              "task_id": "task_demo_leave",
+              "plan_version": 1
+            }
+          },
+          "expected_ui": "阳台当前未知且离线；同一条检查行仅在历史区域显示最后一次由门磁读到合上及其时间。"
+        },
+        {
+          "name": "无历史证据时只返回未知",
+          "request": {
+            "method": "POST",
+            "path": "/demo/leave-check/state/refresh",
+            "body": {
+              "template_id": "baseline_apartment",
+              "task_id": "task_demo_leave",
+              "object_ids": [
+                "balcony_door"
+              ]
+            }
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "objects": {
+                "balcony_door": {
+                  "object_id": "balcony_door",
+                  "room_id": "balcony",
+                  "source": null,
+                  "updated_at": null,
+                  "availability": "offline",
+                  "state": "unknown",
+                  "last_known_state": null,
+                  "last_known_at": null,
+                  "last_known_source": null
+                }
+              },
+              "checks": [
+                {
+                  "item_id": "item_balcony_door",
+                  "object_id": "balcony_door",
+                  "group": "check",
+                  "current_state": "unknown",
+                  "target_state": null,
+                  "action": "refresh",
+                  "reason": "阳台门磁离线，当前未知，可重新读取。",
+                  "selected": false,
+                  "evidence": {
+                    "source": null,
+                    "updated_at": null
+                  }
+                }
+              ],
+              "task_id": "task_demo_leave",
+              "plan_version": 1
+            }
+          },
+          "alternative_from": {
+            "scenario_id": "cat_home_baseline",
+            "setup": "另开独立会话，沿用同构计划，门磁从首读起离线；设备状态和历史证据缓存均无该门的此前在线读数。"
+          },
+          "expected_ui": "阳台当前未知且离线，同一条检查行省略历史。"
+        }
+      ]
+    },
+    {
+      "id": "preconfirm_changed",
+      "name": "确认前状态变化",
+      "fixture_id": null,
+      "fixture_usage": "本轮新增联调样例。",
+      "starting_from": "cat_home_baseline",
+      "steps": [
+        {
+          "name": "提交原确认，执行前发现灯已由外部关掉",
+          "request": {
+            "method": "POST",
+            "path": "/demo/leave-check/tasks/task_demo_leave/executions",
+            "body": {
+              "plan_version": 1,
+              "confirmation_id": "confirm_demo_stale",
+              "selected_item_ids": [
+                "item_living_room_light"
+              ]
+            }
+          },
+          "response": {
+            "http_status": 409,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "error": {
+                "code": "RECONFIRM_REQUIRED",
+                "message": "客厅灯状态变化，请复核受影响条目。"
+              },
+              "affected_items": [
+                {
+                  "item_id": "item_living_room_light",
+                  "object_id": "living_room_light",
+                  "reason_code": "OBJECT_STATE_CHANGED"
+                }
+              ],
+              "plan": {
+                "task_id": "task_demo_leave",
+                "plan_version": 2,
+                "items": [
+                  {
+                    "item_id": "item_living_room_light",
+                    "object_id": "living_room_light",
+                    "group": "check",
+                    "current_state": "off",
+                    "target_state": null,
+                    "action": "none",
+                    "reason": "已读到灯关闭，无需发送指令。",
+                    "selected": false,
+                    "evidence": {
+                      "source": "device",
+                      "updated_at": "2026-11-14T17:01:00+08:00"
+                    }
+                  },
+                  {
+                    "item_id": "item_bedroom_ac",
+                    "object_id": "bedroom_ac",
+                    "group": "keep",
+                    "current_state": "on",
+                    "target_state": "on",
+                    "action": "none",
+                    "reason": "猫留在卧室，保留卧室空调。",
+                    "selected": false,
+                    "evidence": {
+                      "source": "device",
+                      "updated_at": "2026-11-14T17:00:00+08:00"
+                    }
+                  },
+                  {
+                    "item_id": "item_entry_door",
+                    "object_id": "entry_door",
+                    "group": "manual",
+                    "current_state": "unknown",
+                    "target_state": null,
+                    "action": "check_manually",
+                    "reason": "普通玄关门需要现场核实，模型姿态不能代替证据。",
+                    "selected": false,
+                    "evidence": {
+                      "source": null,
+                      "updated_at": null
+                    }
+                  },
+                  {
+                    "item_id": "item_balcony_door",
+                    "object_id": "balcony_door",
+                    "group": "check",
+                    "current_state": "closed",
+                    "target_state": null,
+                    "action": "none",
+                    "reason": "阳台门已合上，证据来自门磁。",
+                    "selected": false,
+                    "evidence": {
+                      "source": "sensor",
+                      "updated_at": "2026-11-14T17:00:00+08:00"
+                    }
+                  }
+                ]
+              },
+              "objects": {
+                "living_room_light": {
+                  "object_id": "living_room_light",
+                  "room_id": "living_room",
+                  "source": "device",
+                  "updated_at": "2026-11-14T17:01:00+08:00",
+                  "availability": "online",
+                  "state": "off",
+                  "power_state": "powered"
+                }
+              },
+              "task_id": "task_demo_leave"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "awaiting_readback",
+      "name": "指令已发出，等待回读",
+      "fixture_id": "awaiting_readback",
+      "fixture_usage": "复用待回读与灯仍亮的状态，新增请求标识与指令发送时间。",
+      "starting_from": "cat_home_baseline",
+      "steps": [
+        {
+          "name": "确认执行客厅灯",
+          "request": {
+            "method": "POST",
+            "path": "/demo/leave-check/tasks/task_demo_leave/executions",
+            "body": {
+              "plan_version": 1,
+              "confirmation_id": "confirm_demo_light",
+              "selected_item_ids": [
+                "item_living_room_light"
+              ]
+            }
+          },
+          "response": {
+            "http_status": 202,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "execution_id": "exec_demo_light",
+              "plan_version": 1,
+              "execution": [
+                {
+                  "item_id": "item_living_room_light",
+                  "object_id": "living_room_light",
+                  "status": "awaiting_readback",
+                  "command_accepted": true,
+                  "command_sent_at": "2026-11-14T17:02:00+08:00",
+                  "readback_state": null,
+                  "readback_at": null,
+                  "error": null
+                }
+              ],
+              "objects": {
+                "living_room_light": {
+                  "object_id": "living_room_light",
+                  "room_id": "living_room",
+                  "source": "device",
+                  "updated_at": "2026-11-14T17:00:00+08:00",
+                  "availability": "online",
+                  "state": "on",
+                  "power_state": "powered"
+                }
+              },
+              "task_id": "task_demo_leave",
+              "selected_item_ids": [
+                "item_living_room_light"
+              ]
+            }
+          }
+        },
+        {
+          "name": "原确认重复提交",
+          "request": {
+            "method": "POST",
+            "path": "/demo/leave-check/tasks/task_demo_leave/executions",
+            "body": {
+              "plan_version": 1,
+              "confirmation_id": "confirm_demo_light",
+              "selected_item_ids": [
+                "item_living_room_light"
+              ]
+            }
+          },
+          "response": {
+            "http_status": 202,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "execution_id": "exec_demo_light",
+              "plan_version": 1,
+              "execution": [
+                {
+                  "item_id": "item_living_room_light",
+                  "object_id": "living_room_light",
+                  "status": "awaiting_readback",
+                  "command_accepted": true,
+                  "command_sent_at": "2026-11-14T17:02:00+08:00",
+                  "readback_state": null,
+                  "readback_at": null,
+                  "error": null
+                }
+              ],
+              "objects": {
+                "living_room_light": {
+                  "object_id": "living_room_light",
+                  "room_id": "living_room",
+                  "source": "device",
+                  "updated_at": "2026-11-14T17:00:00+08:00",
+                  "availability": "online",
+                  "state": "on",
+                  "power_state": "powered"
+                }
+              },
+              "task_id": "task_demo_leave",
+              "selected_item_ids": [
+                "item_living_room_light"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "readback_success",
+      "name": "成功回读",
+      "fixture_id": "readback_confirmed",
+      "fixture_usage": "复用设备关闭、仍通电的读数形状，回读时间放在本样例下发之后。",
+      "starting_from": "awaiting_readback",
+      "steps": [
+        {
+          "name": "查询到有效 off 回读",
+          "request": {
+            "method": "GET",
+            "path": "/demo/leave-check/tasks/task_demo_leave/executions/exec_demo_light"
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "execution_id": "exec_demo_light",
+              "plan_version": 1,
+              "execution": [
+                {
+                  "item_id": "item_living_room_light",
+                  "object_id": "living_room_light",
+                  "status": "confirmed",
+                  "command_accepted": true,
+                  "command_sent_at": "2026-11-14T17:02:00+08:00",
+                  "readback_state": "off",
+                  "readback_at": "2026-11-14T17:02:04+08:00",
+                  "error": null
+                }
+              ],
+              "objects": {
+                "living_room_light": {
+                  "object_id": "living_room_light",
+                  "room_id": "living_room",
+                  "source": "device",
+                  "updated_at": "2026-11-14T17:02:04+08:00",
+                  "availability": "online",
+                  "state": "off",
+                  "power_state": "powered"
+                }
+              },
+              "task_id": "task_demo_leave"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "readback_timeout",
+      "name": "回读超时",
+      "fixture_id": null,
+      "fixture_usage": "本轮新增联调样例。",
+      "starting_from": "awaiting_readback",
+      "steps": [
+        {
+          "name": "超时后返回结果待核实",
+          "request": {
+            "method": "GET",
+            "path": "/demo/leave-check/tasks/task_demo_leave/executions/exec_demo_light"
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "execution_id": "exec_demo_light",
+              "plan_version": 1,
+              "execution": [
+                {
+                  "item_id": "item_living_room_light",
+                  "object_id": "living_room_light",
+                  "status": "unknown",
+                  "command_accepted": true,
+                  "command_sent_at": "2026-11-14T17:02:00+08:00",
+                  "readback_state": null,
+                  "readback_at": null,
+                  "error": {
+                    "code": "READBACK_TIMEOUT",
+                    "message": "结果待核实，请先刷新状态。"
+                  }
+                }
+              ],
+              "objects": {
+                "living_room_light": {
+                  "object_id": "living_room_light",
+                  "room_id": "living_room",
+                  "source": "device",
+                  "updated_at": "2026-11-14T17:00:00+08:00",
+                  "availability": "online",
+                  "state": "on",
+                  "power_state": "powered"
+                }
+              },
+              "retry_eligible_item_ids": [],
+              "task_id": "task_demo_leave"
+            }
+          }
+        },
+        {
+          "name": "超时后先刷新，若读到有效 off 则确认原执行",
+          "request": {
+            "method": "POST",
+            "path": "/demo/leave-check/state/refresh",
+            "body": {
+              "template_id": "baseline_apartment",
+              "task_id": "task_demo_leave",
+              "object_ids": [
+                "living_room_light"
+              ],
+              "execution_id": "exec_demo_light"
+            }
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "execution_id": "exec_demo_light",
+              "plan_version": 1,
+              "execution": [
+                {
+                  "item_id": "item_living_room_light",
+                  "object_id": "living_room_light",
+                  "status": "confirmed",
+                  "command_accepted": true,
+                  "command_sent_at": "2026-11-14T17:02:00+08:00",
+                  "readback_state": "off",
+                  "readback_at": "2026-11-14T17:03:00+08:00",
+                  "error": null
+                }
+              ],
+              "objects": {
+                "living_room_light": {
+                  "object_id": "living_room_light",
+                  "room_id": "living_room",
+                  "source": "device",
+                  "updated_at": "2026-11-14T17:03:00+08:00",
+                  "availability": "online",
+                  "state": "off",
+                  "power_state": "powered"
+                }
+              },
+              "retry_eligible_item_ids": [],
+              "task_id": "task_demo_leave"
+            }
+          }
+        },
+        {
+          "name": "超时后先刷新，若读到新鲜 on 则可重新确认",
+          "request": {
+            "method": "POST",
+            "path": "/demo/leave-check/state/refresh",
+            "body": {
+              "template_id": "baseline_apartment",
+              "task_id": "task_demo_leave",
+              "object_ids": [
+                "living_room_light"
+              ],
+              "execution_id": "exec_demo_light"
+            }
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "execution_id": "exec_demo_light",
+              "plan_version": 1,
+              "execution": [
+                {
+                  "item_id": "item_living_room_light",
+                  "object_id": "living_room_light",
+                  "status": "unknown",
+                  "command_accepted": true,
+                  "command_sent_at": "2026-11-14T17:02:00+08:00",
+                  "readback_state": "on",
+                  "readback_at": "2026-11-14T17:03:00+08:00",
+                  "error": {
+                    "code": "TARGET_NOT_OBSERVED",
+                    "message": "刷新时灯仍亮，可复核后重新确认关灯。"
+                  }
+                }
+              ],
+              "objects": {
+                "living_room_light": {
+                  "object_id": "living_room_light",
+                  "room_id": "living_room",
+                  "source": "device",
+                  "updated_at": "2026-11-14T17:03:00+08:00",
+                  "availability": "online",
+                  "state": "on",
+                  "power_state": "powered"
+                }
+              },
+              "retry_eligible_item_ids": [
+                "item_living_room_light"
+              ],
+              "task_id": "task_demo_leave"
+            }
+          },
+          "alternative_from": {
+            "scenario_id": "readback_timeout",
+            "after_step": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "partial_failure",
+      "name": "部分失败",
+      "fixture_id": "execution_failed",
+      "fixture_usage": "本轮新增双动作场景，参考 execution_failed 的单项拒绝形状。本场景需手动勾选空调。",
+      "starting_from": "everyone_away",
+      "steps": [
+        {
+          "name": "全员离家并手动选中客厅灯和卧室空调",
+          "request": {
+            "method": "POST",
+            "path": "/demo/leave-check/tasks/task_demo_leave/executions",
+            "body": {
+              "plan_version": 2,
+              "confirmation_id": "confirm_demo_both",
+              "selected_item_ids": [
+                "item_living_room_light",
+                "item_bedroom_ac"
+              ]
+            }
+          },
+          "response": {
+            "http_status": 202,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "execution_id": "exec_demo_both",
+              "plan_version": 2,
+              "execution": [
+                {
+                  "item_id": "item_living_room_light",
+                  "object_id": "living_room_light",
+                  "status": "pending",
+                  "command_accepted": null,
+                  "command_sent_at": null,
+                  "readback_state": null,
+                  "readback_at": null,
+                  "error": null
+                },
+                {
+                  "item_id": "item_bedroom_ac",
+                  "object_id": "bedroom_ac",
+                  "status": "pending",
+                  "command_accepted": null,
+                  "command_sent_at": null,
+                  "readback_state": null,
+                  "readback_at": null,
+                  "error": null
+                }
+              ],
+              "task_id": "task_demo_leave",
+              "selected_item_ids": [
+                "item_living_room_light",
+                "item_bedroom_ac"
+              ]
+            }
+          }
+        },
+        {
+          "name": "分别读取关灯成功与空调拒绝",
+          "request": {
+            "method": "GET",
+            "path": "/demo/leave-check/tasks/task_demo_leave/executions/exec_demo_both"
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "execution_id": "exec_demo_both",
+              "plan_version": 2,
+              "execution": [
+                {
+                  "item_id": "item_living_room_light",
+                  "object_id": "living_room_light",
+                  "status": "confirmed",
+                  "command_accepted": true,
+                  "command_sent_at": "2026-11-14T17:02:00+08:00",
+                  "readback_state": "off",
+                  "readback_at": "2026-11-14T17:02:04+08:00",
+                  "error": null
+                },
+                {
+                  "item_id": "item_bedroom_ac",
+                  "object_id": "bedroom_ac",
+                  "status": "failed",
+                  "command_accepted": false,
+                  "command_sent_at": "2026-11-14T17:02:01+08:00",
+                  "readback_state": null,
+                  "readback_at": null,
+                  "error": {
+                    "code": "DEVICE_REJECTED",
+                    "message": "模拟空调拒绝关机指令。"
+                  }
+                }
+              ],
+              "objects": {
+                "living_room_light": {
+                  "object_id": "living_room_light",
+                  "room_id": "living_room",
+                  "source": "device",
+                  "updated_at": "2026-11-14T17:02:04+08:00",
+                  "availability": "online",
+                  "state": "off",
+                  "power_state": "powered"
+                },
+                "bedroom_ac": {
+                  "object_id": "bedroom_ac",
+                  "room_id": "bedroom",
+                  "source": "device",
+                  "updated_at": "2026-11-14T17:00:00+08:00",
+                  "availability": "online",
+                  "state": "on",
+                  "power_state": "powered",
+                  "current_temperature_c": 27.3,
+                  "target_temperature_c": 26,
+                  "hvac_mode": "cool",
+                  "timer_state": "disabled",
+                  "timer_remaining_minutes": null
+                }
+              },
+              "task_id": "task_demo_leave"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "daily_excess",
+      "name": "日用电超额 2 kWh",
+      "fixture_id": "energy_excess",
+      "fixture_usage": "复用用电 12、月累计 128、参考线 10；补 10→12 的首次跨线过程。",
+      "starting_from": "cat_home_baseline",
+      "steps": [
+        {
+          "name": "采样 10 kWh，达到参考线但尚未超过",
+          "request": {
+            "method": "POST",
+            "path": "/demo/energy/samples",
+            "body": {
+              "template_id": "baseline_apartment",
+              "timezone": "Asia/Shanghai",
+              "meter_scope": "household_consumption",
+              "month_days": 30,
+              "monthly_limit_kwh": 300,
+              "measurements": {
+                "today_used_kwh": {
+                  "value": 10,
+                  "unit": "kWh",
+                  "source": "meter",
+                  "updated_at": "2026-11-14T17:01:00+08:00",
+                  "availability": "online",
+                  "data_kind": "simulated"
+                },
+                "month_used_kwh": {
+                  "value": 126,
+                  "unit": "kWh",
+                  "source": "meter",
+                  "updated_at": "2026-11-14T17:01:00+08:00",
+                  "availability": "online",
+                  "data_kind": "simulated"
+                }
+              }
+            }
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "energy": {
+                "timezone": "Asia/Shanghai",
+                "meter_scope": "household_consumption",
+                "month_days": 30,
+                "monthly_limit_kwh": 300,
+                "daily_reference_kwh": 10,
+                "reserve_pct": 30,
+                "objective": "reduce_consumption",
+                "alerts": [],
+                "measurements": {
+                  "instant_power_w": {
+                    "value": 1180,
+                    "unit": "W",
+                    "source": "meter",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "today_used_kwh": {
+                    "value": 10,
+                    "unit": "kWh",
+                    "source": "meter",
+                    "updated_at": "2026-11-14T17:01:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "month_used_kwh": {
+                    "value": 126,
+                    "unit": "kWh",
+                    "source": "meter",
+                    "updated_at": "2026-11-14T17:01:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "estimated_cost": {
+                    "value": null,
+                    "unit": "CNY",
+                    "source": null,
+                    "updated_at": null,
+                    "availability": "stale",
+                    "data_kind": "estimated",
+                    "basis_kind": "simulated",
+                    "assumptions": "当日累计量已更新，本次没有刷新费用估计。"
+                  },
+                  "soc_pct": {
+                    "value": 25,
+                    "unit": "%",
+                    "source": "storage",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "estimated_runtime_minutes": {
+                    "value": 90,
+                    "unit": "min",
+                    "source": "calculation",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "estimated",
+                    "basis_kind": "simulated",
+                    "assumptions": "演示容量 2 kWh × 当前电量 25% × 效率 90% ÷ 假设负载 300 W = 90 分钟。应急允许动用剩余电量，未扣日常保留线；实际容量与负载未验证。"
+                  }
+                }
+              },
+              "new_notice": false
+            }
+          }
+        },
+        {
+          "name": "采样 12 kWh，生成首次超额提醒",
+          "request": {
+            "method": "POST",
+            "path": "/demo/energy/samples",
+            "body": {
+              "template_id": "baseline_apartment",
+              "timezone": "Asia/Shanghai",
+              "meter_scope": "household_consumption",
+              "month_days": 30,
+              "monthly_limit_kwh": 300,
+              "measurements": {
+                "today_used_kwh": {
+                  "value": 12,
+                  "unit": "kWh",
+                  "source": "meter",
+                  "updated_at": "2026-11-14T17:02:00+08:00",
+                  "availability": "online",
+                  "data_kind": "simulated"
+                },
+                "month_used_kwh": {
+                  "value": 128,
+                  "unit": "kWh",
+                  "source": "meter",
+                  "updated_at": "2026-11-14T17:02:00+08:00",
+                  "availability": "online",
+                  "data_kind": "simulated"
+                }
+              }
+            }
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "energy": {
+                "timezone": "Asia/Shanghai",
+                "meter_scope": "household_consumption",
+                "month_days": 30,
+                "monthly_limit_kwh": 300,
+                "daily_reference_kwh": 10,
+                "reserve_pct": 30,
+                "objective": "reduce_consumption",
+                "alerts": [
+                  {
+                    "alert_id": "daily-demo-2026-11-14",
+                    "kind": "daily_budget_exceeded",
+                    "message": "比今日参考线多用 2 kWh。",
+                    "object_ids": [
+                      "living_room_light"
+                    ],
+                    "excess_kwh": 2
+                  }
+                ],
+                "measurements": {
+                  "instant_power_w": {
+                    "value": 1180,
+                    "unit": "W",
+                    "source": "meter",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "today_used_kwh": {
+                    "value": 12,
+                    "unit": "kWh",
+                    "source": "meter",
+                    "updated_at": "2026-11-14T17:02:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "month_used_kwh": {
+                    "value": 128,
+                    "unit": "kWh",
+                    "source": "meter",
+                    "updated_at": "2026-11-14T17:02:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "estimated_cost": {
+                    "value": null,
+                    "unit": "CNY",
+                    "source": null,
+                    "updated_at": null,
+                    "availability": "stale",
+                    "data_kind": "estimated",
+                    "basis_kind": "simulated",
+                    "assumptions": "当日累计量已更新，本次没有刷新费用估计。"
+                  },
+                  "soc_pct": {
+                    "value": 25,
+                    "unit": "%",
+                    "source": "storage",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "estimated_runtime_minutes": {
+                    "value": 90,
+                    "unit": "min",
+                    "source": "calculation",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "estimated",
+                    "basis_kind": "simulated",
+                    "assumptions": "演示容量 2 kWh × 当前电量 25% × 效率 90% ÷ 假设负载 300 W = 90 分钟。应急允许动用剩余电量，未扣日常保留线；实际容量与负载未验证。"
+                  }
+                }
+              },
+              "new_notice": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "daily_repeat",
+      "name": "同日重复采样",
+      "fixture_id": null,
+      "fixture_usage": "本轮新增去重样例。",
+      "starting_from": "daily_excess",
+      "steps": [
+        {
+          "name": "同日更新采样时间并复用提醒 ID",
+          "request": {
+            "method": "POST",
+            "path": "/demo/energy/samples",
+            "body": {
+              "template_id": "baseline_apartment",
+              "timezone": "Asia/Shanghai",
+              "meter_scope": "household_consumption",
+              "month_days": 30,
+              "monthly_limit_kwh": 300,
+              "measurements": {
+                "today_used_kwh": {
+                  "value": 12,
+                  "unit": "kWh",
+                  "source": "meter",
+                  "updated_at": "2026-11-14T17:03:00+08:00",
+                  "availability": "online",
+                  "data_kind": "simulated"
+                },
+                "month_used_kwh": {
+                  "value": 128,
+                  "unit": "kWh",
+                  "source": "meter",
+                  "updated_at": "2026-11-14T17:03:00+08:00",
+                  "availability": "online",
+                  "data_kind": "simulated"
+                }
+              }
+            }
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "energy": {
+                "timezone": "Asia/Shanghai",
+                "meter_scope": "household_consumption",
+                "month_days": 30,
+                "monthly_limit_kwh": 300,
+                "daily_reference_kwh": 10,
+                "reserve_pct": 30,
+                "objective": "reduce_consumption",
+                "alerts": [
+                  {
+                    "alert_id": "daily-demo-2026-11-14",
+                    "kind": "daily_budget_exceeded",
+                    "message": "比今日参考线多用 2 kWh。",
+                    "object_ids": [
+                      "living_room_light"
+                    ],
+                    "excess_kwh": 2
+                  }
+                ],
+                "measurements": {
+                  "instant_power_w": {
+                    "value": 1180,
+                    "unit": "W",
+                    "source": "meter",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "today_used_kwh": {
+                    "value": 12,
+                    "unit": "kWh",
+                    "source": "meter",
+                    "updated_at": "2026-11-14T17:03:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "month_used_kwh": {
+                    "value": 128,
+                    "unit": "kWh",
+                    "source": "meter",
+                    "updated_at": "2026-11-14T17:03:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "estimated_cost": {
+                    "value": null,
+                    "unit": "CNY",
+                    "source": null,
+                    "updated_at": null,
+                    "availability": "stale",
+                    "data_kind": "estimated",
+                    "basis_kind": "simulated",
+                    "assumptions": "当日累计量已更新，本次没有刷新费用估计。"
+                  },
+                  "soc_pct": {
+                    "value": 25,
+                    "unit": "%",
+                    "source": "storage",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "estimated_runtime_minutes": {
+                    "value": 90,
+                    "unit": "min",
+                    "source": "calculation",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "estimated",
+                    "basis_kind": "simulated",
+                    "assumptions": "演示容量 2 kWh × 当前电量 25% × 效率 90% ÷ 假设负载 300 W = 90 分钟。应急允许动用剩余电量，未扣日常保留线；实际容量与负载未验证。"
+                  }
+                }
+              },
+              "new_notice": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "no_energy_authorization",
+      "name": "超额但未授权自动省电",
+      "fixture_id": null,
+      "fixture_usage": "本轮新增预览和授权拒绝样例。",
+      "starting_from": "daily_excess",
+      "steps": [
+        {
+          "name": "查看省电计划",
+          "request": {
+            "method": "POST",
+            "path": "/demo/energy/plans",
+            "body": {
+              "template_id": "baseline_apartment",
+              "task_id": "task_demo_leave",
+              "alert_ids": [
+                "daily-demo-2026-11-14"
+              ],
+              "objective": "reduce_consumption"
+            }
+          },
+          "response": {
+            "http_status": 201,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "plan": {
+                "task_id": "task_demo_energy",
+                "plan_version": 1,
+                "items": [
+                  {
+                    "item_id": "item_living_room_light",
+                    "object_id": "living_room_light",
+                    "group": "action",
+                    "current_state": "on",
+                    "target_state": "off",
+                    "action": "turn_off",
+                    "reason": "今日用电比参考线多 2 kWh，客厅无人时可关灯。",
+                    "selected": false,
+                    "evidence": {
+                      "source": "device",
+                      "updated_at": "2026-11-14T17:00:00+08:00"
+                    }
+                  },
+                  {
+                    "item_id": "item_bedroom_ac",
+                    "object_id": "bedroom_ac",
+                    "group": "keep",
+                    "current_state": "on",
+                    "target_state": "on",
+                    "action": "none",
+                    "reason": "猫留在卧室，保留卧室空调。",
+                    "selected": false,
+                    "evidence": {
+                      "source": "device",
+                      "updated_at": "2026-11-14T17:00:00+08:00"
+                    }
+                  },
+                  {
+                    "item_id": "item_entry_door",
+                    "object_id": "entry_door",
+                    "group": "manual",
+                    "current_state": "unknown",
+                    "target_state": null,
+                    "action": "check_manually",
+                    "reason": "普通玄关门需要现场核实，模型姿态不能代替证据。",
+                    "selected": false,
+                    "evidence": {
+                      "source": null,
+                      "updated_at": null
+                    }
+                  },
+                  {
+                    "item_id": "item_balcony_door",
+                    "object_id": "balcony_door",
+                    "group": "check",
+                    "current_state": "closed",
+                    "target_state": null,
+                    "action": "none",
+                    "reason": "阳台门已合上，证据来自门磁。",
+                    "selected": false,
+                    "evidence": {
+                      "source": "sensor",
+                      "updated_at": "2026-11-14T17:00:00+08:00"
+                    }
+                  }
+                ]
+              },
+              "task_id": "task_demo_energy"
+            }
+          }
+        },
+        {
+          "name": "校验预授权缺失",
+          "request": {
+            "method": "POST",
+            "path": "/demo/energy/authorization/check",
+            "body": {
+              "template_id": "baseline_apartment",
+              "task_id": "task_demo_energy",
+              "plan_version": 1,
+              "alert_ids": [
+                "daily-demo-2026-11-14"
+              ],
+              "selected_item_ids": [
+                "item_living_room_light"
+              ],
+              "authorization_id": null
+            }
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "allowed": false,
+              "mode": "preview_only",
+              "reason_code": "AUTHORIZATION_REQUIRED",
+              "items": [
+                {
+                  "item_id": "item_living_room_light",
+                  "object_id": "living_room_light",
+                  "allowed": false,
+                  "reason_code": "AUTHORIZATION_REQUIRED"
+                }
+              ],
+              "task_id": "task_demo_energy"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "demo_reset",
+      "name": "演示复位",
+      "fixture_id": "baseline",
+      "fixture_usage": "复用基线对象、家庭与能源，清空任务状态和提醒去重记录。",
+      "starting_from": "readback_success",
+      "steps": [
+        {
+          "name": "复位当前演示会话",
+          "request": {
+            "method": "POST",
+            "path": "/demo/leave-check/reset",
+            "body": {
+              "template_id": "baseline_apartment"
+            }
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "schema_version": "0.5",
+              "intent_text": "我出门两小时，猫留在卧室。",
+              "user_away": false,
+              "occupancy": "occupied",
+              "retain_room_ids": [
+                "bedroom"
+              ],
+              "objects": {
+                "entry_door": {
+                  "object_id": "entry_door",
+                  "room_id": "entryway",
+                  "source": null,
+                  "updated_at": null,
+                  "availability": "not_applicable",
+                  "state": "unknown"
+                },
+                "balcony_door": {
+                  "object_id": "balcony_door",
+                  "room_id": "balcony",
+                  "source": "sensor",
+                  "updated_at": "2026-11-14T17:00:00+08:00",
+                  "availability": "online",
+                  "state": "closed"
+                },
+                "living_room_light": {
+                  "object_id": "living_room_light",
+                  "room_id": "living_room",
+                  "source": "device",
+                  "updated_at": "2026-11-14T17:00:00+08:00",
+                  "availability": "online",
+                  "state": "on",
+                  "power_state": "powered"
+                },
+                "bedroom_ac": {
+                  "object_id": "bedroom_ac",
+                  "room_id": "bedroom",
+                  "source": "device",
+                  "updated_at": "2026-11-14T17:00:00+08:00",
+                  "availability": "online",
+                  "state": "on",
+                  "power_state": "powered",
+                  "current_temperature_c": 27.3,
+                  "target_temperature_c": 26,
+                  "hvac_mode": "cool",
+                  "timer_state": "disabled",
+                  "timer_remaining_minutes": null
+                },
+                "home_battery": {
+                  "object_id": "home_battery",
+                  "room_id": null,
+                  "source": "device",
+                  "updated_at": "2026-11-14T17:00:00+08:00",
+                  "availability": "online",
+                  "soc_pct": 25,
+                  "reserve_pct": 30
+                }
+              },
+              "energy": {
+                "timezone": "Asia/Shanghai",
+                "meter_scope": "household_consumption",
+                "month_days": 30,
+                "monthly_limit_kwh": 300,
+                "daily_reference_kwh": 10,
+                "reserve_pct": 30,
+                "objective": "reduce_consumption",
+                "alerts": [],
+                "measurements": {
+                  "instant_power_w": {
+                    "value": 1180,
+                    "unit": "W",
+                    "source": "meter",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "today_used_kwh": {
+                    "value": 9,
+                    "unit": "kWh",
+                    "source": "meter",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "month_used_kwh": {
+                    "value": 125,
+                    "unit": "kWh",
+                    "source": "meter",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "estimated_cost": {
+                    "value": 6.3,
+                    "unit": "CNY",
+                    "source": "calculation",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "estimated",
+                    "basis_kind": "simulated",
+                    "assumptions": "演示假设今日 9 kWh 全部为电网购电，单一示例电价 0.70 元/kWh；非实际账单。"
+                  },
+                  "soc_pct": {
+                    "value": 25,
+                    "unit": "%",
+                    "source": "storage",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "estimated_runtime_minutes": {
+                    "value": 90,
+                    "unit": "min",
+                    "source": "calculation",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "estimated",
+                    "basis_kind": "simulated",
+                    "assumptions": "演示容量 2 kWh × 当前电量 25% × 效率 90% ÷ 假设负载 300 W = 90 分钟。应急允许动用剩余电量，未扣日常保留线；实际容量与负载未验证。"
+                  }
+                }
+              },
+              "capabilities": {
+                "entry_door": {
+                  "verification_scope": "simulation",
+                  "allowed_actions": [],
+                  "supports_delayed_start": null,
+                  "backup_circuit": "unknown",
+                  "source": "simulator",
+                  "updated_at": "2026-11-14T17:00:00+08:00"
+                },
+                "balcony_door": {
+                  "verification_scope": "simulation",
+                  "allowed_actions": [],
+                  "supports_delayed_start": null,
+                  "backup_circuit": "unknown",
+                  "source": "simulator",
+                  "updated_at": "2026-11-14T17:00:00+08:00"
+                },
+                "living_room_light": {
+                  "verification_scope": "simulation",
+                  "allowed_actions": [
+                    "turn_on",
+                    "turn_off"
+                  ],
+                  "supports_delayed_start": null,
+                  "backup_circuit": "connected",
+                  "source": "simulator",
+                  "updated_at": "2026-11-14T17:00:00+08:00"
+                },
+                "bedroom_ac": {
+                  "verification_scope": "simulation",
+                  "allowed_actions": [
+                    "turn_on",
+                    "turn_off"
+                  ],
+                  "supports_delayed_start": null,
+                  "backup_circuit": "connected",
+                  "source": "simulator",
+                  "updated_at": "2026-11-14T17:00:00+08:00"
+                },
+                "home_battery": {
+                  "verification_scope": "simulation",
+                  "allowed_actions": [],
+                  "supports_delayed_start": null,
+                  "backup_circuit": "unknown",
+                  "source": "simulator",
+                  "updated_at": "2026-11-14T17:00:00+08:00"
+                }
+              },
+              "execution": [],
+              "manual_records": [],
+              "context": {
+                "simulation_now": "2026-11-14T17:00:00+08:00",
+                "laundry_finish_by": null,
+                "room_occupancy": {
+                  "entryway": "empty",
+                  "living_room": "empty",
+                  "bedroom": "occupied",
+                  "balcony": "empty"
+                }
+              },
+              "plan": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "energy_during_readback",
+      "name": "等待回读期间收到能源超额",
+      "fixture_id": null,
+      "fixture_usage": "本轮新增联调样例。",
+      "starting_from": "awaiting_readback",
+      "steps": [
+        {
+          "name": "采样 10 kWh，达到参考线但尚未超过",
+          "request": {
+            "method": "POST",
+            "path": "/demo/energy/samples",
+            "body": {
+              "template_id": "baseline_apartment",
+              "timezone": "Asia/Shanghai",
+              "meter_scope": "household_consumption",
+              "month_days": 30,
+              "monthly_limit_kwh": 300,
+              "measurements": {
+                "today_used_kwh": {
+                  "value": 10,
+                  "unit": "kWh",
+                  "source": "meter",
+                  "updated_at": "2026-11-14T17:02:01+08:00",
+                  "availability": "online",
+                  "data_kind": "simulated"
+                },
+                "month_used_kwh": {
+                  "value": 126,
+                  "unit": "kWh",
+                  "source": "meter",
+                  "updated_at": "2026-11-14T17:02:01+08:00",
+                  "availability": "online",
+                  "data_kind": "simulated"
+                }
+              }
+            }
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "energy": {
+                "timezone": "Asia/Shanghai",
+                "meter_scope": "household_consumption",
+                "month_days": 30,
+                "monthly_limit_kwh": 300,
+                "daily_reference_kwh": 10,
+                "reserve_pct": 30,
+                "objective": "reduce_consumption",
+                "alerts": [],
+                "measurements": {
+                  "instant_power_w": {
+                    "value": 1180,
+                    "unit": "W",
+                    "source": "meter",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "today_used_kwh": {
+                    "value": 10,
+                    "unit": "kWh",
+                    "source": "meter",
+                    "updated_at": "2026-11-14T17:02:01+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "month_used_kwh": {
+                    "value": 126,
+                    "unit": "kWh",
+                    "source": "meter",
+                    "updated_at": "2026-11-14T17:02:01+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "estimated_cost": {
+                    "value": null,
+                    "unit": "CNY",
+                    "source": null,
+                    "updated_at": null,
+                    "availability": "stale",
+                    "data_kind": "estimated",
+                    "basis_kind": "simulated",
+                    "assumptions": "当日累计量已更新，本次没有刷新费用估计。"
+                  },
+                  "soc_pct": {
+                    "value": 25,
+                    "unit": "%",
+                    "source": "storage",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "estimated_runtime_minutes": {
+                    "value": 90,
+                    "unit": "min",
+                    "source": "calculation",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "estimated",
+                    "basis_kind": "simulated",
+                    "assumptions": "演示容量 2 kWh × 当前电量 25% × 效率 90% ÷ 假设负载 300 W = 90 分钟。应急允许动用剩余电量，未扣日常保留线；实际容量与负载未验证。"
+                  }
+                }
+              },
+              "new_notice": false
+            }
+          },
+          "expected_ui": "能源卡到达参考线，离家关灯的选择、执行记录与实况均保留。",
+          "step_id": 1
+        },
+        {
+          "name": "采样 12 kWh，生成首次超额提醒",
+          "request": {
+            "method": "POST",
+            "path": "/demo/energy/samples",
+            "body": {
+              "template_id": "baseline_apartment",
+              "timezone": "Asia/Shanghai",
+              "meter_scope": "household_consumption",
+              "month_days": 30,
+              "monthly_limit_kwh": 300,
+              "measurements": {
+                "today_used_kwh": {
+                  "value": 12,
+                  "unit": "kWh",
+                  "source": "meter",
+                  "updated_at": "2026-11-14T17:02:02+08:00",
+                  "availability": "online",
+                  "data_kind": "simulated"
+                },
+                "month_used_kwh": {
+                  "value": 128,
+                  "unit": "kWh",
+                  "source": "meter",
+                  "updated_at": "2026-11-14T17:02:02+08:00",
+                  "availability": "online",
+                  "data_kind": "simulated"
+                }
+              }
+            }
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "energy": {
+                "timezone": "Asia/Shanghai",
+                "meter_scope": "household_consumption",
+                "month_days": 30,
+                "monthly_limit_kwh": 300,
+                "daily_reference_kwh": 10,
+                "reserve_pct": 30,
+                "objective": "reduce_consumption",
+                "alerts": [
+                  {
+                    "alert_id": "daily-demo-2026-11-14",
+                    "kind": "daily_budget_exceeded",
+                    "message": "比今日参考线多用 2 kWh。",
+                    "object_ids": [
+                      "living_room_light"
+                    ],
+                    "excess_kwh": 2
+                  }
+                ],
+                "measurements": {
+                  "instant_power_w": {
+                    "value": 1180,
+                    "unit": "W",
+                    "source": "meter",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "today_used_kwh": {
+                    "value": 12,
+                    "unit": "kWh",
+                    "source": "meter",
+                    "updated_at": "2026-11-14T17:02:02+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "month_used_kwh": {
+                    "value": 128,
+                    "unit": "kWh",
+                    "source": "meter",
+                    "updated_at": "2026-11-14T17:02:02+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "estimated_cost": {
+                    "value": null,
+                    "unit": "CNY",
+                    "source": null,
+                    "updated_at": null,
+                    "availability": "stale",
+                    "data_kind": "estimated",
+                    "basis_kind": "simulated",
+                    "assumptions": "当日累计量已更新，本次没有刷新费用估计。"
+                  },
+                  "soc_pct": {
+                    "value": 25,
+                    "unit": "%",
+                    "source": "storage",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "simulated"
+                  },
+                  "estimated_runtime_minutes": {
+                    "value": 90,
+                    "unit": "min",
+                    "source": "calculation",
+                    "updated_at": "2026-11-14T17:00:00+08:00",
+                    "availability": "online",
+                    "data_kind": "estimated",
+                    "basis_kind": "simulated",
+                    "assumptions": "演示容量 2 kWh × 当前电量 25% × 效率 90% ÷ 假设负载 300 W = 90 分钟。应急允许动用剩余电量，未扣日常保留线；实际容量与负载未验证。"
+                  }
+                }
+              },
+              "new_notice": true
+            }
+          },
+          "expected_ui": "显示超额 2 kWh。客厅灯仍亮、关灯仍选中，原执行 exec_demo_light 保持等待回读。",
+          "step_id": 2
+        }
+      ]
+    },
+    {
+      "id": "balcony_refresh_with_check",
+      "name": "有阳台检查行时刷新门磁",
+      "fixture_id": null,
+      "fixture_usage": "本轮新增联调样例。",
+      "starting_from": "cat_home_baseline",
+      "steps": [
+        {
+          "name": "重新读取门磁，更新原检查行",
+          "request": {
+            "method": "POST",
+            "path": "/demo/leave-check/state/refresh",
+            "body": {
+              "template_id": "baseline_apartment",
+              "task_id": "task_demo_leave",
+              "object_ids": [
+                "balcony_door"
+              ]
+            }
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "task_id": "task_demo_leave",
+              "plan_version": 1,
+              "objects": {
+                "balcony_door": {
+                  "object_id": "balcony_door",
+                  "room_id": "balcony",
+                  "source": "sensor",
+                  "updated_at": "2026-11-14T17:01:00+08:00",
+                  "availability": "online",
+                  "state": "open"
+                }
+              },
+              "checks": [
+                {
+                  "item_id": "item_balcony_door",
+                  "object_id": "balcony_door",
+                  "group": "check",
+                  "current_state": "open",
+                  "target_state": null,
+                  "action": "none",
+                  "reason": "阳台门开启，可重新读取。",
+                  "selected": false,
+                  "evidence": {
+                    "source": "sensor",
+                    "updated_at": "2026-11-14T17:01:00+08:00"
+                  }
+                }
+              ]
+            }
+          },
+          "expected_ui": "同一 item_balcony_door 行从已合上更新为开启，显示新的门磁证据时间。阳台结果共一条，选中动作共一项。",
+          "step_id": 1
+        }
+      ]
+    },
+    {
+      "id": "balcony_refresh_without_check",
+      "name": "无阳台检查行时显示只读检查",
+      "fixture_id": null,
+      "fixture_usage": "本轮新增联调样例。",
+      "starting_from": "cat_home_baseline",
+      "steps": [
+        {
+          "name": "生成无阳台 check 的替代计划",
+          "request": {
+            "method": "POST",
+            "path": "/demo/leave-check/plans",
+            "body": {
+              "template_id": "baseline_apartment",
+              "intent_text": "我出门两小时，猫留在卧室。",
+              "occupancy": "occupied",
+              "retain_room_ids": [
+                "bedroom"
+              ],
+              "room_occupancy": {
+                "entryway": "empty",
+                "living_room": "empty",
+                "bedroom": "occupied",
+                "balcony": "empty"
+              },
+              "task_id": "task_demo_leave"
+            }
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "task_id": "task_demo_leave",
+              "plan": {
+                "task_id": "task_demo_leave",
+                "plan_version": 2,
+                "items": [
+                  {
+                    "item_id": "item_living_room_light",
+                    "object_id": "living_room_light",
+                    "group": "action",
+                    "current_state": "on",
+                    "target_state": "off",
+                    "action": "turn_off",
+                    "reason": "示例声明客厅无人使用，可关闭客厅灯。",
+                    "selected": true,
+                    "evidence": {
+                      "source": "device",
+                      "updated_at": "2026-11-14T17:00:00+08:00"
+                    }
+                  },
+                  {
+                    "item_id": "item_bedroom_ac",
+                    "object_id": "bedroom_ac",
+                    "group": "keep",
+                    "current_state": "on",
+                    "target_state": "on",
+                    "action": "none",
+                    "reason": "猫留在卧室，保留卧室空调。",
+                    "selected": false,
+                    "evidence": {
+                      "source": "device",
+                      "updated_at": "2026-11-14T17:00:00+08:00"
+                    }
+                  },
+                  {
+                    "item_id": "item_entry_door",
+                    "object_id": "entry_door",
+                    "group": "manual",
+                    "current_state": "unknown",
+                    "target_state": null,
+                    "action": "check_manually",
+                    "reason": "普通玄关门需要现场核实，模型姿态不能代替证据。",
+                    "selected": false,
+                    "evidence": {
+                      "source": null,
+                      "updated_at": null
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "expected_ui": "使用已有有效门磁读数显示一张阳台只读检查卡，初始为已合上。选中动作共一项。",
+          "step_id": 1
+        },
+        {
+          "name": "重新读取门磁，只返回对象增量",
+          "request": {
+            "method": "POST",
+            "path": "/demo/leave-check/state/refresh",
+            "body": {
+              "template_id": "baseline_apartment",
+              "task_id": "task_demo_leave",
+              "object_ids": [
+                "balcony_door"
+              ]
+            }
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "objects": {
+                "balcony_door": {
+                  "object_id": "balcony_door",
+                  "room_id": "balcony",
+                  "source": "sensor",
+                  "updated_at": "2026-11-14T17:01:00+08:00",
+                  "availability": "online",
+                  "state": "open"
+                }
+              }
+            }
+          },
+          "expected_ui": "同一张阳台只读检查卡更新为开启，显示新的证据时间。阳台结果共一条，选中动作共一项。",
+          "step_id": 2
+        }
+      ]
+    },
+    {
+      "id": "object_readback_first",
+      "name": "样例 A：对象读数先到",
+      "fixture_id": null,
+      "fixture_usage": "本轮新增联调样例。",
+      "starting_from": "awaiting_readback",
+      "steps": [
+        {
+          "name": "先收到独立的有效 off 对象读数",
+          "request": {
+            "method": "POST",
+            "path": "/demo/leave-check/state/refresh",
+            "body": {
+              "template_id": "baseline_apartment",
+              "task_id": "task_demo_leave",
+              "object_ids": [
+                "living_room_light"
+              ]
+            }
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "objects": {
+                "living_room_light": {
+                  "object_id": "living_room_light",
+                  "room_id": "living_room",
+                  "source": "device",
+                  "updated_at": "2026-11-14T17:02:04+08:00",
+                  "availability": "online",
+                  "state": "off",
+                  "power_state": "powered"
+                }
+              }
+            }
+          },
+          "expected_ui": "3D 和设备详情显示关灯，任务行仍为 awaiting_readback。",
+          "step_id": 1
+        },
+        {
+          "name": "随后查询到执行确认",
+          "request": {
+            "method": "GET",
+            "path": "/demo/leave-check/tasks/task_demo_leave/executions/exec_demo_light"
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "task_id": "task_demo_leave",
+              "execution_id": "exec_demo_light",
+              "plan_version": 1,
+              "execution": [
+                {
+                  "item_id": "item_living_room_light",
+                  "object_id": "living_room_light",
+                  "status": "confirmed",
+                  "command_accepted": true,
+                  "command_sent_at": "2026-11-14T17:02:00+08:00",
+                  "readback_state": "off",
+                  "readback_at": "2026-11-14T17:02:04+08:00",
+                  "error": null
+                }
+              ]
+            }
+          },
+          "expected_ui": "任务行变为已确认。3D 和设备详情继续显示已收到的 off，无待同步提示。",
+          "step_id": 2
+        }
+      ]
+    },
+    {
+      "id": "execution_confirmation_first",
+      "name": "样例 B：执行确认先到",
+      "fixture_id": null,
+      "fixture_usage": "本轮新增联调样例。",
+      "starting_from": "awaiting_readback",
+      "steps": [
+        {
+          "name": "先查询到执行确认，尚无对象增量",
+          "request": {
+            "method": "GET",
+            "path": "/demo/leave-check/tasks/task_demo_leave/executions/exec_demo_light"
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "task_id": "task_demo_leave",
+              "execution_id": "exec_demo_light",
+              "plan_version": 1,
+              "execution": [
+                {
+                  "item_id": "item_living_room_light",
+                  "object_id": "living_room_light",
+                  "status": "confirmed",
+                  "command_accepted": true,
+                  "command_sent_at": "2026-11-14T17:02:00+08:00",
+                  "readback_state": "off",
+                  "readback_at": "2026-11-14T17:02:04+08:00",
+                  "error": null
+                }
+              ]
+            }
+          },
+          "expected_ui": "任务行已确认，显示「最新设备读数待同步」；3D 和设备详情仍显示有效的 on。",
+          "step_id": 1
+        },
+        {
+          "name": "对象更新尚未到达，重新读取只得到过期状态",
+          "request": {
+            "method": "POST",
+            "path": "/demo/leave-check/state/refresh",
+            "body": {
+              "template_id": "baseline_apartment",
+              "task_id": "task_demo_leave",
+              "object_ids": [
+                "living_room_light"
+              ]
+            }
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "objects": {
+                "living_room_light": {
+                  "object_id": "living_room_light",
+                  "room_id": "living_room",
+                  "source": null,
+                  "updated_at": null,
+                  "availability": "stale",
+                  "state": "unknown",
+                  "power_state": "unknown"
+                }
+              }
+            }
+          },
+          "expected_ui": "任务行保持已确认和待同步提示，3D 和设备详情显示未知。",
+          "step_id": 2
+        },
+        {
+          "name": "随后收到有效 off 对象读数",
+          "request": {
+            "method": "POST",
+            "path": "/demo/leave-check/state/refresh",
+            "body": {
+              "template_id": "baseline_apartment",
+              "task_id": "task_demo_leave",
+              "object_ids": [
+                "living_room_light"
+              ]
+            }
+          },
+          "response": {
+            "http_status": 200,
+            "body": {
+              "template_id": "baseline_apartment",
+              "demo_mode": true,
+              "objects": {
+                "living_room_light": {
+                  "object_id": "living_room_light",
+                  "room_id": "living_room",
+                  "source": "device",
+                  "updated_at": "2026-11-14T17:02:04+08:00",
+                  "availability": "online",
+                  "state": "off",
+                  "power_state": "powered"
+                }
+              }
+            }
+          },
+          "expected_ui": "3D 和设备详情更新为关灯；任务保持已确认，待同步提示消失。",
+          "step_id": 3
+        }
+      ]
+    }
+  ]
+}

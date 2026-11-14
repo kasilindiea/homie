@@ -1,0 +1,55 @@
+{
+  "template_id": "baseline_apartment",
+  "model_version": "v0.1",
+  "runtime_release": "state-driven-v0.3",
+  "shared_schema": "v0.5",
+  "backend_draft": "v0.2",
+  "mode": "local-demo",
+  "files": [
+    {
+      "path": "house-modeling\\releases\\v0.1\\future-home-v0.1.glb",
+      "sha256": "d6c11ed48e328962c6a547397487e104a9fa40aa3363c0215792f72ad90b1c27",
+      "bytes": 3448216
+    },
+    {
+      "path": "house-modeling\\releases\\v0.1\\object-map.actual.json",
+      "sha256": "dab2b3fc555808746e99df821b4e663e0100a15a2a797525799f4d7ca877a46a",
+      "bytes": 8071
+    },
+    {
+      "path": "house-modeling\\viewer\\interaction-runtime.js",
+      "sha256": "2d55b3f02527d71c8bdab5150059f108d128cce3a4d65113bdb66cca32fcbc87",
+      "bytes": 11540
+    },
+    {
+      "path": "house-modeling\\viewer\\state-provider.js",
+      "sha256": "299eeb6f38ff171459751accb5b5758e23fa7e2cf4242892f7558b3ddecd0b04",
+      "bytes": 16005
+    },
+    {
+      "path": "house-modeling\\viewer\\state-bridge.js",
+      "sha256": "2502900c45ddeef545eb29f7543a0bc6f545495fedb60507e4149206e2b1ac59",
+      "bytes": 3871
+    },
+    {
+      "path": "house-modeling\\viewer\\vendor\\three.module.js",
+      "sha256": "76dea8151bc9352aef3528b4262e249b2604f62543828328db978d060d61a495",
+      "bytes": 1272972
+    },
+    {
+      "path": "backend\\离家检查后端接口草案.md",
+      "sha256": "0ac5e8e5a9b2b5b89d37b33f190b406056838aa30415be0b715baa3f3d8a71ca",
+      "bytes": 18962
+    },
+    {
+      "path": "backend\\离家检查联调样例.json",
+      "sha256": "9865e9d5e24a567f4bab0dadfce6a5609874c25a1dc84b827d9ba36f6bc287a6",
+      "bytes": 101385
+    },
+    {
+      "path": "未来家庭离家检查对接约定.md",
+      "sha256": "f75a75698192b19bee0ab6df026a1215f66117ad497826801163b77fa98831b2",
+      "bytes": 26464
+    }
+  ]
+}
