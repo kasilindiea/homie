@@ -124,6 +124,7 @@ jobs:
                   "signingCertificate": "Apple Distribution",
                   "provisioningProfiles": {os.environ["BUNDLE_ID"]: sys.argv[2]},
                   "manageAppVersionAndBuildNumber": False,
+                  "generateAppStoreInformation": True,
               }, output)
           PY
 
