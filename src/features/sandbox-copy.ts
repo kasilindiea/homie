@@ -1,6 +1,7 @@
 import { getLocale } from '../i18n';
 
 const english: Record<string, string> = {
+  '设备列表和演示任务仍可使用，请重试。': 'Devices and demo tasks are still available. Please retry.',
   '未来家庭': 'FUTURE HOME', '离家检查': 'Away check', '布局演示': 'Layout demo',
   '演示数据': 'Demo data', '场景占位': 'Scene placeholder', '全屋复位': 'Reset view',
   '固定小公寓 · 场景示意': 'Small apartment · illustrative layout',

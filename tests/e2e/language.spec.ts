@@ -55,7 +55,7 @@ for (const width of [390, 360]) {
     test.afterEach(() => expect(runtimeErrors).toEqual([]));
 
     test('switches both languages, retains legacy furniture, and remembers English after logout', async ({ page }) => {
-      await expect(page).toHaveTitle('homie');
+      await expect(page).toHaveTitle('Homie');
       await expect(page.getByRole('heading', { name: '我的家具', exact: true })).toBeVisible();
       await tab(page, '账号');
       await expect(page.locator('.page-header .header-logo')).toHaveCount(0);
@@ -75,7 +75,7 @@ for (const width of [390, 360]) {
       await expect(page.getByLabel('Language', { exact: true })).toHaveValue('en');
       await expect(page.getByLabel('Display name', { exact: true })).toHaveValue('小栖 Lee');
       await expect(page.getByLabel('Default room', { exact: true })).toHaveValue('Living room');
-      await expect(page.getByRole('heading', { name: 'About homie', exact: true })).toBeVisible();
+      await expect(page.getByRole('heading', { name: 'About Homie', exact: true })).toBeVisible();
       await noOverflow(page);
       await screenshot(page, 'language-account-en', width);
 

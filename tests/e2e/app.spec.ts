@@ -1,8 +1,8 @@
 import { expect, test, type Page } from '@playwright/test';
 
-async function login(page: Page) {
-  await page.getByLabel('开发者账号', { exact: true }).fill('aaaa');
-  await page.getByLabel('登录密码', { exact: true }).fill('bbbb');
+async function login(page: Page, username = 'aaaa', password = 'bbbb') {
+  await page.getByLabel('开发者账号', { exact: true }).fill(username);
+  await page.getByLabel('登录密码', { exact: true }).fill(password);
   await page.getByRole('button', { name: '进入我的家', exact: true }).click();
   await expect(page.getByRole('heading', { name: '我的家具', exact: true })).toBeVisible();
 }
@@ -118,6 +118,30 @@ for (const width of [390, 360]) {
       await page.reload();
       await expect(page.getByText('家的故事，从第一件家具开始', { exact: true })).toBeVisible();
       await expect(page.getByRole('button', { name: '查看阅读角台灯', exact: true })).toHaveCount(0);
+    });
+
+    test('supports the second developer account without mixing passwords or losing household records', async ({ page }) => {
+      await expect(page).toHaveTitle('Homie');
+      await expect(page.locator('.brand-word')).toHaveText('Homie');
+      await login(page);
+      await addFurniture(page, '两个账号共享的台灯');
+      const household = await page.evaluate(() => JSON.parse(localStorage.getItem('homing.app.v1')!).furniture);
+      await page.locator('.bottom-nav [data-tab="account"]').click();
+      await page.getByRole('button', { name: '退出登录', exact: true }).click();
+      await page.getByLabel('开发者账号', { exact: true }).fill('cccc');
+      await page.getByLabel('登录密码', { exact: true }).fill('bbbb');
+      await page.getByRole('button', { name: '进入我的家', exact: true }).click();
+      await expect(page.getByRole('alert')).toHaveText('账号或密码不正确');
+      await login(page, 'cccc', 'dddd');
+      await expect(page.getByRole('button', { name: '查看两个账号共享的台灯', exact: true })).toBeVisible();
+      await page.reload();
+      await expect(page.getByRole('heading', { name: '我的家具', exact: true })).toBeVisible();
+      expect(await page.evaluate(() => JSON.parse(localStorage.getItem('homing.app.v1')!).session.username)).toBe('cccc');
+      expect(await page.evaluate(() => JSON.parse(localStorage.getItem('homing.app.v1')!).furniture)).toEqual(household);
+      await page.locator('.bottom-nav [data-tab="account"]').click();
+      await page.getByRole('button', { name: '退出登录', exact: true }).click();
+      await login(page);
+      expect(await page.evaluate(() => JSON.parse(localStorage.getItem('homing.app.v1')!).furniture)).toEqual(household);
     });
 
     test('native Back closes the sheet and returns secondary tabs to furniture', async ({ page }) => {

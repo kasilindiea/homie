@@ -16,12 +16,12 @@ describe('sandbox presentation boundaries', () => {
     expect(getDemoReading('sensor')).toMatchObject({ energyKwh: null, powerW: null });
   });
 
-  it('provides a placeholder, loading state and failure state without enabling a fake retry', () => {
+  it('provides a placeholder, loading state and a retryable failure state', () => {
     expect(renderSandboxScene()).toContain('<svg');
     expect(renderSandboxScene('loading')).toContain('role="status"');
     expect(renderSandboxScene('loading')).toContain('正在加载场景');
     expect(renderSandboxScene('error')).toContain('场景未能加载');
-    expect(renderSandboxScene('error')).toMatch(/data-sandbox-unavailable\s+disabled/);
+    expect(renderSandboxScene('error')).toContain('data-sandbox-action="retry-scene"');
   });
 
   it('stops late scene updates after the mount is disposed', () => {

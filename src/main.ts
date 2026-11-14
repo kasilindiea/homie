@@ -28,21 +28,21 @@ function toast(text: string) {
 }
 
 function brand(compact = false) {
-  return `<div class="brand${compact ? ' brand-compact' : ''}"><span class="brand-mark">${icon('home')}</span><span class="brand-word">homie</span></div>`;
+  return `<div class="brand${compact ? ' brand-compact' : ''}"><span class="brand-mark">${icon('home')}</span><span class="brand-word">Homie</span></div>`;
 }
 
 function loginPage() {
   root.innerHTML = `<main class="app-shell login-shell">
     <header class="login-header">${brand()}<span class="edition">${t('家的新日常')}</span></header>
     <section class="login-hero"><span class="eyebrow">${t('多一点家的感觉')}</span><h1>${t('好好安放，')}<br />${t('每一份生活。')}</h1><p>${t('从一件家具开始，慢慢构建你的家。')}</p>${roomIllustration('login-room')}</section>
-    <section class="login-panel" aria-labelledby="login-title"><div class="panel-heading"><div><h2 id="login-title">${t('欢迎回家')}</h2><p>${t('使用开发者账号登录 homie')}</p></div><span class="small-shield">${icon('shield')}</span></div>
+    <section class="login-panel" aria-labelledby="login-title"><div class="panel-heading"><div><h2 id="login-title">${t('欢迎回家')}</h2><p>${t('使用开发者账号登录 Homie')}</p></div><span class="small-shield">${icon('shield')}</span></div>
       <form id="login-form" novalidate>
         <label class="field-label" for="username">${t('开发者账号')}</label><div class="input-wrap">${icon('user')}<input id="username" name="username" type="text" autocomplete="username" placeholder="${t('请输入账号')}" required maxlength="100" autocapitalize="none" spellcheck="false" /></div>
         <label class="field-label" for="password">${t('登录密码')}</label><div class="input-wrap">${icon('lock')}<input id="password" name="password" type="password" autocomplete="current-password" placeholder="${t('请输入密码')}" required maxlength="200" /><button class="icon-button password-toggle" type="button" data-action="toggle-password" aria-label="${t('显示密码')}" aria-pressed="false">${icon('eye')}</button></div>
         <p id="login-error" class="form-error" role="alert"></p>
         <button class="button button-primary login-submit" type="submit">${t('进入我的家')}${icon('arrow')}</button>
       </form>
-    </section><footer class="login-footer"><span class="tiny-dot"></span>${t('开发者专属访问')}<span class="footer-divider">/</span>V0.3.0</footer>
+    </section><footer class="login-footer"><span class="tiny-dot"></span>${t('开发者专属访问')}<span class="footer-divider">/</span>V0.4.0</footer>
   </main>`;
   document.querySelector<HTMLFormElement>('#login-form')!.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -106,7 +106,7 @@ function accountPage() {
   const { settings, session, furniture } = store.getState();
   return `${topHeader('账号', '属于你的家', '')}
     <section class="profile-card"><div class="profile-avatar">${icon('user')}<span>${icon('check')}</span></div><div><span class="developer-badge">${t('开发者')}</span><h2>${escapeHtml(settings.nickname)}</h2><p>${escapeHtml(session?.username ?? '')}</p></div><span class="profile-leaf">${icon('leaf')}</span></section>
-    <section class="settings-section" id="about-section"><div class="section-heading"><h2>${t('关于 homie')}</h2></div><div class="about-card"><div class="about-row"><span>${icon('home')}${t('当前版本')}</span><span>0.3.0</span></div><div class="about-row"><span>${icon('sofa')}${t('已添加家具')}</span><span>${t('{count} 件', { count: furniture.length })}</span></div><div class="about-row"><span>${icon('shield')}${t('数据存储')}</span><span>${t('当前设备')}</span></div></div><p class="settings-note">${t('家具和设置保存在当前设备，退出登录不会删除。卸载应用或清除数据会移除这些记录。')}</p><p class="account-signature">homie · ${t('让生活，安然有序。')}</p></section>
+    <section class="settings-section" id="about-section"><div class="section-heading"><h2>${t('关于 Homie')}</h2></div><div class="about-card"><div class="about-row"><span>${icon('home')}${t('当前版本')}</span><span>0.4.0</span></div><div class="about-row"><span>${icon('sofa')}${t('已添加家具')}</span><span>${t('{count} 件', { count: furniture.length })}</span></div><div class="about-row"><span>${icon('shield')}${t('数据存储')}</span><span>${t('当前设备')}</span></div></div><p class="settings-note">${t('家具和设置保存在当前设备，退出登录不会删除。卸载应用或清除数据会移除这些记录。')}</p><p class="account-signature">Homie · ${t('让生活，安然有序。')}</p></section>
     <section class="settings-section" id="settings-section"><div class="section-heading"><h2>${t('我的设置')}</h2>${icon('settings')}</div><form id="settings-form" class="settings-card" novalidate>
       <label class="field-label" for="nickname">${t('显示名称')}</label><input class="plain-input" id="nickname" name="nickname" value="${escapeHtml(settings.nickname)}" placeholder="${t('你希望我们如何称呼你')}" maxlength="24" required />
       <label class="field-label" for="default-room">${t('默认添加房间')}</label><input class="plain-input" id="default-room" name="defaultRoom" value="${escapeHtml(roomLabel(settings.defaultRoom))}" list="settings-rooms" maxlength="20" required /><datalist id="settings-rooms">${DEFAULT_ROOMS.map((room) => `<option value="${escapeHtml(roomLabel(room))}"></option>`).join('')}</datalist><p class="field-hint">${t('添加家具时自动选择，也可以随时更改。')}</p>
@@ -119,7 +119,7 @@ function render() {
   unmountFeature?.();
   unmountFeature = undefined;
   document.documentElement.lang = getLocale();
-  document.title = 'homie';
+  document.title = 'Homie';
   if (!store.getState().session) { loginPage(); return; }
   const content = activeTab === 'add' ? furniturePage() : activeTab === 'account' ? accountPage() : activeTab === 'sandbox' ? renderSandbox() : importPage();
   root.innerHTML = `<div class="app-shell"><main class="main-content" id="main-content">${content}</main>${navigation()}</div>`;

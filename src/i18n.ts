@@ -6,7 +6,7 @@ try { if (localStorage.getItem(LOCALE_KEY) === 'en') locale = 'en'; } catch { /*
 const english: Record<string, string> = {
   '家的新日常': 'A new everyday at home', '多一点家的感觉': 'A LITTLE MORE AT HOME',
   '好好安放，': 'A place for', '每一份生活。': 'the life you love.', '从一件家具开始，慢慢构建你的家。': 'Build your home, one piece at a time.',
-  '欢迎回家': 'Welcome home', '使用开发者账号登录 homie': 'Sign in to homie with your developer account',
+  '欢迎回家': 'Welcome home', '使用开发者账号登录 Homie': 'Sign in to Homie with your developer account',
   '开发者账号': 'Developer account', '请输入账号': 'Enter your account', '登录密码': 'Password', '请输入密码': 'Enter your password',
   '显示密码': 'Show password', '隐藏密码': 'Hide password', '进入我的家': 'Enter my home', '开发者专属访问': 'Developer access',
   '请填写账号和密码': 'Enter your account and password.', '添加': 'Add', '沙盒': 'Sandbox', '导入': 'Import', '账号': 'Account', '主导航': 'Main navigation',
@@ -29,7 +29,7 @@ const english: Record<string, string> = {
   '属于你的家': 'A HOME THAT IS YOURS', '开发者': 'Developer', '我的设置': 'Settings', '显示名称': 'Display name', '你希望我们如何称呼你': 'What should we call you?',
   '默认添加房间': 'Default room', '添加家具时自动选择，也可以随时更改。': 'Preselected for new furniture. You can change it any time.',
   '界面语言': 'Language', '切换后立即保存，下次打开仍会保留。': 'Applied and saved immediately for your next visit.', '保存设置': 'Save settings', '设置已保存': 'Settings saved', '语言已切换': 'Language updated',
-  '关于 homie': 'About homie', '当前版本': 'Version', '已添加家具': 'Furniture added', '{count} 件': '{count}', '数据存储': 'Data storage', '当前设备': 'This device',
+  '关于 Homie': 'About Homie', '当前版本': 'Version', '已添加家具': 'Furniture added', '{count} 件': '{count}', '数据存储': 'Data storage', '当前设备': 'This device',
   '家具和设置保存在当前设备，退出登录不会删除。卸载应用或清除数据会移除这些记录。': 'Furniture and settings stay on this device after sign-out. Uninstalling the app or clearing its data removes these records.',
   '退出登录': 'Sign out', '让生活，安然有序。': 'A little order. A lot of home.',
   '这件家具已不存在': 'This piece no longer exists.', '让家具更懂你': 'MAKE IT YOURS', '为家添一件新家具': 'A NEW PIECE OF HOME', '编辑家具': 'Edit furniture', '关闭': 'Close',

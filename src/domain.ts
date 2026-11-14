@@ -89,7 +89,7 @@ interface StoredState {
 
 export interface AppStoreOptions {
   storage?: StorageAdapter;
-  credentials?: Credentials;
+  credentials?: Credentials | readonly Credentials[];
   now?: () => Date;
   createId?: () => string;
 }
@@ -177,12 +177,15 @@ function readState(raw: string): StoredState {
   };
 }
 
-function defaultCredentials(): Credentials {
-  const env = (import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env;
-  return {
-    username: env?.VITE_DEVELOPER_USERNAME || 'aaaa',
-    password: env?.VITE_DEVELOPER_PASSWORD || 'bbbb',
-  };
+function defaultCredentials(): readonly Credentials[] {
+  const env = import.meta.env as Record<string, string | undefined> | undefined;
+  const configured = [
+    [env?.VITE_DEVELOPER_USERNAME, env?.VITE_DEVELOPER_PASSWORD],
+    [env?.VITE_DEVELOPER_USERNAME_2, env?.VITE_DEVELOPER_PASSWORD_2],
+  ].filter(([username, password]) => username !== undefined || password !== undefined);
+  // An explicit build configuration replaces the defaults, just like options.credentials.
+  if (configured.length) return configured.map(([username, password]) => ({ username: username ?? '', password: password ?? '' }));
+  return [{ username: 'aaaa', password: 'bbbb' }, { username: 'cccc', password: 'dddd' }];
 }
 
 function browserStorage(): StorageAdapter {
@@ -195,8 +198,12 @@ function browserStorage(): StorageAdapter {
 
 export function createAppStore(options: AppStoreOptions = {}): AppStore {
   const storage = options.storage ?? browserStorage();
-  const credentials = options.credentials ?? defaultCredentials();
-  if (!credentials.username.trim() || !credentials.password) throw new Error('开发者登录配置不完整');
+  const configured = options.credentials ?? defaultCredentials();
+  const credentials: readonly Credentials[] = Array.isArray(configured) ? configured : [configured as Credentials];
+  if (!credentials.length || credentials.some((account) => !account.username.trim() || !account.password)
+    || new Set(credentials.map((account) => account.username)).size !== credentials.length) {
+    throw new Error('开发者登录配置不完整');
+  }
   const now = options.now ?? (() => new Date());
   const createId = options.createId ?? (() => globalThis.crypto.randomUUID());
   let state = emptyState();
@@ -207,7 +214,7 @@ export function createAppStore(options: AppStoreOptions = {}): AppStore {
     if (saved !== null) {
       try {
         state = readState(saved);
-        if (state.session?.username !== credentials.username) state.session = null;
+        if (!credentials.some((account) => account.username === state.session?.username)) state.session = null;
       } catch {
         warning = '本机保存的数据无法读取，已恢复为空白状态。原始记录会在下次成功保存时替换。';
       }
@@ -242,10 +249,13 @@ export function createAppStore(options: AppStoreOptions = {}): AppStore {
   return {
     getState,
     login(username, password) {
-      if (typeof username !== 'string' || username.trim() !== credentials.username || password !== credentials.password) {
+      const account = typeof username === 'string'
+        ? credentials.find((entry) => entry.username === username.trim() && entry.password === password)
+        : undefined;
+      if (!account) {
         throw new Error('账号或密码不正确');
       }
-      commit({ ...state, session: { username: credentials.username } });
+      commit({ ...state, session: { username: account.username } });
       return getState();
     },
     logout() {

@@ -40,8 +40,41 @@ async function noOverflow(page: Page) {
 
 async function assertUnavailableActions(page: Page) {
   const controls = page.locator('#sandbox-root [data-sandbox-unavailable]');
-  expect(await controls.count()).toBeGreaterThan(0);
   for (const control of await controls.all()) await expect(control).toBeDisabled();
+}
+
+async function readyScene(page: Page) {
+  await expect(page.locator('#sandbox-scene-mount')).toHaveAttribute('data-scene-state', 'ready', { timeout: 20_000 });
+  await expect(page.locator('#sandbox-scene-mount canvas')).toHaveCount(1);
+  await expect.poll(async () => (await sceneSnapshot(page))?.renderedFrames ?? 0).toBeGreaterThan(0);
+  await expect.poll(async () => page.evaluate(() => {
+    const scene = document.querySelector('#sandbox-scene-mount')!.getBoundingClientRect();
+    // Read all rectangles in one browser frame; small scenes may hide labels.
+    const hotspots = Array.from(document.querySelectorAll<HTMLElement>('#sandbox-scene-mount .homie-scene-hotspot'))
+      .filter((item) => !item.hidden && getComputedStyle(item).display !== 'none')
+      .map((item) => ({ id: item.dataset.objectId, rect: item.getBoundingClientRect() }));
+    const violations: string[] = [];
+    for (const [index, hotspot] of hotspots.entries()) {
+      const a = hotspot.rect;
+      if (a.left < scene.left - 0.5 || a.top < scene.top - 0.5 || a.right > scene.right + 0.5 || a.bottom > scene.bottom + 0.5) violations.push(`${hotspot.id} exceeds the scene`);
+      for (const other of hotspots.slice(index + 1)) {
+        const b = other.rect;
+        if (Math.min(a.right, b.right) - Math.max(a.left, b.left) > 0.5 && Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > 0.5) violations.push(`${hotspot.id} overlaps ${other.id}`);
+      }
+    }
+    return violations;
+  }), { message: 'visible model labels stay inside the scene without overlap' }).toEqual([]);
+}
+
+const action = (page: Page, name: string) => page.locator(`#sandbox-root [data-sandbox-action="${name}"]`);
+
+async function sceneSnapshot(page: Page): Promise<{ active: boolean; renderedFrames: number; emissive: number } | null> {
+  return page.evaluate(async () => {
+    const modulePath = '/src/features/sandbox.ts';
+    const { inspectSandboxScene } = await import(modulePath);
+    const container = document.querySelector('#main-content');
+    return container ? inspectSandboxScene(container) ?? null : null;
+  });
 }
 
 async function screenshot(page: Page, name: string, width: number) {
@@ -103,7 +136,7 @@ for (const width of [390, 360]) {
       const root = page.locator('#sandbox-root');
       await expect(root).toBeVisible();
       await expect(page.locator('.page-header .header-logo')).toHaveCount(0);
-      await expect(page.locator('#sandbox-scene-mount')).toHaveAttribute('data-scene-state', 'placeholder');
+      await readyScene(page);
       await expect(page.locator('[data-sandbox-action="detail"][data-furniture-id]')).toHaveCount(furniture.length);
       await expect(root).toContainText('演示');
       await expect(root.getByRole('button', { name: /添加.*家具|去添加/ })).toHaveCount(0);
@@ -147,11 +180,12 @@ for (const width of [390, 360]) {
       expect(await back(page)).toBe(true);
     });
 
-    test('keeps task and real controls unavailable and rebuilds the sandbox in both languages', async ({ page }) => {
+    test('labels simulation and rebuilds the 3D sandbox in both languages', async ({ page }) => {
       const original = await page.evaluate(() => localStorage.getItem('homing.app.v1'));
       await tab(page, 'account');
       await page.getByLabel('界面语言', { exact: true }).selectOption('en');
       await tab(page, 'sandbox');
+      await readyScene(page);
       const root = page.locator('#sandbox-root');
       await expect(page.getByRole('heading', { name: 'Sandbox', exact: true })).toBeVisible();
       await expect(root).toContainText(/demo/i);
@@ -178,6 +212,7 @@ for (const width of [390, 360]) {
       await tab(page, 'account');
       await page.getByLabel('Language', { exact: true }).selectOption('zh-CN');
       await tab(page, 'sandbox');
+      await readyScene(page);
       await expect(page.locator('#sandbox-device-detail')).toHaveCount(0);
       await expect(page.getByRole('heading', { name: '沙盒', exact: true })).toBeVisible();
       await expect(root).toContainText('演示');
@@ -185,5 +220,167 @@ for (const width of [390, 360]) {
       expect(await page.evaluate(() => localStorage.getItem('homing.app.v1'))).toBe(original);
       await noOverflow(page);
     });
+
+    test('persists explicit links separately and keeps linked battery and sensor status consistent', async ({ page }) => {
+      const withSensor = { ...savedState, furniture: [...furniture, {
+        ...furniture[0], id: 'sensor-1', name: '阳台门磁记录', type: 'sensor', room: '阳台', model: 'Sensor S01',
+      }] };
+      await page.evaluate((state) => localStorage.setItem('homing.app.v1', JSON.stringify(state)), withSensor);
+      await page.reload();
+      const original = await page.evaluate(() => localStorage.getItem('homing.app.v1'));
+      await tab(page, 'sandbox');
+      await readyScene(page);
+      await page.locator('[data-sandbox-action="detail"][data-furniture-id="light-1"]').click();
+      const binding = page.locator('#sandbox-device-detail select[data-sandbox-binding]');
+      await expect(binding).toHaveValue('');
+      await binding.selectOption('living_room_light');
+      await expect(binding).toHaveValue('living_room_light');
+      expect(await page.evaluate(() => localStorage.getItem('homie.sandbox.bindings.v1'))).toBeTruthy();
+      expect(await page.evaluate(() => localStorage.getItem('homing.app.v1'))).toBe(original);
+      await page.reload();
+      await tab(page, 'sandbox');
+      await readyScene(page);
+      await page.locator('[data-sandbox-action="detail"][data-furniture-id="light-1"]').click();
+      await expect(binding).toHaveValue('living_room_light');
+      await binding.selectOption('');
+      await expect(binding).toHaveValue('');
+
+      await action(page, 'back').click();
+      await page.locator('[data-sandbox-action="detail"][data-furniture-id="battery-1"]').click();
+      await binding.selectOption('home_battery');
+      const detailStatus = page.locator('#sandbox-device-detail .sb-detail-readings > div').filter({ has: page.getByText('开启状态', { exact: true }) }).locator('dd');
+      await expect(detailStatus).toHaveText('充电中');
+      await action(page, 'back').click();
+      await expect(page.locator('[data-sandbox-action="detail"][data-furniture-id="battery-1"] .sb-power-state')).toHaveText('充电中');
+
+      await page.locator('[data-sandbox-action="detail"][data-furniture-id="sensor-1"]').click();
+      await binding.selectOption('balcony_door');
+      await expect(detailStatus).toHaveText('已合上');
+      await action(page, 'back').click();
+      await expect(page.locator('[data-sandbox-action="detail"][data-furniture-id="sensor-1"] .sb-power-state')).toHaveText('已合上');
+      expect(await page.evaluate(() => localStorage.getItem('homing.app.v1'))).toBe(original);
+    });
+
+    test('keeps plan and command acceptance separate from simulated valid light readings', async ({ page }) => {
+      const original = await page.evaluate(() => localStorage.getItem('homing.app.v1'));
+      const nonLocalRequests: string[] = [];
+      page.on('request', (request) => {
+        const url = new URL(request.url());
+        if (/^https?:$/.test(url.protocol) && url.origin !== new URL(page.url()).origin) nonLocalRequests.push(request.url());
+      });
+      await tab(page, 'sandbox');
+      await readyScene(page);
+      const scene = page.locator('#sandbox-scene-mount');
+      await expect(scene).toHaveAttribute('data-lamp-state', 'on');
+      await expect.poll(async () => (await sceneSnapshot(page))?.emissive ?? 0).toBeGreaterThan(0);
+      await page.locator('[data-sandbox-tab="tasks"]').click();
+      await action(page, 'plan').click();
+      if (await scene.getAttribute('data-plan-highlight') !== 'true') await action(page, 'preview').click();
+      await expect(scene).toHaveAttribute('data-plan-highlight', 'true');
+      await expect(scene).toHaveAttribute('data-lamp-state', 'on');
+      await page.locator('#sandbox-readback-order').selectOption('execution-first');
+      await action(page, 'execute').click();
+      await expect(scene).toHaveAttribute('data-lamp-state', 'on');
+      await action(page, 'next-readback').click();
+      await expect(scene).toHaveAttribute('data-lamp-state', 'on');
+      await action(page, 'next-readback').click();
+      await expect(scene).toHaveAttribute('data-lamp-state', 'unknown');
+      await action(page, 'next-readback').click();
+      await expect(scene).toHaveAttribute('data-lamp-state', 'off');
+      await expect.poll(async () => (await sceneSnapshot(page))?.emissive ?? -1).toBeLessThan(0.001);
+      await expect(action(page, 'next-readback')).toBeDisabled();
+      await noOverflow(page);
+      await screenshot(page, 'sandbox-simulated-light-off', width);
+      await action(page, 'demo-reset').click();
+      await expect(scene).toHaveAttribute('data-lamp-state', 'on');
+      await expect(scene).toHaveAttribute('data-plan-highlight', 'false');
+      expect(await page.evaluate(() => localStorage.getItem('homing.app.v1'))).toBe(original);
+      expect(nonLocalRequests, 'offline mode uses only bundled assets, no API or CDN').toEqual([]);
+    });
+
+    if (width === 390) {
+      test('pauses rendering in the background and releases the renderer when leaving', async ({ page }) => {
+        await tab(page, 'sandbox');
+        await readyScene(page);
+        await expect.poll(async () => (await sceneSnapshot(page))?.renderedFrames ?? 0).toBeGreaterThan(0);
+        await page.evaluate(() => window.dispatchEvent(new CustomEvent('homie:app-state', { detail: { active: false } })));
+        const paused = await sceneSnapshot(page);
+        expect(paused?.active).toBe(false);
+        await page.waitForTimeout(150);
+        expect((await sceneSnapshot(page))?.renderedFrames).toBe(paused?.renderedFrames);
+        await page.evaluate(() => window.dispatchEvent(new CustomEvent('homie:app-state', { detail: { active: true } })));
+        await expect.poll(async () => (await sceneSnapshot(page))?.renderedFrames ?? 0).toBeGreaterThan(paused!.renderedFrames);
+        await tab(page, 'add');
+        expect(await sceneSnapshot(page)).toBeNull();
+        await expect(page.locator('canvas')).toHaveCount(0);
+        await tab(page, 'sandbox');
+        await readyScene(page);
+        await expect(page.locator('canvas')).toHaveCount(1);
+      });
+
+      test('keeps model selection, manual door checking and declaring departure independent', async ({ page }) => {
+        await tab(page, 'sandbox');
+        await readyScene(page);
+        await page.locator('[data-sandbox-action="object"][data-object-id="entry_door"]').click();
+        await expect(page.locator('#sandbox-object-detail')).toHaveAttribute('data-object-state', 'unknown');
+        await page.locator('[data-sandbox-tab="tasks"]').click();
+        await action(page, 'plan').click();
+        await expect(page.locator('#sandbox-manual-state')).toContainText('待人工检查');
+        await action(page, 'manual-door').click();
+        await expect(page.locator('#sandbox-manual-state')).toContainText('已人工确认关闭');
+        await expect(page.locator('#sandbox-away-state')).toContainText('尚未声明');
+        await action(page, 'scene-reset').click();
+        await expect(page.locator('#sandbox-manual-state')).toContainText('已人工确认关闭');
+        await expect(page.locator('#sandbox-away-state')).toContainText('尚未声明');
+        await page.locator('[data-sandbox-tab="devices"]').click();
+        await page.locator('[data-sandbox-action="object"][data-object-id="entry_door"]').click();
+        await expect(page.locator('#sandbox-object-detail')).toHaveAttribute('data-object-state', 'closed');
+        await page.locator('[data-sandbox-tab="tasks"]').click();
+        await action(page, 'user-away').click();
+        await expect(page.locator('#sandbox-away-state')).toContainText('本人已出门');
+        await expect(action(page, 'user-away')).toBeDisabled();
+        await expect(page.locator('#sandbox-scene-mount')).toHaveAttribute('data-lamp-state', 'on');
+      });
+
+      test('recovers from a failed model load while furniture remains available', async ({ page }) => {
+        let failed = false;
+        await page.route(/\.glb(?:\?|$)/, (route) => {
+          if (route.request().resourceType() === 'script') return route.continue();
+          if (!failed) { failed = true; return route.abort(); }
+          return route.continue();
+        });
+        await tab(page, 'sandbox');
+        await expect(page.locator('#sandbox-scene-mount')).toHaveAttribute('data-scene-state', 'error', { timeout: 20_000 });
+        expect(failed).toBe(true);
+        await expect(page.locator('[data-sandbox-action="detail"][data-furniture-id]')).toHaveCount(furniture.length);
+        await page.locator('[data-sandbox-action="detail"][data-furniture-id="light-1"]').click();
+        await expect(page.locator('#sandbox-device-detail')).toContainText('Lamp L01');
+        await action(page, 'retry-scene').click();
+        await readyScene(page);
+        await expect(page.locator('#sandbox-device-detail')).toContainText('Lamp L01');
+      });
+
+      test('discards a model load that finishes after leaving the sandbox', async ({ page }) => {
+        let release!: () => void;
+        const gate = new Promise<void>((resolve) => { release = resolve; });
+        let intercepted = false;
+        await page.route(/\.glb(?:\?|$)/, async (route) => {
+          if (route.request().resourceType() === 'script') { await route.continue(); return; }
+          if (!intercepted) { intercepted = true; await gate; }
+          await route.continue().catch(() => {});
+        });
+        await tab(page, 'sandbox');
+        await expect.poll(() => intercepted).toBe(true);
+        await tab(page, 'add');
+        release();
+        await expect(page.locator('#sandbox-root, canvas')).toHaveCount(0);
+        await expect(page.getByRole('heading', { name: '我的家具', exact: true })).toBeVisible();
+        await tab(page, 'sandbox');
+        await readyScene(page);
+        await expect(page.locator('canvas')).toHaveCount(1);
+        await tab(page, 'account');
+        await expect(page.locator('canvas')).toHaveCount(0);
+      });
+    }
   });
 }

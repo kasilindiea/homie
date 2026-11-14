@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createAppStore, DEFAULT_ROOMS, FURNITURE_TYPES, STORAGE_KEY, type FurnitureInput, type StorageAdapter } from '../src/domain';
 
 class MemoryStorage implements StorageAdapter {
@@ -20,6 +20,14 @@ class MemoryStorage implements StorageAdapter {
 const credentials = { username: 'tester', password: 'demo-pass' };
 const sample: FurnitureInput = { name: '云朵沙发', type: 'sofa', room: '客厅', model: 'S-01', notes: '靠窗摆放' };
 
+afterEach(() => vi.unstubAllEnvs());
+
+function useDefaultAccounts() {
+  for (const key of ['VITE_DEVELOPER_USERNAME', 'VITE_DEVELOPER_PASSWORD', 'VITE_DEVELOPER_USERNAME_2', 'VITE_DEVELOPER_PASSWORD_2']) {
+    vi.stubEnv(key, undefined);
+  }
+}
+
 function setup() {
   const storage = new MemoryStorage();
   let counter = 0;
@@ -28,6 +36,64 @@ function setup() {
 }
 
 describe('developer demo account', () => {
+  it('accepts both built-in accounts but rejects crossed passwords without saving', () => {
+    useDefaultAccounts();
+    const storage = new MemoryStorage();
+    const store = createAppStore({ storage });
+    expect(() => store.login('aaaa', 'dddd')).toThrow('账号或密码不正确');
+    expect(() => store.login('cccc', 'bbbb')).toThrow('账号或密码不正确');
+    expect(storage.getItem(STORAGE_KEY)).toBeNull();
+    expect(store.login('aaaa', 'bbbb').session?.username).toBe('aaaa');
+    store.logout();
+    expect(store.login(' cccc ', 'dddd').session?.username).toBe('cccc');
+    expect(storage.getItem(STORAGE_KEY)).not.toContain('bbbb');
+    expect(storage.getItem(STORAGE_KEY)).not.toContain('dddd');
+  });
+
+  it('restores the second account and preserves the same household when switching accounts', () => {
+    useDefaultAccounts();
+    const storage = new MemoryStorage();
+    const store = createAppStore({ storage, createId: () => 'shared-battery' });
+    store.login('aaaa', 'bbbb');
+    const furniture = store.addFurniture({ name: '家庭储能', type: 'home_battery', room: '玄关', model: 'Battery B01' });
+    store.updateSettings({ nickname: '同一个家', defaultRoom: '房间1' });
+    store.logout();
+    store.login('cccc', 'dddd');
+    const reopened = createAppStore({ storage });
+    expect(reopened.getState().session).toEqual({ username: 'cccc' });
+    expect(reopened.getState().furniture).toEqual([furniture]);
+    expect(reopened.getState().settings).toEqual({ nickname: '同一个家', defaultRoom: '房间1' });
+    reopened.logout();
+    reopened.login('aaaa', 'bbbb');
+    expect(reopened.getState().furniture).toEqual([furniture]);
+    const saved = JSON.parse(storage.getItem(STORAGE_KEY)!);
+    expect(saved.version).toBe(1);
+    expect(Object.keys(saved).sort()).toEqual(['furniture', 'session', 'settings', 'version']);
+  });
+
+  it('treats explicit account configuration as the complete allowlist', () => {
+    const storage = new MemoryStorage();
+    const store = createAppStore({ storage, credentials: [credentials, { username: 'colleague', password: 'other-pass' }] });
+    expect(() => store.login('aaaa', 'bbbb')).toThrow('账号或密码不正确');
+    expect(() => store.login('cccc', 'dddd')).toThrow('账号或密码不正确');
+    expect(() => store.login('tester', 'other-pass')).toThrow('账号或密码不正确');
+    expect(store.login('colleague', 'other-pass').session?.username).toBe('colleague');
+    expect(() => createAppStore({ storage, credentials: [] })).toThrow('开发者登录配置不完整');
+    expect(() => createAppStore({ storage, credentials: [credentials, credentials] })).toThrow('开发者登录配置不完整');
+  });
+
+  it('replaces defaults when build-time demo credentials are explicitly supplied', () => {
+    useDefaultAccounts();
+    vi.stubEnv('VITE_DEVELOPER_USERNAME', 'custom');
+    vi.stubEnv('VITE_DEVELOPER_PASSWORD', 'custom-pass');
+    const store = createAppStore({ storage: new MemoryStorage() });
+    expect(() => store.login('aaaa', 'bbbb')).toThrow('账号或密码不正确');
+    expect(() => store.login('cccc', 'dddd')).toThrow('账号或密码不正确');
+    expect(store.login('custom', 'custom-pass').session?.username).toBe('custom');
+    vi.stubEnv('VITE_DEVELOPER_PASSWORD', undefined);
+    expect(() => createAppStore({ storage: new MemoryStorage() })).toThrow('开发者登录配置不完整');
+  });
+
   it('rejects invalid credentials and unauthenticated changes without writing storage', () => {
     const { storage, store } = setup();
     expect(store.getState().session).toBeNull();

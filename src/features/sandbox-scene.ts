@@ -35,7 +35,7 @@ function apartmentIllustration(): string {
 
 export function renderSandboxScene(state: SandboxSceneState = 'placeholder'): string {
   if (state === 'loading') return `<div class="sb-scene-message" role="status"><span class="sb-loading-ring" aria-hidden="true"></span><h3>${s('正在加载场景')}</h3><p>${s('请稍候，正在准备家庭模型。')}</p></div>`;
-  if (state === 'error') return `<div class="sb-scene-message" role="status">${icon('info')}<h3>${s('场景未能加载')}</h3><p>${s('设备列表仍可查看。模型接入后将在这里提供重试。')}</p><button class="sb-small-button" data-sandbox-unavailable disabled>${s('重试')}</button></div>`;
+  if (state === 'error') return `<div class="sb-scene-message" role="status">${icon('info')}<h3>${s('场景未能加载')}</h3><p>${s('设备列表和演示任务仍可使用，请重试。')}</p><button class="sb-small-button" data-sandbox-action="retry-scene">${s('重试')}</button></div>`;
   return `${apartmentIllustration()}<div class="sb-scene-caption"><strong>${s('3D 场景待接入')}</strong><p>${s('这里将展示你的家庭模型，目前为示意图。')}</p></div>`;
 }
 

@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.homing.furniture',
-  appName: 'homie',
+  appName: 'Homie',
   webDir: 'dist',
   backgroundColor: '#f6f5ef',
   android: { backgroundColor: '#f6f5ef', allowMixedContent: false },
