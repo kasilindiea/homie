@@ -324,6 +324,7 @@ for (const width of [390, 360]) {
         await expect(detail).toContainText('未知');
         await expect.poll(async () => (await sceneSnapshot(page))?.selected).toBe('entry_door');
         await action(page, 'scene-reset').tap();
+        await action(page, 'labels').tap();
         for (const id of ['living_room_light', 'dining_room_light']) {
           await page.locator(`.homie-scene-hotspot[data-object-id="${id}"]`).tap();
           await expect(detail).toHaveAttribute('data-object-id', id);

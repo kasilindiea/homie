@@ -102,13 +102,18 @@ export async function createHomeScene(host, { map, modelUrl, templateId }, onSel
     if (destroyed) return;
     selected = null; interacted = false;
     const target = world(map.home_camera.target_node), box = new THREE.Box3().setFromObject(model);
-    let radius = 0;
+    const direction = new THREE.Vector3(...map.home_camera.camera_offset_gltf_m).normalize();
+    const right = new THREE.Vector3().crossVectors(camera.up, direction).normalize();
+    const up = new THREE.Vector3().crossVectors(direction, right);
+    const verticalTangent = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2);
+    const horizontalTangent = verticalTangent * camera.aspect;
+    let distance = 0;
     for (const x of [box.min.x, box.max.x]) for (const y of [box.min.y, box.max.y]) for (const z of [box.min.z, box.max.z]) {
-      radius = Math.max(radius, new THREE.Vector3(x, y, z).distanceTo(target));
+      const corner = new THREE.Vector3(x, y, z).sub(target);
+      const screenDepth = Math.max(Math.abs(corner.dot(right)) / horizontalTangent, Math.abs(corner.dot(up)) / verticalTangent);
+      distance = Math.max(distance, corner.dot(direction) + screenDepth);
     }
-    const vertical = THREE.MathUtils.degToRad(camera.fov), horizontal = 2 * Math.atan(Math.tan(vertical / 2) * camera.aspect);
-    const distance = 1.10 * radius / Math.sin(Math.min(vertical, horizontal) / 2);
-    travel.go(target.clone().add(new THREE.Vector3(...map.home_camera.camera_offset_gltf_m).normalize().multiplyScalar(distance)), target, immediate);
+    travel.go(target.clone().addScaledVector(direction, distance * 1.10), target, immediate);
     outline(null); motion.setSelected(null);
     if (notify) onSelect(null);
   }

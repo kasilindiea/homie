@@ -38,7 +38,7 @@ export function renderSandbox(): string {
   return `<div class="sandbox-shell" id="sandbox-root" data-template="${apartment.templateId}">
     <header class="page-header sb-header"><div><p class="eyebrow">${s('未来家庭')}</p><h1>${t('沙盒')}</h1></div><span class="sb-layout-badge">${tx('离线演示', 'Offline demo')}</span></header>
     <section class="sb-scene-card" aria-labelledby="sandbox-scene-title">
-      <div class="sb-scene-heading"><h2 id="sandbox-scene-title">${s('离家检查')}</h2>${button('scene-reset', s('全屋复位'), true)}</div>
+      <div class="sb-scene-heading"><h2 id="sandbox-scene-title">${s('离家检查')}</h2><div class="sb-scene-controls"><span id="sandbox-label-control" hidden>${button('labels', tx('设备标签', 'Device labels'), true, 'aria-pressed="false"')}</span>${button('scene-reset', s('全屋复位'), true)}</div></div>
       <div class="sb-template-nav" role="group" aria-label="${tx('演示户型', 'Demo floor plan')}">
         ${button('template', tx('小公寓', 'Small apartment'), false, `data-template-id="${apartment.templateId}" aria-pressed="true"`)}
         ${button('template', tx('大户型', 'Large flat'), false, `data-template-id="${largeFlat.templateId}" aria-pressed="false"`)}
@@ -88,7 +88,8 @@ export function mountSandbox(container: HTMLElement, context: SandboxContext): (
   let disposed = false, appActive = true, scene: HomeScene | undefined;
   let attempt: AbortController | undefined;
   sceneReaders.set(container, () => scene?.inspect());
-  let preview = false, everyone = false;
+  let preview = false, everyone = false, showLabels = false;
+  const labelControl = container.querySelector<HTMLButtonElement>('[data-sandbox-action="labels"]')!;
   let order: 'execution-first' | 'object-first' = 'execution-first';
   const boundObject = (id: string) => Object.keys(bindings).find(key => bindings[key] === id);
   const feedback = (message: string) => {
@@ -164,6 +165,7 @@ export function mountSandbox(container: HTMLElement, context: SandboxContext): (
       stage!.dataset.planHighlight = 'false';
       scene?.apply(objects);
       roomSelect!.disabled = !scene;
+      labelControl.disabled = !scene;
       container.querySelector<HTMLButtonElement>('[data-sandbox-action="scene-reset"]')!.disabled = !scene;
       return;
     }
@@ -213,7 +215,9 @@ export function mountSandbox(container: HTMLElement, context: SandboxContext): (
         current.abort(); scene?.destroy(); scene = undefined; sceneStatus('error'); paint();
       } });
       if (disposed || current.signal.aborted) { created.destroy(); return; }
-      scene = created; scene.setActive(appActive); sceneStatus('ready'); paint();
+      scene = created;
+      if (isLarge) scene.setLabels(showLabels ? 'all' : 'clean');
+      scene.setActive(appActive); sceneStatus('ready'); paint();
     } catch {
       if (!disposed && !current.signal.aborted) { sceneStatus('error'); paint(); }
     }
@@ -232,7 +236,9 @@ export function mountSandbox(container: HTMLElement, context: SandboxContext): (
       unsubscribe = session.subscribe(paint);
     }
     selectedId = null; selectedObject = null; activePanel = 'devices';
-    preview = false; everyone = false; order = 'execution-first';
+    preview = false; everyone = false; showLabels = false; order = 'execution-first';
+    labelControl.setAttribute('aria-pressed','false');
+    container.querySelector<HTMLElement>('#sandbox-label-control')!.hidden = !toLarge;
     roomSelect!.value = ''; sampleSelect!.value = 'baseline';
     root!.dataset.template = toLarge ? largeFlat.templateId : apartment.templateId;
     container.classList.toggle('sandbox-apartment', !toLarge);
@@ -263,6 +269,11 @@ export function mountSandbox(container: HTMLElement, context: SandboxContext): (
       else if (action === 'show-tasks') { activePanel = 'tasks'; selectedObject = null; selectedId = null; }
       else if (action === 'focus') { if (target.dataset.objectId) scene?.focus(target.dataset.objectId); }
       else if (action === 'scene-reset') scene?.reset();
+      else if (action === 'labels' && largeSession) {
+        showLabels = !showLabels;
+        labelControl.setAttribute('aria-pressed',String(showLabels));
+        scene?.setLabels(showLabels ? 'all' : 'clean');
+      }
       else if (action === 'retry-scene') { void loadScene(); return; }
       else if (action === 'plan') session.plan(everyone);
       else if (action === 'preview') preview = !preview;

@@ -9,7 +9,8 @@
 .sb-room-nav .sb-small-button { flex: 0 0 auto; min-height: 38px; padding: 5px 10px; font-size: 10px; }
 .sb-template-nav { display: flex; gap: 8px; margin: 8px 14px 0; }
 .sb-template-nav .sb-small-button { flex: 1; min-height: 44px; }
-.sandbox-shell .sb-template-nav .sb-small-button[aria-pressed="true"] { color: white; background: #436a4e; border-color: #436a4e; }
+.sandbox-shell :is(.sb-template-nav, .sb-scene-controls) .sb-small-button[aria-pressed="true"] { color: white; background: #436a4e; border-color: #436a4e; }
+.sb-scene-controls { display: flex; gap: 5px; flex-shrink: 0; }
 .sb-scene-room-field { margin: 8px 14px; }
 .sb-sample-field { margin: 10px 0 16px; }
 .sandbox-shell [hidden] { display: none !important; }
