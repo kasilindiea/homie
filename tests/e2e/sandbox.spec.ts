@@ -68,7 +68,7 @@ async function readyScene(page: Page) {
 
 const action = (page: Page, name: string) => page.locator(`#sandbox-root [data-sandbox-action="${name}"]`);
 
-async function sceneSnapshot(page: Page): Promise<{ active: boolean; renderedFrames: number; emissive: number } | null> {
+async function sceneSnapshot(page: Page): Promise<{ active: boolean; renderedFrames: number; emissive: number; selected: string | null; animation: { washerRunning: boolean } } | null> {
   return page.evaluate(async () => {
     const modulePath = '/src/features/sandbox.ts';
     const { inspectSandboxScene } = await import(modulePath);
@@ -299,6 +299,88 @@ for (const width of [390, 360]) {
     });
 
     if (width === 390) {
+      test('switches templates, reads independent devices, and preserves the apartment binding', async ({ page }) => {
+        const choose = (id: string) => page.locator(`[data-template-id="${id}"]`).tap();
+        const detail = page.locator('#sandbox-object-detail');
+        const selectObject = async (id: string) => {
+          const button = page.locator(`#sandbox-panel [data-sandbox-action="object"][data-object-id="${id}"]`);
+          await button.evaluate(element => element.scrollIntoView({ block: 'center' }));
+          await button.tap();
+        };
+        const reading = (id: string) => detail.locator(`[data-reading="${id}"] dd`);
+        await tab(page, 'sandbox');
+        await readyScene(page);
+        await page.locator('[data-sandbox-action="detail"][data-furniture-id="light-1"]').click();
+        await page.locator('[data-sandbox-binding]').selectOption('living_room_light');
+        const stored = () => page.evaluate(() => ['homing.app.v1', 'homie.sandbox.bindings.v1'].map(key => localStorage.getItem(key)));
+        const original = await stored();
+        await choose('large_flat_128');
+        await readyScene(page);
+        await expect(page.locator('#sandbox-root')).toHaveAttribute('data-template', 'large_flat_128');
+        await expect(page.locator('#sandbox-tasks-tab')).toBeHidden();
+        await expect(page.locator('#sandbox-room option')).toHaveCount(14);
+        await screenshot(page, 'homie-large-flat', width);
+        await selectObject('entry_door');
+        await expect(detail).toContainText('未知');
+        await expect.poll(async () => (await sceneSnapshot(page))?.selected).toBe('entry_door');
+        await action(page, 'scene-reset').tap();
+        for (const id of ['living_room_light', 'dining_room_light']) {
+          await page.locator(`.homie-scene-hotspot[data-object-id="${id}"]`).tap();
+          await expect(detail).toHaveAttribute('data-object-id', id);
+          await expect.poll(async () => (await sceneSnapshot(page))?.selected).toBe(id);
+          await expect(detail).toContainText('开启');
+          await action(page, 'scene-reset').tap();
+          await expect.poll(async () => (await sceneSnapshot(page))?.selected).toBe(null);
+        }
+        await page.locator('#sandbox-room').selectOption('laundry_balcony');
+        await expect.poll(async () => (await sceneSnapshot(page))?.selected).toBe('laundry_balcony');
+        await selectObject('washing_machine');
+        await expect(detail).toContainText('运行中');
+        await expect(reading('remaining_minutes')).toHaveText('35 分钟');
+        await expect(reading('current_temperature_c')).toHaveText('未知');
+        await expect(reading('target_temperature_c')).toHaveText('40°C');
+        await expect.poll(async () => (await sceneSnapshot(page))?.animation.washerRunning).toBe(true);
+        await screenshot(page, 'homie-washer', width);
+        await page.locator('#sandbox-sample').selectOption('offline');
+        await expect(detail).toContainText('未知 · 离线');
+        await expect(reading('remaining_minutes')).toHaveText('未知');
+        await expect.poll(async () => (await sceneSnapshot(page))?.animation.washerRunning).toBe(false);
+        await action(page, 'scene-reset').tap();
+        await expect(page.locator('#sandbox-room')).toHaveValue('');
+        await expect(page.locator('#sandbox-sample')).toHaveValue('offline');
+        await page.locator('#sandbox-sample').selectOption('baseline');
+        await selectObject('kitchen_fridge');
+        await expect(reading('fridge')).toHaveText('4.2°C');
+        await expect(reading('freezer')).toHaveText('-17.8°C');
+        await page.locator('#sandbox-sample').selectOption('fridge_partial_offline');
+        await expect(reading('fridge')).toHaveText('未知');
+        await expect(reading('freezer')).toHaveText('-17.8°C');
+        await screenshot(page, 'homie-fridge-offline', width);
+        expect(await back(page)).toBe(false);
+        await noOverflow(page);
+
+        await choose('baseline_apartment');
+        await readyScene(page);
+        await expect(page.locator('[data-sandbox-action="detail"][data-furniture-id="light-1"]')).toContainText('已关联模型');
+        await page.locator('[data-sandbox-tab="tasks"]').tap();
+        await action(page, 'plan').tap();
+        await action(page, 'manual-door').tap();
+        await expect(page.locator('#sandbox-manual-state')).toContainText('已人工确认关闭');
+        await action(page, 'execute').tap();
+        await action(page, 'next-readback').tap();
+        await action(page, 'next-readback').tap();
+        await action(page, 'next-readback').tap();
+        await expect(page.locator('#sandbox-scene-mount')).toHaveAttribute('data-lamp-state', 'off');
+        await screenshot(page, 'homie-apartment-readback', width);
+        await choose('large_flat_128');
+        await choose('baseline_apartment');
+        await readyScene(page);
+        await tab(page, 'import');
+        await expect(page.locator('canvas, .homie-scene-hotspot')).toHaveCount(0);
+        expect(await sceneSnapshot(page)).toBeNull();
+        expect(await stored()).toEqual(original);
+      });
+
       test('pauses rendering in the background and releases the renderer when leaving', async ({ page }) => {
         await tab(page, 'sandbox');
         await readyScene(page);

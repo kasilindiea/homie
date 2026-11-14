@@ -3,7 +3,6 @@ import * as THREE from 'three';
 import { GLTFLoader } from '../../../sandbox-prototype/house-modeling/viewer/vendor/GLTFLoader.js';
 import { OrbitControls } from '../../../sandbox-prototype/house-modeling/viewer/vendor/OrbitControls.js';
 import { StateMotion, CameraTravel } from '../../../sandbox-prototype/house-modeling/viewer/interaction-runtime.js';
-import modelUrl from '../../../sandbox-prototype/house-modeling/releases/v0.1/future-home-v0.1.glb?url';
 
 // Disposal is per mount: GLTF parsing, runtime effects and highlight layers can
 // share resources within one scene, so release each resource only once.
@@ -34,7 +33,7 @@ function disposeObjects(objects) {
 }
 
 /** One cancellable scene lifetime. This module never writes furniture or sends commands. */
-export async function createHomeScene(host, map, onSelect, options = {}) {
+export async function createHomeScene(host, { map, modelUrl, templateId }, onSelect, options = {}) {
   if (options.signal?.aborted) throw new DOMException('Scene mount cancelled', 'AbortError');
   const download = new AbortController();
   const removers = [];
@@ -132,7 +131,8 @@ export async function createHomeScene(host, map, onSelect, options = {}) {
     if (destroyed) return;
     motion.applySnapshot({ objects }, { immediate: first }); first = false;
     for (const { meta, button, status } of tags) {
-      const state = objects[meta.shared_id]?.state ?? 'unknown';
+      const record = objects[meta.shared_id];
+      const state = record?.state ?? record?.cycle_state ?? record?.door_state ?? record?.cover_state ?? 'unknown';
       button.classList.toggle('is-unknown', state === 'unknown');
       status.textContent = options.stateLabel?.(meta.shared_id, state) ?? state;
     }
@@ -218,7 +218,9 @@ export async function createHomeScene(host, map, onSelect, options = {}) {
     camera = new THREE.PerspectiveCamera(map.home_camera.vertical_fov_degrees, 1, .05, 200);
     controls = new OrbitControls(camera, canvas);
     Object.assign(controls, { enableDamping: true, enablePan: true, zoomToCursor: true, zoomSpeed: 1.1, minDistance: .65, maxDistance: 90 });
-    controls.minPolarAngle = THREE.MathUtils.degToRad(20); controls.maxPolarAngle = THREE.MathUtils.degToRad(55);
+    const [minPolar, maxPolar] = map.home_camera.polar_angle_limits_degrees;
+    controls.minPolarAngle = THREE.MathUtils.degToRad(minPolar);
+    controls.maxPolarAngle = THREE.MathUtils.degToRad(maxPolar);
     travel = new CameraTravel(camera, controls);
     scene.add(new THREE.HemisphereLight(0xf6f8ed, 0x879387, 2));
     for (const [position, intensity] of [[[-3, 12, 6], 3], [[8, 8, -3], 1.1], [[3, 6, 15], .7]]) {
@@ -253,8 +255,14 @@ export async function createHomeScene(host, map, onSelect, options = {}) {
     });
     model.updateMatrixWorld(true);
     for (const item of map.objects.filter(object => object.spatial)) { world(item.anchor_name); world(item.focus_name); }
-    const lamp = new THREE.PointLight(0xffdca5, 0, 4, 2); lamp.position.copy(world('living_room_light__light_origin')); scene.add(lamp);
-    motion = new StateMotion({ model, names, roots, lights: { living_room_light: lamp }, templateId: 'baseline_apartment' });
+    const lights = {};
+    for (const { shared_id: id } of map.objects) {
+      const origin = id + '__light_origin';
+      if (!names[origin]) continue;
+      const lamp = new THREE.PointLight(0xffdca5, 0, 4, 2);
+      lamp.position.copy(world(origin)); scene.add(lamp); lights[id] = lamp;
+    }
+    motion = new StateMotion({ model, names, roots, lights, templateId });
     selectionLayer = new THREE.Group(); planLayer = new THREE.Group(); scene.add(selectionLayer, planLayer);
     for (const meta of map.objects.filter(object => object.spatial && object.object_type !== 'room')) {
       const button = document.createElement('button'); button.type = 'button';

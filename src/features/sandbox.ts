@@ -5,9 +5,12 @@ import { getLocale, roomLabel, t } from '../i18n';
 import { sandboxText as s, sandboxEscape as escape } from './sandbox-copy';
 import { getDemoReading, type DemoReading } from './sandbox-demo';
 import { renderSandboxScene } from './sandbox-scene';
-import { createSandboxSession, sceneMapping, type SandboxSession } from './sandbox-runtime/session';
+import { createSandboxSession, sceneMapping } from './sandbox-runtime/session';
+import { createLargeFlatSession, largeFlat, largeFlatSamples } from './sandbox-runtime/large-flat';
+import { largeName, largeReadings, largeState, largeSummary } from './sandbox-large-flat';
+import apartmentModel from '../../sandbox-prototype/house-modeling/releases/v0.1/future-home-v0.1.glb?url';
 import { BINDABLE_OBJECTS, readBindings, saveBinding, type Bindings } from './sandbox-runtime/bindings';
-import type { HomeScene } from './sandbox-runtime/scene';
+import type { HomeScene, SceneTemplate } from './sandbox-runtime/scene';
 
 export interface SandboxContext { getFurniture(): readonly Furniture[]; navigateToFurniture(): void; }
 const mounted = new WeakMap<HTMLElement, () => void>();
@@ -17,6 +20,10 @@ export const inspectSandboxScene = (container: HTMLElement) => sceneReaders.get(
 const tx = (zh: string, en: string) => getLocale() === 'en' ? en : zh;
 const typeLabel = (type: string) => t(ALL_FURNITURE_TYPES.find(entry => entry.value === type)?.label ?? '其他');
 const ids = ['entry_door', 'balcony_door', 'living_room_light', 'bedroom_ac'];
+const apartmentRooms = ['entryway', 'living_room', 'bedroom', 'balcony'];
+const apartment: SceneTemplate = { templateId: 'baseline_apartment', modelUrl: apartmentModel, map: sceneMapping as SceneTemplate['map'] };
+const largeRooms = largeFlat.map.objects.filter(item => item.object_type === 'room');
+const largeDevices = largeFlat.map.objects.filter(item => item.object_type !== 'room');
 function objectName(id: string): string {
   return ({ entry_door: tx('玄关普通门', 'Entry door'), balcony_door: tx('阳台门磁', 'Balcony door sensor'), living_room_light: tx('客厅灯', 'Living room light'), bedroom_ac: tx('卧室空调', 'Bedroom AC'), home_battery: t('家庭储能'), entryway: t('玄关'), living_room: t('客厅'), bedroom: t('卧室'), balcony: t('阳台') } as Record<string, string>)[id] || id;
 }
@@ -28,16 +35,23 @@ const button = (action: string, label: string, disabled = false, extra = '') => 
 const backButton = () => `<button class="sb-back-button" data-sandbox-action="back">${icon('arrow')}${s('返回设备列表')}</button>`;
 
 export function renderSandbox(): string {
-  return `<div class="sandbox-shell" id="sandbox-root">
+  return `<div class="sandbox-shell" id="sandbox-root" data-template="${apartment.templateId}">
     <header class="page-header sb-header"><div><p class="eyebrow">${s('未来家庭')}</p><h1>${t('沙盒')}</h1></div><span class="sb-layout-badge">${tx('离线演示', 'Offline demo')}</span></header>
     <section class="sb-scene-card" aria-labelledby="sandbox-scene-title">
-      <div class="sb-scene-heading"><div><span class="sb-overline">01 / Homie</span><h2 id="sandbox-scene-title">${s('离家检查')}</h2></div>${button('scene-reset', s('全屋复位'), true)}</div>
-      <p class="sb-apartment-label">${tx('固定小公寓 · 演示户型', 'Small apartment · demo home')}</p>
-      <div class="sb-room-nav" aria-label="${tx('场景房间', 'Scene rooms')}">${['entryway','living_room','bedroom','balcony'].map(id => button('focus', objectName(id), true, `data-object-id="${id}"`)).join('')}</div>
+      <div class="sb-scene-heading"><h2 id="sandbox-scene-title">${s('离家检查')}</h2>${button('scene-reset', s('全屋复位'), true)}</div>
+      <div class="sb-template-nav" role="group" aria-label="${tx('演示户型', 'Demo floor plan')}">
+        ${button('template', tx('小公寓', 'Small apartment'), false, `data-template-id="${apartment.templateId}" aria-pressed="true"`)}
+        ${button('template', tx('大户型', 'Large flat'), false, `data-template-id="${largeFlat.templateId}" aria-pressed="false"`)}
+      </div>
+      <div id="sandbox-small-rooms" class="sb-room-nav" aria-label="${tx('场景房间', 'Scene rooms')}">${apartmentRooms.map(id => button('focus', objectName(id), true, `data-object-id="${id}"`)).join('')}</div>
+      <label id="sandbox-large-rooms" class="sb-field sb-scene-room-field" hidden>${tx('定位房间', 'Locate room')}<select id="sandbox-room" disabled><option value="">${tx('全部房间', 'All rooms')}</option>${largeRooms.map(room => `<option value="${room.shared_id}">${escape(largeName(room))}</option>`).join('')}</select></label>
       <div id="sandbox-scene-mount" class="sb-scene-mount" data-scene-state="loading" data-lamp-state="on" data-plan-highlight="false" aria-busy="true"><div id="sandbox-canvas-host"></div><div id="sandbox-scene-status" class="sb-scene-overlay" role="status"></div></div>
       <p class="sb-scene-hint">${tx('单指旋转 · 双指缩放 · 点设备查看。模型和读数均为演示。', 'Drag to rotate · pinch to zoom · tap a device. Model and readings are a demo.')}</p>
     </section>
     <aside class="sb-demo-notice">${icon('info')}<div>${demoBadge()}<p>${tx('本地模拟，不连接真实设备。离开沙盒会重置本轮任务，已登记家具和关联保留。', 'Local simulation, with no real devices connected. Leaving resets demo tasks; furniture and links are kept.')}</p></div></aside>
+    <label id="sandbox-sample-field" class="sb-field sb-sample-field" hidden>${tx('本地读数样例', 'Local reading sample')}<select id="sandbox-sample">
+      ${[tx('默认读数', 'Default readings'),tx('冰箱分区离线', 'One fridge compartment offline'),tx('设备离线', 'Devices offline')].map((label, index) => `<option value="${largeFlatSamples[index]}">${label}</option>`).join('')}
+    </select></label>
     <section class="sb-dock" aria-label="${s('离家检查')}"><div class="sb-dock-handle" aria-hidden="true"></div>
       <div class="sb-tabs" role="tablist" aria-label="${s('离家检查')}"><button id="sandbox-devices-tab" data-sandbox-tab="devices" role="tab" aria-controls="sandbox-panel" aria-selected="true">${s('设备')}<span id="sandbox-device-count">0</span></button><button id="sandbox-tasks-tab" data-sandbox-tab="tasks" role="tab" aria-controls="sandbox-panel" aria-selected="false" tabindex="-1">${s('离家任务')}</button></div>
       <p id="sandbox-feedback" class="sb-detail-note" role="status" hidden></p><div id="sandbox-panel" role="tabpanel" aria-labelledby="sandbox-devices-tab"></div>
@@ -58,10 +72,15 @@ export function mountSandbox(container: HTMLElement, context: SandboxContext): (
   const host = container.querySelector<HTMLElement>('#sandbox-canvas-host');
   const overlay = container.querySelector<HTMLElement>('#sandbox-scene-status');
   const panel = container.querySelector<HTMLElement>('#sandbox-panel');
-  if (!stage || !host || !overlay || !panel) return () => {};
-  container.classList.add('sandbox-active');
+  const root = container.querySelector<HTMLElement>('#sandbox-root');
+  const roomSelect = container.querySelector<HTMLSelectElement>('#sandbox-room');
+  const sampleSelect = container.querySelector<HTMLSelectElement>('#sandbox-sample');
+  if (!stage || !host || !overlay || !panel || !root || !roomSelect || !sampleSelect) return () => {};
+  container.classList.add('sandbox-active', 'sandbox-apartment');
   const lifetime = new AbortController();
-  const session = createSandboxSession();
+  let session = createSandboxSession();
+  let largeSession: ReturnType<typeof createLargeFlatSession> | undefined;
+  let unsubscribe: () => void;
   const storage: StorageAdapter = { getItem: key => localStorage.getItem(key), setItem: (key, value) => localStorage.setItem(key, value) };
   let bindings: Bindings = readBindings(storage, context.getFurniture());
   let activePanel: 'devices' | 'tasks' = 'devices';
@@ -128,6 +147,26 @@ export function mountSandbox(container: HTMLElement, context: SandboxContext): (
   }
   function paint(): void {
     if (disposed) return;
+    if (largeSession) {
+      const objects = largeSession.objects();
+      const definition = largeDevices.find(item => item.shared_id === selectedObject);
+      panel!.innerHTML = definition
+        ? `<article id="sandbox-object-detail" class="sb-detail" data-object-id="${definition.shared_id}">
+            ${backButton()}<div class="sb-detail-heading"><h3 tabindex="-1">${escape(largeName(definition))}</h3>${demoBadge()}</div>
+            <section class="sb-reading-block">${largeReadings(objects[definition.shared_id], definition)}</section>
+          </article>`
+        : `<section class="sb-scene-objects"><h3>${tx('场景设备', 'Scene devices')}</h3><div class="sb-object-grid">
+            ${largeDevices.filter(item => !roomSelect!.value || item.room_id === roomSelect!.value).map(item =>
+              `<button class="sb-object-button" data-sandbox-action="object" data-object-id="${item.shared_id}"><strong>${escape(largeName(item))}</strong><span>${escape(largeSummary(objects[item.shared_id]))}</span></button>`).join('') || `<p>${tx('此房间暂无演示设备。', 'No demo devices in this room.')}</p>`}
+          </div></section>`;
+      container.querySelector('#sandbox-device-count')!.textContent = String(largeDevices.length);
+      stage!.dataset.lampState = objects.living_room_light.state;
+      stage!.dataset.planHighlight = 'false';
+      scene?.apply(objects);
+      roomSelect!.disabled = !scene;
+      container.querySelector<HTMLButtonElement>('[data-sandbox-action="scene-reset"]')!.disabled = !scene;
+      return;
+    }
     const furniture = context.getFurniture();
     bindings = readBindings(storage,furniture);
     container.querySelector('#sandbox-device-count')!.textContent = String(furniture.length);
@@ -155,10 +194,21 @@ export function mountSandbox(container: HTMLElement, context: SandboxContext): (
     try {
       const { createHomeScene } = await import('./sandbox-runtime/scene');
       if (disposed || current.signal.aborted) return;
-      const created = await createHomeScene(host!,sceneMapping,id => {
+      const isLarge = Boolean(largeSession);
+      const template = isLarge ? largeFlat : apartment;
+      const labels = isLarge ? Object.fromEntries(largeFlat.map.objects.map(item => [item.shared_id, largeName(item)]))
+        : Object.fromEntries([...ids, ...apartmentRooms].map(id => [id, objectName(id)]));
+      const created = await createHomeScene(host!,template,id => {
         if (disposed || current.signal.aborted) return;
+        if (isLarge) {
+          selectedObject = largeDevices.some(item => item.shared_id === id) ? id : null;
+          const room = largeRooms.find(item => item.shared_id === id);
+          if (!id || room) roomSelect!.value = room?.shared_id ?? '';
+          paint();
+          return;
+        }
         if (id && ids.includes(id)) { selectedObject = id; selectedId = null; activePanel = 'devices'; paint(); }
-      }, { signal: current.signal, labels: Object.fromEntries([...ids,'entryway','living_room','bedroom','balcony'].map(id => [id,objectName(id)])), stateLabel: objectStatus, canvasLabel: tx('演示小公寓，可拖动旋转或点击设备','Demo apartment. Drag to rotate or tap a device.'), onContextLost: () => {
+      }, { signal: current.signal, labels, stateLabel: isLarge ? (_id, state) => largeState(state) : objectStatus, canvasLabel: tx('演示户型，可拖动旋转或点击设备','Demo floor plan. Drag to rotate or tap a device.'), onContextLost: () => {
         if (disposed || current.signal.aborted) return;
         current.abort(); scene?.destroy(); scene = undefined; sceneStatus('error'); paint();
       } });
@@ -168,6 +218,36 @@ export function mountSandbox(container: HTMLElement, context: SandboxContext): (
       if (!disposed && !current.signal.aborted) { sceneStatus('error'); paint(); }
     }
   }
+  function switchTemplate(toLarge: boolean): void {
+    if (toLarge === Boolean(largeSession)) return;
+    const nextLarge = toLarge ? createLargeFlatSession() : undefined;
+    unsubscribe();
+    if (nextLarge) {
+      session.dispose();
+      largeSession = nextLarge;
+      unsubscribe = largeSession.subscribe(paint);
+    } else {
+      largeSession = undefined;
+      session = createSandboxSession();
+      unsubscribe = session.subscribe(paint);
+    }
+    selectedId = null; selectedObject = null; activePanel = 'devices';
+    preview = false; everyone = false; order = 'execution-first';
+    roomSelect!.value = ''; sampleSelect!.value = 'baseline';
+    root!.dataset.template = toLarge ? largeFlat.templateId : apartment.templateId;
+    container.classList.toggle('sandbox-apartment', !toLarge);
+    container.querySelector('#sandbox-scene-title')!.textContent = toLarge ? tx('大户型演示', 'Large flat demo') : s('离家检查');
+    container.querySelectorAll<HTMLButtonElement>('[data-template-id]').forEach(control =>
+      control.setAttribute('aria-pressed', String(control.dataset.templateId === root!.dataset.template)));
+    container.querySelector<HTMLElement>('#sandbox-small-rooms')!.hidden = toLarge;
+    container.querySelector<HTMLElement>('#sandbox-large-rooms')!.hidden = !toLarge;
+    container.querySelector<HTMLElement>('#sandbox-sample-field')!.hidden = !toLarge;
+    container.querySelector<HTMLButtonElement>('#sandbox-tasks-tab')!.hidden = toLarge;
+    container.querySelector('#sandbox-devices-tab')!.setAttribute('aria-selected','true');
+    container.querySelector<HTMLButtonElement>('#sandbox-devices-tab')!.tabIndex = 0;
+    panel!.setAttribute('aria-labelledby','sandbox-devices-tab');
+    void loadScene();
+  }
   const backToList = () => { const previous = selectedId; selectedId = null; selectedObject = null; paint(); if (previous) container.querySelector<HTMLButtonElement>(`[data-sandbox-action="detail"][data-furniture-id="${CSS.escape(previous)}"]`)?.focus({preventScroll:true}); };
   const onClick = (event: MouseEvent) => {
     const target = event.target instanceof Element ? event.target.closest<HTMLButtonElement>('button') : null;
@@ -175,9 +255,10 @@ export function mountSandbox(container: HTMLElement, context: SandboxContext): (
     const tab = target.dataset.sandboxTab, action = target.dataset.sandboxAction;
     try {
       feedback('');
+      if (action === 'template') { switchTemplate(target.dataset.templateId === largeFlat.templateId); return; }
       if (tab === 'devices' || tab === 'tasks') { activePanel = tab; selectedId = null; selectedObject = null; }
       else if (action === 'detail') { selectedId = target.dataset.furnitureId || null; selectedObject = null; }
-      else if (action === 'object') { selectedObject = target.dataset.objectId || null; selectedId = null; if (scene && selectedObject) scene.focus(selectedObject); }
+      else if (action === 'object') { selectedObject = target.dataset.objectId || null; selectedId = null; if (scene && selectedObject && (!largeSession || largeDevices.find(item => item.shared_id === selectedObject)?.spatial)) scene.focus(selectedObject); }
       else if (action === 'back') { backToList(); return; }
       else if (action === 'show-tasks') { activePanel = 'tasks'; selectedObject = null; selectedId = null; }
       else if (action === 'focus') { if (target.dataset.objectId) scene?.focus(target.dataset.objectId); }
@@ -200,7 +281,12 @@ export function mountSandbox(container: HTMLElement, context: SandboxContext): (
     const input = event.target;
     if (!(input instanceof HTMLSelectElement || input instanceof HTMLInputElement)) return;
     try {
-      if (input.matches('[data-sandbox-binding]')) {
+      if (input === sampleSelect && largeSession) { largeSession.selectSample(input.value); return; }
+      if (input === roomSelect && largeSession) {
+        selectedObject = null;
+        if (input.value) scene?.focus(input.value);
+        else scene?.reset();
+      } else if (input.matches('[data-sandbox-binding]')) {
         bindings = saveBinding(storage,context.getFurniture(),bindings,input.dataset.furnitureId!,input.value);
         feedback(tx('模型关联已保存','Scene link saved'));
       } else if (input.id === 'sandbox-readback-order') order = input.value === 'object-first' ? 'object-first' : 'execution-first';
@@ -212,11 +298,11 @@ export function mountSandbox(container: HTMLElement, context: SandboxContext): (
   container.addEventListener('homie:sandbox-back',event => { if (selectedId || selectedObject) { event.preventDefault(); backToList(); } },{signal:lifetime.signal});
   container.addEventListener('keydown',event => {
     if (event.key === 'Escape' && (selectedId || selectedObject)) { event.preventDefault(); backToList(); return; }
-    if (!(event.target instanceof Element) || !event.target.closest('[data-sandbox-tab]') || !['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+    if (largeSession || !(event.target instanceof Element) || !event.target.closest('[data-sandbox-tab]') || !['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
     event.preventDefault(); activePanel = event.key === 'Home' ? 'devices' : event.key === 'End' ? 'tasks' : activePanel === 'devices' ? 'tasks' : 'devices'; selectedId = null; selectedObject = null; paint(); container.querySelector<HTMLButtonElement>(`[data-sandbox-tab="${activePanel}"]`)?.focus();
   },{signal:lifetime.signal});
   window.addEventListener('homie:app-state',event => { appActive = (event as CustomEvent<{active:boolean}>).detail?.active !== false; scene?.setActive(appActive); },{signal:lifetime.signal});
-  const unsubscribe = session.subscribe(paint);
-  const cleanup = () => { if (disposed) return; disposed = true; lifetime.abort(); attempt?.abort(); unsubscribe(); session.dispose(); scene?.destroy(); scene = undefined; host.replaceChildren(); container.classList.remove('sandbox-active'); sceneReaders.delete(container); if (mounted.get(container) === cleanup) mounted.delete(container); };
+  unsubscribe = session.subscribe(paint);
+  const cleanup = () => { if (disposed) return; disposed = true; lifetime.abort(); attempt?.abort(); unsubscribe(); session.dispose(); largeSession = undefined; scene?.destroy(); scene = undefined; host.replaceChildren(); container.classList.remove('sandbox-active', 'sandbox-apartment'); sceneReaders.delete(container); if (mounted.get(container) === cleanup) mounted.delete(container); };
   mounted.set(container,cleanup); void loadScene(); return cleanup;
 }

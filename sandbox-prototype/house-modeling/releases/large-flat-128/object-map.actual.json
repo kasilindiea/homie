@@ -1,0 +1,1375 @@
+{
+  "template_id": "large_flat_128",
+  "asset_version": "0.2",
+  "schema_version": "0.2",
+  "asset": "future-home-large-flat-128-v0.2.glb",
+  "status": "extracted_from_glb",
+  "sha256": "117a154b3f10096ce0ec1767affe299ab1531f2d34f70c05d479911d5d31c0c2",
+  "bytes": 4483888,
+  "unit": "meter",
+  "coordinate_system": "glTF +X east +Y up +Z south; model north follows drawing-up",
+  "bounds_gltf_m": {
+    "min": [
+      -0.1,
+      -0.3,
+      -1.382415
+    ],
+    "max": [
+      14.045,
+      2.7,
+      11.617662
+    ]
+  },
+  "static_bathroom_parts": [
+    {
+      "node_name": "bathroom_ensuite__toilet",
+      "room_id": "bathroom_ensuite",
+      "world_gltf_m": [
+        0.43,
+        0.0,
+        3.45
+      ],
+      "static": true
+    },
+    {
+      "node_name": "bathroom_ensuite__shower_fixed",
+      "room_id": "bathroom_ensuite",
+      "world_gltf_m": [
+        0.45,
+        0.0,
+        2.81
+      ],
+      "static": true
+    },
+    {
+      "node_name": "bathroom_ensuite__shower_door",
+      "room_id": "bathroom_ensuite",
+      "world_gltf_m": [
+        1.576,
+        0.04,
+        2.81
+      ],
+      "static": true
+    },
+    {
+      "node_name": "bathroom_shared__toilet",
+      "room_id": "bathroom_shared",
+      "world_gltf_m": [
+        5.2,
+        0.0,
+        3.45
+      ],
+      "static": true
+    },
+    {
+      "node_name": "bathroom_shared__shower_fixed",
+      "room_id": "bathroom_shared",
+      "world_gltf_m": [
+        5.28,
+        0.0,
+        2.81
+      ],
+      "static": true
+    },
+    {
+      "node_name": "bathroom_shared__shower_door",
+      "room_id": "bathroom_shared",
+      "world_gltf_m": [
+        6.476,
+        0.04,
+        2.81
+      ],
+      "static": true
+    }
+  ],
+  "home_camera": {
+    "target_node": "home__focus",
+    "target_world_gltf_m": [
+      6.7,
+      0.65,
+      5.5
+    ],
+    "camera_offset_gltf_m": [
+      12,
+      19,
+      16
+    ],
+    "vertical_fov_degrees": 34,
+    "polar_angle_limits_degrees": [
+      20,
+      55
+    ],
+    "adaptive_fit": true
+  },
+  "objects": [
+    {
+      "shared_id": "entryway",
+      "display_name": "玄关",
+      "room_id": "entryway",
+      "object_type": "room",
+      "spatial": true,
+      "node_name": "entryway",
+      "node_index": 304,
+      "parent_node": "apartment_root",
+      "root_world_gltf_m": [
+        10.225,
+        0.0,
+        10.05
+      ],
+      "camera_offset_gltf_m": [
+        5,
+        7,
+        6
+      ],
+      "anchor_name": "entryway__anchor",
+      "anchor_world_gltf_m": [
+        10.2,
+        0.06,
+        9.65
+      ],
+      "anchor_world_blender_m": [
+        10.2,
+        -9.65,
+        0.06
+      ],
+      "focus_name": "entryway__focus",
+      "focus_world_gltf_m": [
+        10.225,
+        0.65,
+        10.05
+      ],
+      "focus_world_blender_m": [
+        10.225,
+        -10.05,
+        0.65
+      ],
+      "floor_polygon_blender_m": [
+        [
+          9.4,
+          -11.1
+        ],
+        [
+          11.05,
+          -11.1
+        ],
+        [
+          11.05,
+          -9
+        ],
+        [
+          9.4,
+          -9
+        ]
+      ]
+    },
+    {
+      "shared_id": "living_room",
+      "display_name": "客厅",
+      "room_id": "living_room",
+      "object_type": "room",
+      "spatial": true,
+      "node_name": "living_room",
+      "node_index": 417,
+      "parent_node": "apartment_root",
+      "root_world_gltf_m": [
+        8.825,
+        0.0,
+        4.05
+      ],
+      "camera_offset_gltf_m": [
+        5,
+        7,
+        6
+      ],
+      "anchor_name": "living_room__anchor",
+      "anchor_world_gltf_m": [
+        9.05,
+        0.06,
+        5.25
+      ],
+      "anchor_world_blender_m": [
+        9.05,
+        -5.25,
+        0.06
+      ],
+      "focus_name": "living_room__focus",
+      "focus_world_gltf_m": [
+        8.825,
+        0.65,
+        4.05
+      ],
+      "focus_world_blender_m": [
+        8.825,
+        -4.05,
+        0.65
+      ],
+      "floor_polygon_blender_m": [
+        [
+          6.6,
+          -6.3
+        ],
+        [
+          11.05,
+          -6.3
+        ],
+        [
+          11.05,
+          -1.8
+        ],
+        [
+          6.6,
+          -1.8
+        ]
+      ]
+    },
+    {
+      "shared_id": "bedroom",
+      "display_name": "主卧",
+      "room_id": "bedroom",
+      "object_type": "room",
+      "spatial": true,
+      "node_name": "bedroom",
+      "node_index": 233,
+      "parent_node": "apartment_root",
+      "root_world_gltf_m": [
+        2.0,
+        0.0,
+        6.8
+      ],
+      "camera_offset_gltf_m": [
+        5,
+        7,
+        6
+      ],
+      "anchor_name": "bedroom__anchor",
+      "anchor_world_gltf_m": [
+        2.8,
+        0.06,
+        8.4
+      ],
+      "anchor_world_blender_m": [
+        2.8,
+        -8.4,
+        0.06
+      ],
+      "focus_name": "bedroom__focus",
+      "focus_world_gltf_m": [
+        2.0,
+        0.65,
+        6.8
+      ],
+      "focus_world_blender_m": [
+        2.0,
+        -6.8,
+        0.65
+      ],
+      "floor_polygon_blender_m": [
+        [
+          0,
+          -4.8
+        ],
+        [
+          2.4,
+          -4.8
+        ],
+        [
+          2.4,
+          -6.1
+        ],
+        [
+          3.6,
+          -6.1
+        ],
+        [
+          3.6,
+          -9.5
+        ],
+        [
+          0,
+          -9.5
+        ]
+      ]
+    },
+    {
+      "shared_id": "balcony",
+      "display_name": "景观阳台",
+      "room_id": "balcony",
+      "object_type": "room",
+      "spatial": true,
+      "node_name": "balcony",
+      "node_index": 129,
+      "parent_node": "apartment_root",
+      "root_world_gltf_m": [
+        8.825,
+        0.0,
+        0.9
+      ],
+      "camera_offset_gltf_m": [
+        5,
+        7,
+        6
+      ],
+      "anchor_name": "balcony__anchor",
+      "anchor_world_gltf_m": [
+        8.6,
+        0.06,
+        0.85
+      ],
+      "anchor_world_blender_m": [
+        8.6,
+        -0.85,
+        0.06
+      ],
+      "focus_name": "balcony__focus",
+      "focus_world_gltf_m": [
+        8.825,
+        0.65,
+        0.9
+      ],
+      "focus_world_blender_m": [
+        8.825,
+        -0.9,
+        0.65
+      ],
+      "floor_polygon_blender_m": [
+        [
+          6.6,
+          -1.8
+        ],
+        [
+          11.05,
+          -1.8
+        ],
+        [
+          11.05,
+          0
+        ],
+        [
+          6.6,
+          0
+        ]
+      ]
+    },
+    {
+      "shared_id": "dining_room",
+      "display_name": "餐厅",
+      "room_id": "dining_room",
+      "object_type": "room",
+      "spatial": true,
+      "node_name": "dining_room",
+      "node_index": 282,
+      "parent_node": "apartment_root",
+      "root_world_gltf_m": [
+        8.825,
+        0.0,
+        7.65
+      ],
+      "camera_offset_gltf_m": [
+        5,
+        7,
+        6
+      ],
+      "anchor_name": "dining_room__anchor",
+      "anchor_world_gltf_m": [
+        10.25,
+        0.06,
+        7.65
+      ],
+      "anchor_world_blender_m": [
+        10.25,
+        -7.65,
+        0.06
+      ],
+      "focus_name": "dining_room__focus",
+      "focus_world_gltf_m": [
+        8.825,
+        0.65,
+        7.65
+      ],
+      "focus_world_blender_m": [
+        8.825,
+        -7.65,
+        0.65
+      ],
+      "floor_polygon_blender_m": [
+        [
+          6.6,
+          -9
+        ],
+        [
+          11.05,
+          -9
+        ],
+        [
+          11.05,
+          -6.3
+        ],
+        [
+          6.6,
+          -6.3
+        ]
+      ]
+    },
+    {
+      "shared_id": "kitchen",
+      "display_name": "厨房",
+      "room_id": "kitchen",
+      "object_type": "room",
+      "spatial": true,
+      "node_name": "kitchen",
+      "node_index": 333,
+      "parent_node": "apartment_root",
+      "root_world_gltf_m": [
+        8.0,
+        0.0,
+        10.05
+      ],
+      "camera_offset_gltf_m": [
+        5,
+        7,
+        6
+      ],
+      "anchor_name": "kitchen__anchor",
+      "anchor_world_gltf_m": [
+        7.8,
+        0.06,
+        9.8
+      ],
+      "anchor_world_blender_m": [
+        7.8,
+        -9.8,
+        0.06
+      ],
+      "focus_name": "kitchen__focus",
+      "focus_world_gltf_m": [
+        8.0,
+        0.65,
+        10.05
+      ],
+      "focus_world_blender_m": [
+        8.0,
+        -10.05,
+        0.65
+      ],
+      "floor_polygon_blender_m": [
+        [
+          6.6,
+          -11.1
+        ],
+        [
+          9.4,
+          -11.1
+        ],
+        [
+          9.4,
+          -9
+        ],
+        [
+          6.6,
+          -9
+        ]
+      ]
+    },
+    {
+      "shared_id": "bedroom_guest",
+      "display_name": "客卧",
+      "room_id": "bedroom_guest",
+      "object_type": "room",
+      "spatial": true,
+      "node_name": "bedroom_guest",
+      "node_index": 249,
+      "parent_node": "apartment_root",
+      "root_world_gltf_m": [
+        3.25,
+        0.0,
+        3.3
+      ],
+      "camera_offset_gltf_m": [
+        5,
+        7,
+        6
+      ],
+      "anchor_name": "bedroom_guest__anchor",
+      "anchor_world_gltf_m": [
+        4.2,
+        0.06,
+        3.55
+      ],
+      "anchor_world_blender_m": [
+        4.2,
+        -3.55,
+        0.06
+      ],
+      "focus_name": "bedroom_guest__focus",
+      "focus_world_gltf_m": [
+        3.25,
+        0.65,
+        3.3
+      ],
+      "focus_world_blender_m": [
+        3.25,
+        -3.3,
+        0.65
+      ],
+      "floor_polygon_blender_m": [
+        [
+          1.7,
+          -4.8
+        ],
+        [
+          4.8,
+          -4.8
+        ],
+        [
+          4.8,
+          -1.8
+        ],
+        [
+          1.7,
+          -1.8
+        ]
+      ]
+    },
+    {
+      "shared_id": "bedroom_secondary",
+      "display_name": "次卧",
+      "room_id": "bedroom_secondary",
+      "object_type": "room",
+      "spatial": true,
+      "node_name": "bedroom_secondary",
+      "node_index": 260,
+      "parent_node": "apartment_root",
+      "root_world_gltf_m": [
+        5.1,
+        0.0,
+        7.8
+      ],
+      "camera_offset_gltf_m": [
+        5,
+        7,
+        6
+      ],
+      "anchor_name": "bedroom_secondary__anchor",
+      "anchor_world_gltf_m": [
+        6.05,
+        0.06,
+        8.0
+      ],
+      "anchor_world_blender_m": [
+        6.05,
+        -8.0,
+        0.06
+      ],
+      "focus_name": "bedroom_secondary__focus",
+      "focus_world_gltf_m": [
+        5.1,
+        0.65,
+        7.8
+      ],
+      "focus_world_blender_m": [
+        5.1,
+        -7.8,
+        0.65
+      ],
+      "floor_polygon_blender_m": [
+        [
+          3.6,
+          -9.5
+        ],
+        [
+          6.6,
+          -9.5
+        ],
+        [
+          6.6,
+          -6.1
+        ],
+        [
+          3.6,
+          -6.1
+        ]
+      ]
+    },
+    {
+      "shared_id": "study",
+      "display_name": "书房",
+      "room_id": "study",
+      "object_type": "room",
+      "spatial": true,
+      "node_name": "study",
+      "node_index": 439,
+      "parent_node": "apartment_root",
+      "root_world_gltf_m": [
+        12.566667,
+        0.0,
+        5.2
+      ],
+      "camera_offset_gltf_m": [
+        5,
+        7,
+        6
+      ],
+      "anchor_name": "study__anchor",
+      "anchor_world_gltf_m": [
+        11.8,
+        0.06,
+        5.3
+      ],
+      "anchor_world_blender_m": [
+        11.8,
+        -5.3,
+        0.06
+      ],
+      "focus_name": "study__focus",
+      "focus_world_gltf_m": [
+        12.566667,
+        0.65,
+        5.2
+      ],
+      "focus_world_blender_m": [
+        12.566667,
+        -5.2,
+        0.65
+      ],
+      "floor_polygon_blender_m": [
+        [
+          11.05,
+          -3.8
+        ],
+        [
+          13.95,
+          -3.8
+        ],
+        [
+          13.95,
+          -5.5
+        ],
+        [
+          12.7,
+          -5.5
+        ],
+        [
+          12.7,
+          -6.3
+        ],
+        [
+          11.05,
+          -6.3
+        ]
+      ]
+    },
+    {
+      "shared_id": "hallway",
+      "display_name": "走廊",
+      "room_id": "hallway",
+      "object_type": "room",
+      "spatial": true,
+      "node_name": "hallway",
+      "node_index": 308,
+      "parent_node": "apartment_root",
+      "root_world_gltf_m": [
+        4.5,
+        0.0,
+        5.45
+      ],
+      "camera_offset_gltf_m": [
+        5,
+        7,
+        6
+      ],
+      "anchor_name": "hallway__anchor",
+      "anchor_world_gltf_m": [
+        4.8,
+        0.06,
+        5.45
+      ],
+      "anchor_world_blender_m": [
+        4.8,
+        -5.45,
+        0.06
+      ],
+      "focus_name": "hallway__focus",
+      "focus_world_gltf_m": [
+        4.5,
+        0.65,
+        5.45
+      ],
+      "focus_world_blender_m": [
+        4.5,
+        -5.45,
+        0.65
+      ],
+      "floor_polygon_blender_m": [
+        [
+          2.4,
+          -6.1
+        ],
+        [
+          6.6,
+          -6.1
+        ],
+        [
+          6.6,
+          -4.8
+        ],
+        [
+          2.4,
+          -4.8
+        ]
+      ]
+    },
+    {
+      "shared_id": "bathroom_ensuite",
+      "display_name": "主卧卫生间",
+      "room_id": "bathroom_ensuite",
+      "object_type": "room",
+      "spatial": true,
+      "node_name": "bathroom_ensuite",
+      "node_index": 167,
+      "parent_node": "apartment_root",
+      "root_world_gltf_m": [
+        0.85,
+        0.0,
+        3.3
+      ],
+      "camera_offset_gltf_m": [
+        5,
+        7,
+        6
+      ],
+      "anchor_name": "bathroom_ensuite__anchor",
+      "anchor_world_gltf_m": [
+        0.95,
+        0.06,
+        3.8
+      ],
+      "anchor_world_blender_m": [
+        0.95,
+        -3.8,
+        0.06
+      ],
+      "focus_name": "bathroom_ensuite__focus",
+      "focus_world_gltf_m": [
+        0.85,
+        0.65,
+        3.3
+      ],
+      "focus_world_blender_m": [
+        0.85,
+        -3.3,
+        0.65
+      ],
+      "floor_polygon_blender_m": [
+        [
+          0,
+          -4.8
+        ],
+        [
+          1.7,
+          -4.8
+        ],
+        [
+          1.7,
+          -1.8
+        ],
+        [
+          0,
+          -1.8
+        ]
+      ]
+    },
+    {
+      "shared_id": "bathroom_shared",
+      "display_name": "公共卫生间",
+      "room_id": "bathroom_shared",
+      "object_type": "room",
+      "spatial": true,
+      "node_name": "bathroom_shared",
+      "node_index": 205,
+      "parent_node": "apartment_root",
+      "root_world_gltf_m": [
+        5.7,
+        0.0,
+        3.3
+      ],
+      "camera_offset_gltf_m": [
+        5,
+        7,
+        6
+      ],
+      "anchor_name": "bathroom_shared__anchor",
+      "anchor_world_gltf_m": [
+        5.75,
+        0.06,
+        4.1
+      ],
+      "anchor_world_blender_m": [
+        5.75,
+        -4.1,
+        0.06
+      ],
+      "focus_name": "bathroom_shared__focus",
+      "focus_world_gltf_m": [
+        5.7,
+        0.65,
+        3.3
+      ],
+      "focus_world_blender_m": [
+        5.7,
+        -3.3,
+        0.65
+      ],
+      "floor_polygon_blender_m": [
+        [
+          4.8,
+          -4.8
+        ],
+        [
+          6.6,
+          -4.8
+        ],
+        [
+          6.6,
+          -1.8
+        ],
+        [
+          4.8,
+          -1.8
+        ]
+      ]
+    },
+    {
+      "shared_id": "laundry_balcony",
+      "display_name": "生活阳台",
+      "room_id": "laundry_balcony",
+      "object_type": "room",
+      "spatial": true,
+      "node_name": "laundry_balcony",
+      "node_index": 379,
+      "parent_node": "apartment_root",
+      "root_world_gltf_m": [
+        5.1,
+        0.0,
+        10.3
+      ],
+      "camera_offset_gltf_m": [
+        5,
+        7,
+        6
+      ],
+      "anchor_name": "laundry_balcony__anchor",
+      "anchor_world_gltf_m": [
+        4.5,
+        0.06,
+        10.15
+      ],
+      "anchor_world_blender_m": [
+        4.5,
+        -10.15,
+        0.06
+      ],
+      "focus_name": "laundry_balcony__focus",
+      "focus_world_gltf_m": [
+        5.1,
+        0.65,
+        10.3
+      ],
+      "focus_world_blender_m": [
+        5.1,
+        -10.3,
+        0.65
+      ],
+      "floor_polygon_blender_m": [
+        [
+          3.6,
+          -11.1
+        ],
+        [
+          6.6,
+          -11.1
+        ],
+        [
+          6.6,
+          -9.5
+        ],
+        [
+          3.6,
+          -9.5
+        ]
+      ]
+    },
+    {
+      "shared_id": "entry_door",
+      "display_name": "玄关门",
+      "room_id": "entryway",
+      "object_type": "manual_check",
+      "spatial": true,
+      "node_name": "entry_door",
+      "node_index": 296,
+      "parent_node": "entryway",
+      "root_world_gltf_m": [
+        11.05,
+        0.0,
+        10.15
+      ],
+      "camera_offset_gltf_m": [
+        -4.4,
+        5,
+        -3.4
+      ],
+      "anchor_name": "entry_door__anchor",
+      "anchor_world_gltf_m": [
+        10.7,
+        2.35,
+        10.15
+      ],
+      "anchor_world_blender_m": [
+        10.7,
+        -10.15,
+        2.35
+      ],
+      "focus_name": "entry_door__focus",
+      "focus_world_gltf_m": [
+        10.149999,
+        1.05,
+        10.049999
+      ],
+      "focus_world_blender_m": [
+        10.149999,
+        -10.049999,
+        1.05
+      ]
+    },
+    {
+      "shared_id": "balcony_door",
+      "display_name": "景观阳台门",
+      "room_id": "balcony",
+      "object_type": "contact_sensor",
+      "spatial": true,
+      "node_name": "balcony_door",
+      "node_index": 119,
+      "parent_node": "balcony",
+      "root_world_gltf_m": [
+        8.75,
+        0.0,
+        1.8
+      ],
+      "camera_offset_gltf_m": [
+        4.8,
+        5.3,
+        5
+      ],
+      "anchor_name": "balcony_door__anchor",
+      "anchor_world_gltf_m": [
+        8.75,
+        2.55,
+        1.6
+      ],
+      "anchor_world_blender_m": [
+        8.75,
+        -1.6,
+        2.55
+      ],
+      "focus_name": "balcony_door__focus",
+      "focus_world_gltf_m": [
+        8.75,
+        1.1,
+        2.2
+      ],
+      "focus_world_blender_m": [
+        8.75,
+        -2.2,
+        1.1
+      ]
+    },
+    {
+      "shared_id": "living_room_light",
+      "display_name": "客厅灯",
+      "room_id": "living_room",
+      "object_type": "switch",
+      "spatial": true,
+      "node_name": "living_room_light",
+      "node_index": 405,
+      "parent_node": "living_room",
+      "root_world_gltf_m": [
+        7.0,
+        0.0,
+        5.8
+      ],
+      "camera_offset_gltf_m": [
+        4.2,
+        4.8,
+        -4.2
+      ],
+      "anchor_name": "living_room_light__anchor",
+      "anchor_world_gltf_m": [
+        7.0,
+        1.9,
+        5.8
+      ],
+      "anchor_world_blender_m": [
+        7.0,
+        -5.8,
+        1.9
+      ],
+      "focus_name": "living_room_light__focus",
+      "focus_world_gltf_m": [
+        7.15,
+        0.95,
+        5.4
+      ],
+      "focus_world_blender_m": [
+        7.15,
+        -5.4,
+        0.95
+      ]
+    },
+    {
+      "shared_id": "bedroom_ac",
+      "display_name": "主卧空调",
+      "room_id": "bedroom",
+      "object_type": "switch",
+      "spatial": true,
+      "node_name": "bedroom_ac",
+      "node_index": 217,
+      "parent_node": "bedroom",
+      "root_world_gltf_m": [
+        0.15,
+        2.22,
+        7.1
+      ],
+      "camera_offset_gltf_m": [
+        4.2,
+        4.5,
+        4.2
+      ],
+      "anchor_name": "bedroom_ac__anchor",
+      "anchor_world_gltf_m": [
+        0.4,
+        2.55,
+        7.1
+      ],
+      "anchor_world_blender_m": [
+        0.4,
+        -7.1,
+        2.55
+      ],
+      "focus_name": "bedroom_ac__focus",
+      "focus_world_gltf_m": [
+        0.65,
+        1.65,
+        7.1
+      ],
+      "focus_world_blender_m": [
+        0.65,
+        -7.1,
+        1.65
+      ]
+    },
+    {
+      "shared_id": "washing_machine",
+      "display_name": "洗衣机",
+      "room_id": "laundry_balcony",
+      "object_type": "washing_machine",
+      "spatial": true,
+      "node_name": "washing_machine",
+      "node_index": 378,
+      "parent_node": "laundry_balcony",
+      "root_world_gltf_m": [
+        6.15,
+        0.0,
+        10.23
+      ],
+      "camera_offset_gltf_m": [
+        -4.5,
+        4.2,
+        0.25
+      ],
+      "anchor_name": "washing_machine__anchor",
+      "anchor_world_gltf_m": [
+        5.82,
+        1.15,
+        10.23
+      ],
+      "anchor_world_blender_m": [
+        5.82,
+        -10.23,
+        1.15
+      ],
+      "focus_name": "washing_machine__focus",
+      "focus_world_gltf_m": [
+        5.83,
+        0.6,
+        10.23
+      ],
+      "focus_world_blender_m": [
+        5.83,
+        -10.23,
+        0.6
+      ]
+    },
+    {
+      "shared_id": "kitchen_fridge",
+      "display_name": "冰箱",
+      "room_id": "kitchen",
+      "object_type": "refrigerator",
+      "spatial": true,
+      "node_name": "kitchen_fridge",
+      "node_index": 321,
+      "parent_node": "kitchen",
+      "root_world_gltf_m": [
+        9.0,
+        0.0,
+        10.6
+      ],
+      "camera_offset_gltf_m": [
+        3.8,
+        4.8,
+        -3.8
+      ],
+      "anchor_name": "kitchen_fridge__anchor",
+      "anchor_world_gltf_m": [
+        9.0,
+        2.0,
+        10.25
+      ],
+      "anchor_world_blender_m": [
+        9.0,
+        -10.25,
+        2.0
+      ],
+      "focus_name": "kitchen_fridge__focus",
+      "focus_world_gltf_m": [
+        8.9,
+        1.05,
+        10.100001
+      ],
+      "focus_world_blender_m": [
+        8.9,
+        -10.100001,
+        1.05
+      ]
+    },
+    {
+      "shared_id": "dining_room_light",
+      "display_name": "餐厅灯",
+      "room_id": "dining_room",
+      "object_type": "switch",
+      "spatial": true,
+      "node_name": "dining_room_light",
+      "node_index": 277,
+      "parent_node": "dining_room",
+      "root_world_gltf_m": [
+        8.8,
+        0.0,
+        7.65
+      ],
+      "camera_offset_gltf_m": [
+        4.6,
+        5.5,
+        5.5
+      ],
+      "anchor_name": "dining_room_light__anchor",
+      "anchor_world_gltf_m": [
+        8.8,
+        2.65,
+        7.65
+      ],
+      "anchor_world_blender_m": [
+        8.8,
+        -7.65,
+        2.65
+      ],
+      "focus_name": "dining_room_light__focus",
+      "focus_world_gltf_m": [
+        8.8,
+        1.4,
+        7.65
+      ],
+      "focus_world_blender_m": [
+        8.8,
+        -7.65,
+        1.4
+      ]
+    },
+    {
+      "shared_id": "study_light",
+      "display_name": "书房灯",
+      "room_id": "study",
+      "object_type": "switch",
+      "spatial": true,
+      "node_name": "study_light",
+      "node_index": 435,
+      "parent_node": "study",
+      "root_world_gltf_m": [
+        12.9,
+        0.77,
+        4.15
+      ],
+      "camera_offset_gltf_m": [
+        3.4,
+        3.8,
+        3.4
+      ],
+      "anchor_name": "study_light__anchor",
+      "anchor_world_gltf_m": [
+        12.9,
+        1.43,
+        4.15
+      ],
+      "anchor_world_blender_m": [
+        12.9,
+        -4.15,
+        1.43
+      ],
+      "focus_name": "study_light__focus",
+      "focus_world_gltf_m": [
+        12.6,
+        1.0,
+        4.35
+      ],
+      "focus_world_blender_m": [
+        12.6,
+        -4.35,
+        1.0
+      ]
+    },
+    {
+      "shared_id": "living_room_tv",
+      "display_name": "客厅电视",
+      "room_id": "living_room",
+      "object_type": "switch",
+      "spatial": true,
+      "node_name": "living_room_tv",
+      "node_index": 412,
+      "parent_node": "living_room",
+      "root_world_gltf_m": [
+        6.82,
+        0.0,
+        3.3
+      ],
+      "camera_offset_gltf_m": [
+        4.2,
+        4.2,
+        3.8
+      ],
+      "anchor_name": "living_room_tv__anchor",
+      "anchor_world_gltf_m": [
+        7.0,
+        1.83,
+        3.3
+      ],
+      "anchor_world_blender_m": [
+        7.0,
+        -3.3,
+        1.83
+      ],
+      "focus_name": "living_room_tv__focus",
+      "focus_world_gltf_m": [
+        7.0,
+        0.95,
+        3.3
+      ],
+      "focus_world_blender_m": [
+        7.0,
+        -3.3,
+        0.95
+      ]
+    },
+    {
+      "shared_id": "living_room_curtain",
+      "display_name": "客厅窗帘",
+      "room_id": "living_room",
+      "object_type": "cover",
+      "spatial": true,
+      "node_name": "living_room_curtain",
+      "node_index": 397,
+      "parent_node": "living_room",
+      "root_world_gltf_m": [
+        8.75,
+        0.0,
+        2.02
+      ],
+      "camera_offset_gltf_m": [
+        4.8,
+        4.8,
+        4.8
+      ],
+      "anchor_name": "living_room_curtain__anchor",
+      "anchor_world_gltf_m": [
+        10.1,
+        2.75,
+        2.05
+      ],
+      "anchor_world_blender_m": [
+        10.1,
+        -2.05,
+        2.75
+      ],
+      "focus_name": "living_room_curtain__focus",
+      "focus_world_gltf_m": [
+        9.0,
+        1.65,
+        2.35
+      ],
+      "focus_world_blender_m": [
+        9.0,
+        -2.35,
+        1.65
+      ]
+    },
+    {
+      "shared_id": "laundry_balcony_door",
+      "display_name": "生活阳台门",
+      "room_id": "laundry_balcony",
+      "object_type": "contact_sensor",
+      "spatial": true,
+      "node_name": "laundry_balcony_door",
+      "node_index": 354,
+      "parent_node": "laundry_balcony",
+      "root_world_gltf_m": [
+        5.05,
+        0.0,
+        9.5
+      ],
+      "camera_offset_gltf_m": [
+        3.8,
+        4.4,
+        4.5
+      ],
+      "anchor_name": "laundry_balcony_door__anchor",
+      "anchor_world_gltf_m": [
+        4.8,
+        2.4,
+        9.75
+      ],
+      "anchor_world_blender_m": [
+        4.8,
+        -9.75,
+        2.4
+      ],
+      "focus_name": "laundry_balcony_door__focus",
+      "focus_world_gltf_m": [
+        5.05,
+        1.0,
+        9.5
+      ],
+      "focus_world_blender_m": [
+        5.05,
+        -9.5,
+        1.0
+      ]
+    },
+    {
+      "shared_id": "home_battery",
+      "display_name": "家庭电池",
+      "room_id": null,
+      "object_type": "read_only",
+      "spatial": false,
+      "node_name": null,
+      "anchor_name": null,
+      "focus_name": null,
+      "ui_target": "whole_home_energy_card"
+    }
+  ]
+}
