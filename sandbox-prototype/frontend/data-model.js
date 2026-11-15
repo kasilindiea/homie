@@ -22,6 +22,8 @@ export function trustedHistory(o) {
 export class ProductStore {
   constructor(map, snapshot) {
     this.map = map;
+    this.templateId = map.template_id ?? TEMPLATE;
+    if (typeof this.templateId !== 'string' || !this.templateId) throw new TypeError('模板标识无效');
     this.listeners = new Set();
     this.generation = 0;
     this.reset(snapshot);
@@ -34,12 +36,12 @@ export class ProductStore {
     this.family = { user_away:snapshot.user_away ?? null, occupancy:snapshot.occupancy ?? 'unknown', retain_room_ids:copy(snapshot.retain_room_ids || []) };
     this.energy = normalizeEnergy(snapshot.energy);
     this.capabilities = copy(snapshot.capabilities || {});
-    this.devices = new DeviceStateStore({ templateId:TEMPLATE, objectDefinitions:this.map.objects, initialSnapshot:{ template_id:TEMPLATE, demo_mode:true, objects:this.prepareObjects(snapshot.objects, false) } });
+    this.devices = new DeviceStateStore({ templateId:this.templateId, objectDefinitions:this.map.objects, initialSnapshot:{ template_id:this.templateId, demo_mode:true, objects:this.prepareObjects(snapshot.objects, false) } });
     if (snapshot.plan) this.applyTask(snapshot, snapshot.plan.task_id);
     this.emit();
   }
   validateEnvelope(body) {
-    if (body.template_id !== TEMPLATE) throw new TypeError('模板不匹配，响应未应用');
+    if (body.template_id !== this.templateId) throw new TypeError('模板不匹配，响应未应用');
     if (body.demo_mode !== true) throw new TypeError('本地演示仅接受 demo_mode=true');
   }
   prepareObjects(input, incremental = true) {
@@ -83,8 +85,8 @@ export class ProductStore {
         const preserved = this.devices.getSnapshot().objects;
         // A late read must not roll back a newer accepted reading.
         for (const id of Object.keys(body.objects)) if (!own(objects,id)) objects[id] = preserved[id];
-        this.devices.replaceSnapshot({ template_id:TEMPLATE, demo_mode:true, objects });
-      } else this.devices.patchObjects({ template_id:TEMPLATE, objects });
+        this.devices.replaceSnapshot({ template_id:this.templateId, demo_mode:true, objects });
+      } else this.devices.patchObjects({ template_id:this.templateId, objects });
     }
     if (own(body,'energy')) this.energy = normalizeEnergy(body.energy);
     if (body.capabilities) this.capabilities = { ...this.capabilities, ...copy(body.capabilities) };

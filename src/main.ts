@@ -2,6 +2,7 @@ import './styles.css';
 import { createAppStore, FURNITURE_TYPES, ALL_FURNITURE_TYPES, DEFAULT_ROOMS } from './domain';
 import { icon, roomIllustration } from './icons';
 import { renderSandbox, mountSandbox } from './features/sandbox';
+import { renderImport, mountImport } from './features/import';
 import { getLocale, setLocale, t, roomLabel, roomValue, translateError, type Locale } from './i18n';
 
 const store = createAppStore();
@@ -28,7 +29,7 @@ function toast(text: string) {
 }
 
 function brand(compact = false) {
-  return `<div class="brand${compact ? ' brand-compact' : ''}"><span class="brand-mark">${icon('home')}</span><span class="brand-word">Homie</span></div>`;
+  return `<div class="brand${compact ? ' brand-compact' : ''}"><span class="brand-mark"><img src="${import.meta.env.BASE_URL}brand-mark.svg" alt="" aria-hidden="true" /></span><span class="brand-word">Homie</span></div>`;
 }
 
 function loginPage() {
@@ -42,7 +43,7 @@ function loginPage() {
         <p id="login-error" class="form-error" role="alert"></p>
         <button class="button button-primary login-submit" type="submit">${t('进入我的家')}${icon('arrow')}</button>
       </form>
-    </section><footer class="login-footer"><span class="tiny-dot"></span>${t('开发者专属访问')}<span class="footer-divider">/</span>V0.4.0</footer>
+    </section><footer class="login-footer"><span class="tiny-dot"></span>${t('开发者专属访问')}<span class="footer-divider">/</span>V0.0.7</footer>
   </main>`;
   document.querySelector<HTMLFormElement>('#login-form')!.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -97,16 +98,11 @@ function furnitureList() {
   return `<div class="furniture-grid">${filtered.map((item) => `<button class="furniture-card" data-action="detail" data-id="${escapeHtml(item.id)}" aria-label="${escapeHtml(t('查看{name}', { name: item.name }))}"><span class="furniture-art furniture-art-${escapeHtml(item.type)}">${icon(item.type)}<span class="furniture-art-spark"></span></span><span class="furniture-card-info"><span class="furniture-room">${escapeHtml(roomLabel(item.room))}</span><strong>${escapeHtml(item.name)}</strong><span class="furniture-type">${escapeHtml(typeLabel(item.type))}${item.model ? ` · ${escapeHtml(item.model)}` : ''}</span></span><span class="card-arrow">${icon('chevron')}</span></button>`).join('')}</div>`;
 }
 
-function importPage() {
-  return `${topHeader('导入', '把熟悉的生活带回家')}
-    <section class="placeholder-page"><div class="placeholder-visual import-visual"><span class="placeholder-orbit orbit-one"></span><span class="placeholder-orbit orbit-two"></span><span class="placeholder-main-icon">${icon('import')}</span><span class="placeholder-star">✦</span></div><span class="coming-badge">${t('正在留白，等待更多可能')}</span><h2>${t('让熟悉的家具，来到这里')}</h2><p>${t('导入功能将在后续版本开放。')}<br />${t('现在可以先手动添加你的家具。')}</p><button class="button button-outline" data-action="go-add">${t('去添加家具')}${icon('arrow')}</button></section>`;
-}
-
 function accountPage() {
   const { settings, session, furniture } = store.getState();
   return `${topHeader('账号', '属于你的家', '')}
     <section class="profile-card"><div class="profile-avatar">${icon('user')}<span>${icon('check')}</span></div><div><span class="developer-badge">${t('开发者')}</span><h2>${escapeHtml(settings.nickname)}</h2><p>${escapeHtml(session?.username ?? '')}</p></div><span class="profile-leaf">${icon('leaf')}</span></section>
-    <section class="settings-section" id="about-section"><div class="section-heading"><h2>${t('关于 Homie')}</h2></div><div class="about-card"><div class="about-row"><span>${icon('home')}${t('当前版本')}</span><span>0.4.0</span></div><div class="about-row"><span>${icon('sofa')}${t('已添加家具')}</span><span>${t('{count} 件', { count: furniture.length })}</span></div><div class="about-row"><span>${icon('shield')}${t('数据存储')}</span><span>${t('当前设备')}</span></div></div><p class="settings-note">${t('家具和设置保存在当前设备，退出登录不会删除。卸载应用或清除数据会移除这些记录。')}</p><p class="account-signature">Homie · ${t('让生活，安然有序。')}</p></section>
+    <section class="settings-section" id="about-section"><div class="section-heading"><h2>${t('关于 Homie')}</h2></div><div class="about-card"><div class="about-row"><span>${icon('home')}${t('当前版本')}</span><span>0.0.7</span></div><div class="about-row"><span>${icon('sofa')}${t('已添加家具')}</span><span>${t('{count} 件', { count: furniture.length })}</span></div><div class="about-row"><span>${icon('shield')}${t('数据存储')}</span><span>${t('当前设备')}</span></div></div><p class="settings-note">${t('家具和设置保存在当前设备，退出登录不会删除。卸载应用或清除数据会移除这些记录。')}</p><p class="account-signature">Homie · ${t('让生活，安然有序。')}</p></section>
     <section class="settings-section" id="settings-section"><div class="section-heading"><h2>${t('我的设置')}</h2>${icon('settings')}</div><form id="settings-form" class="settings-card" novalidate>
       <label class="field-label" for="nickname">${t('显示名称')}</label><input class="plain-input" id="nickname" name="nickname" value="${escapeHtml(settings.nickname)}" placeholder="${t('你希望我们如何称呼你')}" maxlength="24" required />
       <label class="field-label" for="default-room">${t('默认添加房间')}</label><input class="plain-input" id="default-room" name="defaultRoom" value="${escapeHtml(roomLabel(settings.defaultRoom))}" list="settings-rooms" maxlength="20" required /><datalist id="settings-rooms">${DEFAULT_ROOMS.map((room) => `<option value="${escapeHtml(roomLabel(room))}"></option>`).join('')}</datalist><p class="field-hint">${t('添加家具时自动选择，也可以随时更改。')}</p>
@@ -121,12 +117,13 @@ function render() {
   document.documentElement.lang = getLocale();
   document.title = 'Homie';
   if (!store.getState().session) { loginPage(); return; }
-  const content = activeTab === 'add' ? furniturePage() : activeTab === 'account' ? accountPage() : activeTab === 'sandbox' ? renderSandbox() : importPage();
+  const content = activeTab === 'add' ? furniturePage() : activeTab === 'account' ? accountPage() : activeTab === 'sandbox' ? renderSandbox() : renderImport();
   root.innerHTML = `<div class="app-shell"><main class="main-content" id="main-content">${content}</main>${navigation()}</div>`;
   if (activeTab === 'sandbox') unmountFeature = mountSandbox(document.querySelector<HTMLElement>('#main-content')!, {
     getFurniture: () => store.getState().furniture,
     navigateToFurniture: () => { activeTab = 'add'; render(); window.scrollTo({ top: 0 }); },
   });
+  if (activeTab === 'import') unmountFeature = mountImport(document.querySelector<HTMLElement>('#main-content')!);
   if (activeTab === 'account') {
     document.querySelector<HTMLFormElement>('#settings-form')!.addEventListener('submit', saveSettings);
     document.querySelector<HTMLSelectElement>('#language')!.addEventListener('change', changeLanguage);

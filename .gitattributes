@@ -5,3 +5,8 @@ android/gradlew text eol=lf
 *.cmd text eol=crlf
 *.jar binary
 *.png binary
+
+*.glb binary
+*.blend binary
+models/**/*.json text eol=lf
+models/verify_models.py text eol=lf

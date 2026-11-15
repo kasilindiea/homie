@@ -20,7 +20,7 @@ export interface HomeSceneOptions {
 export interface SceneTemplate {
   templateId: string;
   modelUrl: string;
-  map: { objects: readonly SceneObjectDefinition[] };
+  map: { template_id?: string; objects: readonly SceneObjectDefinition[] };
 }
 
 export interface SceneObjectDefinition {
@@ -28,7 +28,15 @@ export interface SceneObjectDefinition {
   room_id: string | null;
   object_type?: string;
   display_name?: string;
+  display_name_en?: string;
   spatial: boolean;
+  node_name?: string | null;
+  node_index?: number;
+  anchor_name?: string | null;
+  anchor_node_index?: number;
+  focus_name?: string | null;
+  focus_node_index?: number;
+  camera_offset_gltf_m?: readonly number[];
 }
 
 export function createHomeScene(host: HTMLElement, template: SceneTemplate, onSelect: (id: string | null) => void, options?: HomeSceneOptions): Promise<HomeScene>;

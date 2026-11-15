@@ -1,5 +1,7 @@
+import type { SceneTemplate } from './scene';
+
 export interface SceneObjectState {
-  object_id: string; room_id: string; state: string; source: string | null;
+  object_id: string; room_id: string | null; state?: string; source: string | null;
   updated_at: string | null; availability: string; [key: string]: unknown;
 }
 export interface PlanItem { item_id: string; object_id: string; group: string; action: string; reason: string; }
@@ -14,6 +16,7 @@ export interface DemoView {
 }
 export const sceneMapping: Record<string, any>;
 export interface SandboxSession {
+  readonly templateId: string;
   view(): DemoView; state(id: string): string; results(): ExecutionItem[]; pending(): number;
   subscribe(listener: () => void): () => void;
   plan(everyone: boolean): void; select(itemId: string, checked: boolean): void;
@@ -21,4 +24,4 @@ export interface SandboxSession {
   next(): string | undefined; manual(result: 'confirmed_closed' | 'deferred'): void;
   userAway(): void; reset(): void; dispose(): void;
 }
-export function createSandboxSession(): SandboxSession;
+export function createSandboxSession(template?: Pick<SceneTemplate, 'templateId' | 'map'>): SandboxSession;

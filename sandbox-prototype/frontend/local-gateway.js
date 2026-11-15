@@ -1,12 +1,16 @@
-import { TEMPLATE, copy, currentState } from './data-model.js';
+import { copy, currentState } from './data-model.js';
 
 // In-memory simulator. No HTTP business calls, no viewer scenario injection.
 // Methods return the v0.2 response envelope so a future transport can replace it.
 export class LocalGateway {
-  constructor(catalog, store) { this.catalog = catalog; this.store = store; this.sequence = 0; this.resetQueue(); }
+  constructor(catalog, store) { store.validateEnvelope(catalog.baseline_snapshot); this.catalog = catalog; this.store = store; this.sequence = 0; this.resetQueue(); }
   resetQueue() { this.queue = []; this.confirmations = new Map(); this.clock = Date.parse('2026-11-14T17:01:00+08:00'); }
   now(seconds=1) { this.clock += seconds*1000; return new Date(this.clock).toISOString(); }
-  envelope(body, status=200) { return { http_status:status, body:{ template_id:TEMPLATE, demo_mode:true, ...body } }; }
+  envelope(body, status=200) {
+    if (body.template_id !== undefined && body.template_id !== this.store.templateId) throw new TypeError('模板不匹配，模拟响应未生成');
+    if (body.demo_mode !== undefined && body.demo_mode !== true) throw new TypeError('本地演示仅接受 demo_mode=true');
+    return { http_status:status, body:{ ...body, template_id:this.store.templateId, demo_mode:true } };
+  }
   createPlan({ intent, everyone=false }) {
     const sample = this.catalog.scenarios.find(s => s.id === (everyone ? 'everyone_away' : 'cat_home_baseline'));
     const source = sample.steps.find(s => s.response?.body?.plan).response.body;
