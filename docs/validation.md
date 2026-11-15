@@ -1,5 +1,20 @@
 # 版本验证记录
 
+## Homie 0.0.7
+
+日期：2026-11-15。基于 0.0.6 的 `1b4dee55ce75d1b7a01abf34cf30660b03a1a477` 更新品牌图标。
+
+- 使用用户提供的黑色 H 图片轮廓，制作同形 SVG 与 Android VectorDrawable。保留原图于 `design/brand/homie-icon-reference.png`；1254px 同尺寸二值轮廓交并比为 0.9933，矢量化消除了背景纹理，保留 H 的拱形连接结构。
+- 更新 Android 旧版桌面图标、自适应图标、API 33 单色主题图标、15 张备用 mipmap PNG、启动屏、网页登录品牌及 favicon。图标与启动屏为白底，原业务页面主题颜色保留。
+- 应用包名仍为 `com.homing.furniture`，versionName 0.0.7、versionCode 7。登录、家具、存储、导入及沙盒代码行为未修改。
+- 49/49 项单元测试通过。两项定向浏览器测试通过，覆盖 390×844 和 360×844 的登录、导航及页面溢出检查；已目视确认两种尺寸的新登录品牌图标。上传源码前，完整 42/42 项浏览器回归通过（约 3 分钟），覆盖家具管理、导入、双语、三个户型及模拟离家流程。
+- TypeScript、Vite、Capacitor 同步和 Android `:app:assembleDebug` 通过。首次 Gradle 执行受到沙箱本机通信限制；在正常构建环境重跑成功。Vite 仍有现存 3D 引擎块超过 500 kB 的提示。
+- 最终 APK 的 11 个网页/模型/许可证资源与 `dist/` 逐项 SHA-256 一致。三套 GLB 与 0.0.6 完全相同。读取已编译资源确认新 H 路径进入 APK，且与 Web SVG 一致；API 33 图标含 monochrome 引用。
+- 安装包 `artifacts/homie-0.0.7.apk`：9,201,923 字节。SHA-256：`476d7e30de1ed6ded7d210a9c2005b9a196e254db7cad92e9d460458426536eb`。
+- 沿用已有用户提供的调试密钥，APK v2/v3 签名验证通过。证书 SHA-256：`b2dca15f6975e784945cdb86ec5d37d26cb217e761c852f4fdf8583b2451e2ed`，与 0.0.6 一致。密钥继续仅保存在本机忽略目录中。
+
+未进行 Android 真机或模拟器安装验收；桌面缓存刷新、实际启动屏与真机覆盖安装/数据保留未实测。包名及签名一致、versionCode 增长，满足更新上一版的基本条件。安装时选择更新，保留原应用，不先卸载。
+
 ## Homie 0.0.6
 
 日期：2026-11-14。分支 `codex/three-layout-sandbox`，基于 0.0.5 的 `ec9a3956e7458bde3842e5c4f88bf1b7f015c759`，取入 `codex/generic-house-models` 的 `4bf23c8e8e92aeb1f588b59892c133fae6d82c31` 两套模型资产。

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item><shape android:shape="rectangle"><solid android:color="@color/homing_green" /><corners android:radius="20dp" /></shape></item>
-    <item android:drawable="@drawable/ic_homing_foreground" />
-</layer-list>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="834" android:viewportHeight="834">
+    <path android:fillColor="@color/homie_icon_background" android:pathData="M170,0 H664 Q834,0 834,170 V664 Q834,834 664,834 H170 Q0,834 0,664 V170 Q0,0 170,0 Z" />
+    <group android:translateX="-210" android:translateY="-210">
+        <path android:fillColor="#111111" android:pathData="M349,368 H481 V570 C481,594 495,595 520,584 L595,544 Q627,530 650,543 L735,584 C760,596 773,592 773,570 V368 H905 V885 H773 V705 C773,675 760,659 732,648 L655,625 Q627,614 601,623 L526,650 C495,661 481,675 481,705 V885 H349 Z" />
+    </group>
+</vector>

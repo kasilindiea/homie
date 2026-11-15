@@ -16,6 +16,8 @@ Android 优先的家具管理原型，使用 TypeScript、Vite 和 Capacitor。�
 - 导入：API 地址及可选密钥填写页，校验 HTTP/HTTPS 地址后展示路演反馈；不发送请求，不导入或修改家具，不保存输入，离开页面清空。
 - 家具、设置和登录状态保存在当前设备；退出登录保留数据，卸载或清除应用数据会删除记录。
 
+0.0.7 基于 0.0.6 更新用户提供的黑色 H 品牌图标，统一 Android 桌面、自适应/主题图标、启动屏、网页登录品牌与 favicon。原始图片保存在 `design/brand/homie-icon-reference.png`，对应矢量标记为 `public/brand-mark.svg`；应用包名、存储格式及三个户型功能保留。
+
 0.0.6 基于 0.0.5 的 `ec9a395`，接入 `codex/generic-house-models` 分支 `4bf23c8` 的两套真实建模资产；原有登录、家具管理、全屋检查/沙盒演示分区及路演导入页继续保留。
 
 本版本的登录是本地演示校验，并非服务端账户鉴权。构建变量和客户端代码不能保密，请勿填入真实账户密码。家具添加是手动登记。沙盒使用交付 GLB、移动端对象映射和本地模拟运行时，不会扫描或控制真实设备，不需要启动服务器。离开沙盒或切换界面语言会销毁本次页面的各户型模拟会话，重新进入从基线开始；家具与各户型手动关联保留。
@@ -64,7 +66,7 @@ npm run android:build
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-android.ps1 -AcceptSdkLicenses
 ```
 
-工具下载、缓存及调试签名保存在 `.tools/`，不会修改系统环境变量。构建脚本按 `package.json` 中的版本号命名安装包，当前为 `artifacts/homie-0.0.6.apk`，并验证 APK 签名。
+工具下载、缓存及调试签名保存在 `.tools/`，不会修改系统环境变量。构建脚本按 `package.json` 中的版本号命名安装包，当前为 `artifacts/homie-0.0.7.apk`，并验证 APK 签名。交付包另以已有的用户提供密钥签署，覆盖升级前需核对签名；证书与验证记录见 `docs/validation.md`。
 
 已有 JDK 21、Android SDK 与 Android Studio 的同伴，也可以在 `npm ci` 后先运行 `npm run android:sync`，再用 Android Studio 打开 `android/` 完成构建。同步步骤会生成源码包中未包含的网页资源和 Capacitor/Cordova 工程文件；请勿跳过后直接运行 Gradle。`npm run android:build` 是使用项目内 `.tools/` 的 Windows 便捷脚本。
 
